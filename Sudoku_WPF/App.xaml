@@ -1,0 +1,19 @@
+﻿<Application x:Class="Sudoku_WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Merged Resource Dictionaries -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Dark.xaml"/>
+
+                <ResourceDictionary Source="Styles/Botton.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

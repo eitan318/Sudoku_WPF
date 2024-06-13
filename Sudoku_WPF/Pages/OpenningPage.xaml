@@ -1,0 +1,44 @@
+﻿<Page x:Class="Sudoku_WPF.OpenningPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sudoku_WPF"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="OpenningPage">
+
+
+    <Grid HorizontalAlignment="center" VerticalAlignment="Center" MaxHeight="700" MaxWidth="700">
+        <Viewbox  Stretch="Uniform">
+            <Grid >
+                <Image Source="\Assets\Images\sudoku_pic.png"  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <TranslateTransform/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimation Storyboard.TargetProperty="(Image.RenderTransform).(TranslateTransform.Y)"
+                                     To="-7" Duration="0:0:0.5" AutoReverse="True"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </Grid>
+        </Viewbox>
+        
+        
+
+
+    </Grid>
+</Page>

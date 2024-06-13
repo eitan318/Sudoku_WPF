@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush Color="#000000" x:Key="Text"/>
+    <SolidColorBrush Color="#FF69B4" x:Key="Tbx_WrongForeground"/>
+    <SolidColorBrush Color="#FFB6C1" x:Key="Tbx_Focus"/>
+    <SolidColorBrush Color="#FFC0CB" x:Key="Tbx_WrongBackground"/>
+    <SolidColorBrush Color="#A9A9A9" x:Key="Tbx_SameText"/>
+    <SolidColorBrush Color="#DB7093" x:Key="Tbx_Sign"/>
+    <SolidColorBrush Color="#FFF0F5" x:Key="Tbx_Board"/>
+    <SolidColorBrush Color="#000000" x:Key="Border"/>
+    <SolidColorBrush Color="#FFB6C1" x:Key="Background"/>
+    <SolidColorBrush Color="#FFC0CB" x:Key="Menu_BG"/>
+    <SolidColorBrush Color="#FF69B4" x:Key="Botton_BG"/>
+    <SolidColorBrush Color="#FFFFFF" x:Key="Botton_FG"/>
+    <SolidColorBrush Color="#FF1493" x:Key="Botton_Border"/>
+    <SolidColorBrush Color="#32CD32" x:Key="Tbx_RightBackground"/>
+    <SolidColorBrush Color="#D3D3D3" x:Key="HistoryItem_BG"/>
+    <SolidColorBrush Color="#FFB6C1" x:Key="MenuBtn_MO"/>
+    <SolidColorBrush Color="#CD5C5C" x:Key="MenuBtn_Checked"/>
+</ResourceDictionary>
