@@ -15,38 +15,44 @@ namespace Sudoku_WPF.GameClasses
         public Grid sudokuGrid;
         private static bool solutionShown;
 
-        public Board(Grid sodukoGrid, Puzzle puzzle)
+
+        public Board(Grid sudokuGrid, Puzzle puzzle)
         {
-
-
-            this.sudokuGrid = sodukoGrid;
+            this.sudokuGrid = sudokuGrid;
             cells = new Cell[Settings.BOARD_SIDE, Settings.BOARD_SIDE];
             this.puzzle = puzzle;
 
-            CreateSudokuGrid(sodukoGrid);
+            CreateSudokuGrid(sudokuGrid);
             Initialize();
-            sodukoGrid.SizeChanged += OnGridSizeChanged;
+            sudokuGrid.SizeChanged += OnGridSizeChanged;
 
             solutionShown = false;
         }
 
-        public Board(Grid sodukoGrid, Puzzle puzzle, string boardCode)
+        public Board(Grid sudokuGrid, Puzzle puzzle, string boardCode)
         {
-            this.sudokuGrid = sodukoGrid;
+            this.sudokuGrid = sudokuGrid;
             cells = new Cell[Settings.BOARD_SIDE, Settings.BOARD_SIDE];
             this.puzzle = puzzle;
 
-            CreateSudokuGrid(sodukoGrid);
+            CreateSudokuGrid(sudokuGrid);
             boardCode = Code.Unprotect(boardCode);
             Initialize(boardCode);
-            sodukoGrid.SizeChanged += OnGridSizeChanged;
+            sudokuGrid.SizeChanged += OnGridSizeChanged;
 
             solutionShown = false;
-
-
         }
 
-        public static event EventHandler GameEnded;
+        public static void ForSolvedAnimation()
+        {
+            if (solutionShown)
+                return;
+            if (IsSolved())
+            {
+                ShowSolvedAnimation();
+            }
+        }
+
 
         public void Disable()
         {
@@ -88,7 +94,7 @@ namespace Sudoku_WPF.GameClasses
             if (markText == "")
                 markText = focusCell.Text;
             if (validateForeground)
-                focusCell.Foreground = BrushResources.TextFore;
+                focusCell.SetResourceReference(Control.ForegroundProperty, "Text");
 
             foreach (Cell cell in cells)
             {
@@ -98,14 +104,14 @@ namespace Sudoku_WPF.GameClasses
                 }
             }
 
-            focusCell.Background = BrushResources.Focus;
+            focusCell.SetResourceReference(Control.BackgroundProperty, "Tbx_Focus");
         }
 
         private static bool IsSolved()
         {
             foreach (Cell cell in cells)
             {
-                if (cell.Text == "" || cell.Foreground == BrushResources.WrongForeground || cell.Background == BrushResources.WrongBackground)
+                if (cell.Text == "" || cell.Foreground == (Brush)Application.Current.FindResource("Tbx_WrongForeground") || cell.Background == (Brush)Application.Current.FindResource("Tbx_WrongBackground"))
                 {
                     return false;
                 }
@@ -113,28 +119,15 @@ namespace Sudoku_WPF.GameClasses
             return true;
         }
 
-        public static void ForSolvedAnimation()
-        {
-            if (solutionShown)
-                return;
-            if (IsSolved())
-            {
-                GameEnded?.Invoke(null, EventArgs.Empty); // Invoke event with null as sender
-                ShowSolvedAnimation();
-            }
-        }
+
 
         private static void ShowSolvedAnimation()
         {
             foreach (Cell cell in cells)
             {
-                cell.Background = BrushResources.RightBackground;
+                cell.SetResourceReference(Control.BackgroundProperty, "Tbx_RightBackground");
                 cell.IsReadOnly = true;
             }
-            var window = (MainWindow)Application.Current.MainWindow;
-            window.Settings_btn.Visibility = Visibility.Visible;
-            window.gamePage.Disable();
-            window.gamePage = null;
         }
 
         public void CheckMyBoard()
@@ -144,15 +137,15 @@ namespace Sudoku_WPF.GameClasses
                 if (cell.Text == this.puzzle.CellValue(cell.row, cell.column).ToString())
                 {
                     cell.IsReadOnly = true;
-                    cell.Background = BrushResources.RightBackground;
+                    cell.SetResourceReference(Control.BackgroundProperty, "Tbx_RightBackground");
                 }
                 else if (cell.Text != "")
                 {
-                    cell.Background = BrushResources.WrongBackground;
+                    cell.SetResourceReference(Control.BackgroundProperty, "Tbx_WrongBackground");
                 }
                 else
                 {
-                    cell.BorderBrush = BrushResources.Border;
+                    cell.SetResourceReference(Control.BorderBrushProperty, "Border");
                 }
             }
         }
@@ -178,7 +171,7 @@ namespace Sudoku_WPF.GameClasses
         {
             foreach (Cell cell in cells)
             {
-                if (cell.Background == BrushResources.Focus)
+                if (cell.Background == (Brush)Application.Current.FindResource("Tbx_Focus"))
                 {
                     return cell;
                 }
@@ -204,7 +197,9 @@ namespace Sudoku_WPF.GameClasses
                         cell.IsReadOnly = false;
                         cell.Text = "";
                     }
-                    cell.Background = BrushResources.Board;
+
+                    // Set visual properties using SetResourceReference
+                    cell.SetResourceReference(Control.BackgroundProperty, "Tbx_Board");
                     cell.AttachEventHandlers();
                 }
             }
@@ -214,9 +209,9 @@ namespace Sudoku_WPF.GameClasses
         {
             Initialize();
             string[] cellsStrs = boardCode.Split('|');
-            for( int i = 0; i < Settings.BOARD_SIDE; i++)
+            for (int i = 0; i < Settings.BOARD_SIDE; i++)
             {
-                for(int j = 0; j < Settings.BOARD_SIDE; j++)
+                for (int j = 0; j < Settings.BOARD_SIDE; j++)
                 {
                     Cell cell = cells[i, j];
                     if (cell.IsReadOnly)
@@ -234,14 +229,11 @@ namespace Sudoku_WPF.GameClasses
 
                         foreach (string note in notes)
                         {
-
                             cell.notesGrid.AddNote(note);
                         }
                     }
-                    
                 }
             }
-
         }
 
         private void CreateSudokuGrid(Grid mainGrid)
@@ -270,6 +262,7 @@ namespace Sudoku_WPF.GameClasses
                     sudokuGrid.Children.Add(cell);
                     sudokuGrid.Children.Add(cell.notesGrid);
                     cells[i, j] = cell;
+                    cell.InitializeProperties(); // Initialize cell properties with resource references
                 }
             }
         }
@@ -282,7 +275,7 @@ namespace Sudoku_WPF.GameClasses
                 {
                     Border internalBorder = new Border
                     {
-                        BorderBrush = BrushResources.Border
+                        BorderBrush = (Brush)Application.Current.FindResource("Border")
                     };
                     Grid.SetRow(internalBorder, cols * Settings.BOX_HEIGHT);
                     Grid.SetRowSpan(internalBorder, Settings.BOX_HEIGHT);
@@ -295,12 +288,15 @@ namespace Sudoku_WPF.GameClasses
             // Adding the main border
             Border gridBorder = new Border
             {
-                BorderBrush = BrushResources.Border
+                BorderBrush = (Brush)Application.Current.FindResource("Border")
             };
             Grid.SetRowSpan(gridBorder, Settings.BOARD_SIDE);
             Grid.SetColumnSpan(gridBorder, Settings.BOARD_SIDE);
             sudokuGrid.Children.Add(gridBorder);
+
+            sudokuGrid.UpdateLayout(); // Ensure layout is updated immediately
         }
+
 
         public static List<Cell> GetRelatedCells(int cellRow, int cellCol)
         {

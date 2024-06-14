@@ -5,7 +5,7 @@
     <SolidColorBrush Color="#FF0000" x:Key="Tbx_WrongForeground"/>
 
     <SolidColorBrush Color="#F5F5F5" x:Key="Background"/>
-    <SolidColorBrush Color="#D3D3D3" x:Key="Tbx_Board"/>
+    <SolidColorBrush Color="#F5F5F5" x:Key="Tbx_Board"/>
     <SolidColorBrush Color="#000000" x:Key="Border"/>
 
     <SolidColorBrush Color="#B0C4DE" x:Key="Tbx_Focus"/>

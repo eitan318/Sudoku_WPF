@@ -21,7 +21,6 @@ namespace Sudoku_WPF.GameClasses
             initTimer();
             timer.Start();
             this.inProgress = true;
-            Board.GameEnded += Board_GameEnded;
             timerTxtB.Text = TimerConstants.DEFAULT_TIME;
             puzzle = new Puzzle();
             board = new Board(sodukoGrid, puzzle);
@@ -33,7 +32,6 @@ namespace Sudoku_WPF.GameClasses
             initTimer();
             timer.Start();
             this.inProgress = true;
-            Board.GameEnded += Board_GameEnded;
             timerTxtB.Text = TimerConstants.DEFAULT_TIME;
             puzzle = new Puzzle(puzzleCode);
             board = new Board(sodukoGrid, puzzle);
@@ -45,19 +43,11 @@ namespace Sudoku_WPF.GameClasses
             initTimer(info.Time);
             timer.Start();
             this.inProgress = true;
-            Board.GameEnded += Board_GameEnded;
             puzzle = new Puzzle(info.PuzzleCode);
             board = new Board(sodukoGrid, puzzle, info.BoardCode);
             timerTxtB.Text = info.Time;
         }
 
-
-
-        private void Board_GameEnded(object sender, EventArgs e)
-        {
-            // Handle the game ending event here
-            End();
-        }
 
         public void End()
         {
@@ -65,6 +55,7 @@ namespace Sudoku_WPF.GameClasses
             this.inProgress = false;
 
             var window = (MainWindow)Application.Current.MainWindow;
+            window.gamePage.Disable();
             window.gamePage = null;
             window.Settings_btn.Visibility = Visibility.Visible;
         }
@@ -112,10 +103,5 @@ namespace Sudoku_WPF.GameClasses
         public Board Board => board;
 
         public DispatcherTimer Timer => timer;
-
-        public static void TimerStop()
-        {
-            timer.Stop();
-        }
     }
 }

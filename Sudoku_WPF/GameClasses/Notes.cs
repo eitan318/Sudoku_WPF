@@ -14,6 +14,7 @@ namespace Sudoku_WPF.GameClasses
     public class Notes : UniformGrid
     {
         public List<TextBlock> notes;
+
         public Notes()
         {
             notes = new List<TextBlock>();
@@ -30,21 +31,19 @@ namespace Sudoku_WPF.GameClasses
             {
                 AddNote(noteText);
             }
-
         }
-
 
         public void AddNote(string noteText)
         {
-            if (noteText != "")
+            if (!string.IsNullOrEmpty(noteText))
             {
                 Viewbox noteContainer = new Viewbox();
-                noteContainer.HorizontalAlignment = HorizontalAlignment.Stretch; // Stretch horizontally
+                noteContainer.HorizontalAlignment = HorizontalAlignment.Stretch;
                 noteContainer.VerticalAlignment = VerticalAlignment.Stretch;
 
                 TextBlock note = NewNote(noteText);
 
-                //Add the TextBlock to the ViewBox
+                // Add the TextBlock to the ViewBox
                 noteContainer.Child = note;
 
                 notes.Add(note);
@@ -52,24 +51,26 @@ namespace Sudoku_WPF.GameClasses
 
                 MyUpdateLayout();
             }
-
         }
-
-
-
 
         private TextBlock NewNote(string noteText)
         {
-            return new TextBlock()
+            TextBlock note = new TextBlock()
             {
                 Text = noteText,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 TextAlignment = TextAlignment.Center,
-                Foreground = BrushResources.TextFore,
                 IsHitTestVisible = false
             };
+
+            // Set the Foreground property using resource reference
+            note.SetResourceReference(TextBlock.ForegroundProperty, "Text");
+
+            return note;
         }
+
+
 
         public void Clear()
         {
@@ -91,35 +92,28 @@ namespace Sudoku_WPF.GameClasses
 
         public bool NoteExist(string noteText)
         {
-            foreach (TextBlock note in notes)
-            {
-                if (note.Text == noteText)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return notes.Any(note => note.Text == noteText);
         }
 
         private void RemoveNote(string noteText)
         {
-            for (int i = 0; i < notes.Count(); i++)
+            for (int i = 0; i < notes.Count; i++)
             {
                 if (notes[i].Text == noteText)
                 {
                     RemoveNoteByIdx(i);
+                    break;
                 }
             }
         }
 
         public void RemoveNoteByIdx(int idx)
         {
-            if (idx < notes.Count() && idx >= 0 )
+            if (idx < notes.Count && idx >= 0)
             {
                 Children.RemoveAt(idx);
-                notes.Remove(notes[idx]);
+                notes.RemoveAt(idx);
                 MyUpdateLayout();
-
             }
         }
 
@@ -133,7 +127,6 @@ namespace Sudoku_WPF.GameClasses
             }
 
             Columns = (int)Math.Ceiling(Math.Sqrt(noteCount));
-
             Rows = (int)Math.Ceiling(noteCount / (double)Columns);
 
             if (Columns * (Rows - 1) >= noteCount)
