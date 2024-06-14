@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -10,28 +11,27 @@ namespace Sudoku_WPF.GameClasses
     {
         private Board board;
         private TextBlock timerTxtB;
-        private static DispatcherTimer timer;
+        private DispatcherTimer timer;
         private TimeSpan elapsedTime;
         private Puzzle puzzle;
-        private bool inProgress;
+        //private bool inProgress;
 
         public Game(Grid sodukoGrid, TextBlock timerTxtB)
         {
             this.timerTxtB = timerTxtB;
             initTimer();
-            timer.Start();
-            this.inProgress = true;
+            //this.inProgress = true;
             timerTxtB.Text = TimerConstants.DEFAULT_TIME;
             puzzle = new Puzzle();
             board = new Board(sodukoGrid, puzzle);
+
         }
 
         public Game(Grid sodukoGrid, TextBlock timerTxtB, string puzzleCode)
         {
             this.timerTxtB = timerTxtB;
             initTimer();
-            timer.Start();
-            this.inProgress = true;
+            //this.inProgress = true;
             timerTxtB.Text = TimerConstants.DEFAULT_TIME;
             puzzle = new Puzzle(puzzleCode);
             board = new Board(sodukoGrid, puzzle);
@@ -41,28 +41,54 @@ namespace Sudoku_WPF.GameClasses
         {
             this.timerTxtB = timerTxtB;
             initTimer(info.Time);
-            timer.Start();
-            this.inProgress = true;
+            //this.inProgress = true;
             puzzle = new Puzzle(info.PuzzleCode);
             board = new Board(sodukoGrid, puzzle, info.BoardCode);
             timerTxtB.Text = info.Time;
+            Board.GameEnded += OnGameSolved;
+        }
+
+        private void OnGameSolved(object sender, EventArgs e)
+        {
+            End(true, true);
         }
 
 
-        public void End()
+        public void End(bool isSolved, bool toSave)
         {
-            this.Timer.Stop();
-            this.inProgress = false;
+            this.timer.Stop();
+            //this.inProgress = false;
 
             var window = (MainWindow)Application.Current.MainWindow;
-            window.gamePage.Disable();
-            window.gamePage = null;
-            window.Settings_btn.Visibility = Visibility.Visible;
+
+            if(window.gamePage != null)// wasnt already ended
+            {
+                if (toSave)
+                {
+                    GameInfo gameInfo = window.gamePage.GetGameInfo(isSolved, false);
+                    if (isSolved)
+                    {
+                        window.historyPage.AddItemToListAndDB(gameInfo);
+                    }
+                    else
+                    {
+                        window.savedPage.AddItemToListAndDB(gameInfo);
+                    }
+                }
+
+                window.gamePage.Disable();
+                window.gamePage = null;
+            }
+            
         }
 
-        public bool IsInGame()
+        /*public bool IsInGame()
         {
             return inProgress;
+        }*/
+        public string GetPuzzleCode()
+        {
+            return puzzle.GetCode();
         }
 
         private void initTimer()
@@ -94,7 +120,7 @@ namespace Sudoku_WPF.GameClasses
             timerTxtB.Text = GetTime();
         }
 
-        private string GetTime()
+        public string GetTime()
         {
             return elapsedTime.ToString(TimerConstants.FORMAT);
         }

@@ -16,6 +16,8 @@ namespace Sudoku_WPF.GameClasses
         private static bool solutionShown;
 
 
+        public static event EventHandler GameEnded; // Event to signal game end
+
         public Board(Grid sudokuGrid, Puzzle puzzle)
         {
             this.sudokuGrid = sudokuGrid;
@@ -43,6 +45,9 @@ namespace Sudoku_WPF.GameClasses
             solutionShown = false;
         }
 
+        
+
+
         public static void ForSolvedAnimation()
         {
             if (solutionShown)
@@ -50,6 +55,7 @@ namespace Sudoku_WPF.GameClasses
             if (IsSolved())
             {
                 ShowSolvedAnimation();
+                GameEnded?.Invoke(null, EventArgs.Empty);
             }
         }
 
@@ -128,6 +134,7 @@ namespace Sudoku_WPF.GameClasses
                 cell.SetResourceReference(Control.BackgroundProperty, "Tbx_RightBackground");
                 cell.IsReadOnly = true;
             }
+            //Game
         }
 
         public void CheckMyBoard()
@@ -273,10 +280,8 @@ namespace Sudoku_WPF.GameClasses
             {
                 for (int cols = 0; cols < Settings.BOX_WIDTH; cols++)
                 {
-                    Border internalBorder = new Border
-                    {
-                        BorderBrush = (Brush)Application.Current.FindResource("Border")
-                    };
+                    Border internalBorder = new Border();
+                    internalBorder.SetResourceReference(Border.BorderBrushProperty, "Border");
                     Grid.SetRow(internalBorder, cols * Settings.BOX_HEIGHT);
                     Grid.SetRowSpan(internalBorder, Settings.BOX_HEIGHT);
                     Grid.SetColumn(internalBorder, rows * Settings.BOX_WIDTH);
@@ -286,16 +291,15 @@ namespace Sudoku_WPF.GameClasses
             }
 
             // Adding the main border
-            Border gridBorder = new Border
-            {
-                BorderBrush = (Brush)Application.Current.FindResource("Border")
-            };
+            Border gridBorder = new Border();
+            gridBorder.SetResourceReference(Border.BorderBrushProperty, "Border");
             Grid.SetRowSpan(gridBorder, Settings.BOARD_SIDE);
             Grid.SetColumnSpan(gridBorder, Settings.BOARD_SIDE);
             sudokuGrid.Children.Add(gridBorder);
 
             sudokuGrid.UpdateLayout(); // Ensure layout is updated immediately
         }
+
 
 
         public static List<Cell> GetRelatedCells(int cellRow, int cellCol)
@@ -335,7 +339,7 @@ namespace Sudoku_WPF.GameClasses
             return relatedCells;
         }
 
-        public static string GenerateBoardCode()
+        public string GenerateBoardCode()
         {
             string boardCode = "";
             for (int i = 0; i < Settings.BOARD_SIDE; i++)

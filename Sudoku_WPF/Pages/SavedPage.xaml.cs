@@ -1,7 +1,9 @@
-﻿using Sudoku_WPF.GameClasses;
+﻿using DAL;
+using Sudoku_WPF.GameClasses;
 using Sudoku_WPF.publico;
 using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +33,12 @@ namespace Sudoku_WPF.Pages
 
         }
 
+        public void AddItemToListAndDB(GameInfo gameInfo)
+        {
+            AddItemToList(gameInfo);
+            InsertGame(gameInfo);
+        }
+
         public void AddItemToList(GameInfo gameInfo)
         {
 
@@ -56,7 +64,7 @@ namespace Sudoku_WPF.Pages
             AddTextBlockToGrid(grid, gameInfo.Hints.ToString(), fontSize, 0);
             AddTextBlockToGrid(grid, gameInfo.Checks.ToString(), fontSize, 1);
             AddTextBlockToGrid(grid, gameInfo.Time, fontSize, 2);
-            AddTextBlockToGrid(grid, gameInfo.Date, fontSize, 3);
+            AddTextBlockToGrid(grid, gameInfo.Date.ToString(), fontSize, 3);
             AddTextBlockToGrid(grid, gameInfo.Solved ? "solved" : "failed", fontSize, 4);
 
             // Add Grid to the Border
@@ -82,5 +90,46 @@ namespace Sudoku_WPF.Pages
             Grid.SetColumn(textBlock, column);
             grid.Children.Add(textBlock);
         }
+
+        private void InsertGame(GameInfo gameInfo)
+        {
+            string sqlStmt = @"INSERT INTO tbl_games 
+              ([Current], [Time], Solved, GameDate, BoardCode, PuzzleCode, GameName, HintsTaken, ChecksTaken, BoxHeight, BoxWidth) 
+              VALUES 
+              (@Current, @Time, @Solved, @GameDate, @BoardCode, @PuzzleCode, @GameName, @HintsTaken, @ChecksTaken, @BoxHeight, @BoxWidth)";
+
+            OleDbParameter[] parameters =
+            {
+        new OleDbParameter("@Current", gameInfo.Current),
+        new OleDbParameter("@Time", gameInfo.Time),
+        new OleDbParameter("@Solved", gameInfo.Solved),
+        new OleDbParameter("@GameDate", gameInfo.Date), // Use DateTime.UtcNow for UTC time
+        new OleDbParameter("@BoardCode", gameInfo.BoardCode),
+        new OleDbParameter("@PuzzleCode", gameInfo.PuzzleCode),
+        new OleDbParameter("@GameName", gameInfo.Name),
+        new OleDbParameter("@HintsTaken", gameInfo.Hints),
+        new OleDbParameter("@ChecksTaken", gameInfo.Checks),
+        new OleDbParameter("@BoxHeight", gameInfo.BoxHeight),
+        new OleDbParameter("@BoxWidth", gameInfo.BoxWidth)
+    };
+
+            DBHelper.ExecuteCommand(sqlStmt, parameters);
+        }
+
+
+
+
+
+
+        /*public void RemoveGame(GameInfo gameInfo)
+        {
+            string sqlStmt = @"DELETE FROM tbl_games WHERE Id = @Id";
+
+            OleDbParameter parameter = new OleDbParameter("@Id", gameInfo.Id);
+
+            DBHelper.ExecuteCommand(sqlStmt, parameter);
+        }*/
+
+
     }
 }

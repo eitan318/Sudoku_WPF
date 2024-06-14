@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Navigation;
 using Sudoku_WPF.GameClasses;
+using Sudoku_WPF.publico;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Sudoku_WPF.publico.Constants;
 
 namespace Sudoku_WPF
@@ -52,6 +54,25 @@ namespace Sudoku_WPF
             game = new Game(SudokuGrid, timerTxtB, gameInfo);
         }
 
+        public GameInfo GetGameInfo(bool solved, bool current)
+        {
+            GameInfo gameInfo = new GameInfo(
+                 nameTxtB.Text,
+                 this.game.Board.GenerateBoardCode(),
+                 this.game.GetPuzzleCode(),
+                 this.game.GetTime(),
+                 GameConstants.HINTS - hintsLeft,
+                 GameConstants.CHECKS - checksLeft,
+                 DateTime.Now.ToString(),
+                 solved,
+                 current,
+                 Settings.BOX_HEIGHT,
+                 Settings.BOX_WIDTH
+                 );
+            return gameInfo;
+
+        }
+
 
         private void Init()
         {
@@ -72,6 +93,7 @@ namespace Sudoku_WPF
             if (NavigationService != null)
             {
                 NavigationService.Navigating += OnNavigatingFrom;
+                game.Timer.Start();
             }
         }
 
@@ -81,6 +103,7 @@ namespace Sudoku_WPF
             if (NavigationService != null)
             {
                 NavigationService.Navigating -= OnNavigatingFrom;
+                game.Timer.Stop();
             }
         }
 
@@ -115,22 +138,12 @@ namespace Sudoku_WPF
         private void EndGame_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult msbxRes = MessageBox.Show("Do you want to save this game?", "Save Game", MessageBoxButton.YesNoCancel);
-            if ( msbxRes == MessageBoxResult.Yes)
+            if ( msbxRes == MessageBoxResult.Yes || msbxRes == MessageBoxResult.No)
             {
                 game.Board.ShowSolution();
-                game.End();
-                this.Disable();
-
-                
+                game.End(false, msbxRes == MessageBoxResult.Yes);
 
             }
-            else if (msbxRes == MessageBoxResult.No)
-            {
-                game.Board.ShowSolution();
-                game.End();
-                this.Disable();
-            }
-            
 
             
         }
@@ -154,28 +167,25 @@ namespace Sudoku_WPF
 
         private void NewGame_Click(object sender, RoutedEventArgs e)
         {
-            if(!game.IsInGame())
+            if (this == null)
             {
-                game.End();
-
                 NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
                 return;
             }
 
-            MessageBoxResult msbxRes = MessageBox.Show("Do you want to save this game?", "Save Game", MessageBoxButton.YesNoCancel);
-            
-            if (msbxRes == MessageBoxResult.Yes )
+            if (this != null)
             {
-                
-                game.End();
-                NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
+                MessageBoxResult msbxRes = MessageBox.Show("Do you want to save this game?", "Save Game", MessageBoxButton.YesNoCancel);
 
+                if (msbxRes == MessageBoxResult.Yes || msbxRes == MessageBoxResult.No)
+                {
+                    
+                    game.End(false, msbxRes == MessageBoxResult.Yes);
+                    NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
+                }
             }
-            else if (msbxRes == MessageBoxResult.No)
-            {
-                game.End();
-                NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
-            }
+
+
         }
 
         private void RemoveHint()
@@ -193,7 +203,7 @@ namespace Sudoku_WPF
         private void CopyPuzzleCode_Click(object sender, RoutedEventArgs e)
         {
             //Clipboard.SetText(Puzzle.GetCurrentCode());
-            Clipboard.SetText( Puzzle.GetCurrentCode() + "&&&&&&&&&&&" + Board.GenerateBoardCode());
+            Clipboard.SetText( game.GetPuzzleCode() + "&&&&&&&&&&&" /*+ Board.GenerateBoardCode()*/);
             MessageBox.Show(GameConstants.COPIED_STR);
         }
 
@@ -217,6 +227,7 @@ namespace Sudoku_WPF
         }
 
         public Game Game => this.game;
+
 
     }
 }

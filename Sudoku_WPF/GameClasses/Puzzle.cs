@@ -12,7 +12,7 @@ namespace Sudoku_WPF.GameClasses
     {
         public static bool[,] initialCells;
         public static char[,] solvedPuzzle;
-        private static string initPuzzleCode = "NO CODE YET";
+        public string code = "NO CODE YET";
         private static Random rnd = new Random();
 
         public Puzzle()
@@ -21,13 +21,13 @@ namespace Sudoku_WPF.GameClasses
             solvedPuzzle = new char[Settings.BOARD_SIDE, Settings.BOARD_SIDE];
 
             CreatePuzzle();
-            initPuzzleCode = GeneratePuzzleCode();
+            code = GeneratePuzzleCode();
         }
 
         public Puzzle(string code)
         {
             ImportPuzzleCode(code);
-            initPuzzleCode = GeneratePuzzleCode();
+            code = GeneratePuzzleCode();
         }
 
         public bool IsCellInitial(int row, int col)
@@ -45,7 +45,7 @@ namespace Sudoku_WPF.GameClasses
             return solvedPuzzle[row, col];
         }
 
-        public static string GetCurrentCode() => initPuzzleCode;
+        public string GetCode() => code;
 
         private void CreatePuzzle()
         {

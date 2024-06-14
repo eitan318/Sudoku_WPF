@@ -31,13 +31,18 @@ namespace Sudoku_WPF
     {
         List<Border> Items = new List<Border>();
         List<GameInfo> games = new List<GameInfo>();
+
         public HistoryPage()
         {
             InitializeComponent();
 
         }
 
-
+        public void AddItemToListAndDB(GameInfo gameInfo)
+        {
+            AddItemToList(gameInfo);
+            InsertGame(gameInfo);
+        }
 
         public void AddItemToList(GameInfo gameInfo)
         {
@@ -64,7 +69,7 @@ namespace Sudoku_WPF
             AddTextBlockToGrid(grid, gameInfo.Hints.ToString(), fontSize, 0);
             AddTextBlockToGrid(grid, gameInfo.Checks.ToString(), fontSize, 1);
             AddTextBlockToGrid(grid, gameInfo.Time, fontSize, 2);
-            AddTextBlockToGrid(grid, gameInfo.Date, fontSize, 3);
+            AddTextBlockToGrid(grid, gameInfo.Date.ToString(), fontSize, 3);
             AddTextBlockToGrid(grid, gameInfo.Solved ? "solved" : "failed", fontSize, 4);
 
             // Add Grid to the Border
@@ -91,28 +96,34 @@ namespace Sudoku_WPF
             grid.Children.Add(textBlock);
         }
 
-        /*public void InsertGame(GameInfo gameInfo)
+        private void InsertGame(GameInfo gameInfo)
         {
             string sqlStmt = @"INSERT INTO tbl_games 
-                      ([Current], [Time], Solved, GameDate, BoardCode, PuzzleCode, GameName, Hints, Checks) 
-                      VALUES 
-                      (@Current, @Time, @Solved, @GameDate, @BoardCode, @PuzzleCode, @GameName, @Hints, @Checks)";
+              ([Current], [Time], Solved, GameDate, BoardCode, PuzzleCode, GameName, HintsTaken, ChecksTaken, BoxHeight, BoxWidth) 
+              VALUES 
+              (@Current, @Time, @Solved, @GameDate, @BoardCode, @PuzzleCode, @GameName, @HintsTaken, @ChecksTaken, @BoxHeight, @BoxWidth)";
 
             OleDbParameter[] parameters =
             {
-                new OleDbParameter("@Current", gameInfo.Current),
-                new OleDbParameter("@Time", gameInfo.Time),
-                new OleDbParameter("@Solved", gameInfo.Solved),
-                new OleDbParameter("@GameDate", gameInfo.Date),
-                new OleDbParameter("@BoardCode", gameInfo.BoardCode),
-                new OleDbParameter("@PuzzleCode", gameInfo.PuzzleCode),
-                new OleDbParameter("@GameName", gameInfo.Name),
-                new OleDbParameter("@Hints", gameInfo.Hints),
-                new OleDbParameter("@Checks", gameInfo.Checks)
-            };
+        new OleDbParameter("@Current", gameInfo.Current),
+        new OleDbParameter("@Time", gameInfo.Time),
+        new OleDbParameter("@Solved", gameInfo.Solved),
+        new OleDbParameter("@GameDate", gameInfo.Date), // Use DateTime.UtcNow for UTC time
+        new OleDbParameter("@BoardCode", gameInfo.BoardCode),
+        new OleDbParameter("@PuzzleCode", gameInfo.PuzzleCode),
+        new OleDbParameter("@GameName", gameInfo.Name),
+        new OleDbParameter("@HintsTaken", gameInfo.Hints),
+        new OleDbParameter("@ChecksTaken", gameInfo.Checks),
+        new OleDbParameter("@BoxHeight", gameInfo.BoxHeight),
+        new OleDbParameter("@BoxWidth", gameInfo.BoxWidth)
+    };
 
             DBHelper.ExecuteCommand(sqlStmt, parameters);
-        }*/
+        }
+
+
+
+
 
 
         /*public void RemoveGame(GameInfo gameInfo)
@@ -123,7 +134,6 @@ namespace Sudoku_WPF
 
             DBHelper.ExecuteCommand(sqlStmt, parameter);
         }*/
-
 
     }
 }
