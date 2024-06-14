@@ -2,6 +2,7 @@
 using System.Diagnostics.Eventing.Reader;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Navigation;
 using Sudoku_WPF.GameClasses;
 using static Sudoku_WPF.publico.Constants;
@@ -27,18 +28,26 @@ namespace Sudoku_WPF
             game = new Game(SudokuGrid, timerTxtB);
         }
 
-        public GamePage(string code)
+        public GamePage(string puzzleCode)
         {
             InitializeComponent();
             Init();
 
-            game = new Game(SudokuGrid, timerTxtB, code);
+            game = new Game(SudokuGrid, timerTxtB, puzzleCode);
         }
 
         public GamePage(GameInfo gameInfo)
         {
             InitializeComponent();
             Init();
+            this.nameTxtB.Text = gameInfo.Name;
+            this.nameTxtB.IsReadOnly = true;
+
+            this.hintsLeft -= gameInfo.Hints;
+            this.checksLeft -= gameInfo.Checks;
+
+            hintsTxtB.Text = hintsLeft.ToString() + GameConstants.REMEINING_STR;
+            checksTxtB.Text = checksLeft.ToString() + GameConstants.REMEINING_STR;
 
             game = new Game(SudokuGrid, timerTxtB, gameInfo);
         }
@@ -105,16 +114,29 @@ namespace Sudoku_WPF
 
         private void EndGame_Click(object sender, RoutedEventArgs e)
         {
-            game.Board.ShowSolution();
-            game.Timer.Stop();
-            game.End();
+            MessageBoxResult msbxRes = MessageBox.Show("Do you want to save this game?", "Save Game", MessageBoxButton.YesNoCancel);
+            if ( msbxRes == MessageBoxResult.Yes)
+            {
+                game.Board.ShowSolution();
+                game.End();
+                this.Disable();
 
-            var window = (MainWindow)Application.Current.MainWindow;
-            window.gamePage = null;
-            window.Settings_btn.Visibility = Visibility.Visible;
+                
 
-            this.Disable();
+            }
+            else if (msbxRes == MessageBoxResult.No)
+            {
+                game.Board.ShowSolution();
+                game.End();
+                this.Disable();
+            }
+            
+
+            
         }
+
+
+
 
         private void Hint_Click(object sender, RoutedEventArgs e)
         {
@@ -132,11 +154,28 @@ namespace Sudoku_WPF
 
         private void NewGame_Click(object sender, RoutedEventArgs e)
         {
-            if (!game.IsInGame() || MessageBox.Show(GameConstants.NEW_GAME_CONFIRM_MSG, "New game", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if(!game.IsInGame())
             {
+                game.End();
+
                 NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
+                return;
             }
 
+            MessageBoxResult msbxRes = MessageBox.Show("Do you want to save this game?", "Save Game", MessageBoxButton.YesNoCancel);
+            
+            if (msbxRes == MessageBoxResult.Yes )
+            {
+                
+                game.End();
+                NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
+
+            }
+            else if (msbxRes == MessageBoxResult.No)
+            {
+                game.End();
+                NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
+            }
         }
 
         private void RemoveHint()
@@ -176,6 +215,8 @@ namespace Sudoku_WPF
             MessageBox.Show(GameConstants.PAUSE_STR);
             game.Timer.Start();
         }
+
+        public Game Game => this.game;
 
     }
 }

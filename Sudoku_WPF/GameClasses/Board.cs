@@ -37,6 +37,7 @@ namespace Sudoku_WPF.GameClasses
             this.puzzle = puzzle;
 
             CreateSudokuGrid(sodukoGrid);
+            boardCode = Code.Unprotect(boardCode);
             Initialize(boardCode);
             sodukoGrid.SizeChanged += OnGridSizeChanged;
 
@@ -356,7 +357,7 @@ namespace Sudoku_WPF.GameClasses
                     boardCode += "|";
                 }
             }
-            return boardCode.Substring(0, boardCode.Length - 1);
+            return Code.Protect(boardCode.Substring(0, boardCode.Length - 1));
         }
     }
 }

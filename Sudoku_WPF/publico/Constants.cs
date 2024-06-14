@@ -43,7 +43,7 @@ namespace Sudoku_WPF.publico
             public static string REMEINING_STR = " Left";
             public static string COPIED_STR = "Text copied to clipboard.";
             public static string PAUSE_STR = "Verify to continue";
-            public static string NEW_GAME_CONFIRM_MSG = "Do you want to leave this game for history?";
+            public static string END_GAME_CONFIRM_MSG = "Do you want to save this game before leaving it?";
             public static int HINTS = 5;
             public static int CHECKS = 5;
         }

@@ -17,6 +17,8 @@
         MinHeight="330" MinWidth="600"
         Icon="\Assets\Icons\app_Icon.png">
 
+
+    
     <Grid>
         <!-- Background Border -->
         <Border Background="{DynamicResource Background}" CornerRadius="20" />
@@ -51,23 +53,24 @@
 
         <!-- Close Button -->
         <Button x:Name="CloseApp"
-                Style="{StaticResource ExitApp}"
-                Height="40"
-                Width="40"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Margin="0,5,5,0"
-                Click="CloseApp_Click" />
+    Style="{StaticResource ExitApp}"
+    Height="40"
+    Width="40"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Top"
+    Margin="0,5,5,0"
+    Click="CloseApp_Click" />
 
         <!-- Resize Toggle Button -->
         <ToggleButton x:Name="Resize"
-                Height="40"
-                Width="40"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Margin="0,5,50,0"
-                Style="{StaticResource ReSize}"
-                Checked="TglSizeBtn_Checked"
-                Unchecked="TglSizeBtn_Unchecked"/>
+    Height="40"
+    Width="40"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Top"
+    Margin="0,5,50,0"
+    Style="{StaticResource ReSize}"
+    Checked="TglSizeBtn_Checked"
+    Unchecked="TglSizeBtn_Unchecked"/>
     </Grid>
+
 </Window>

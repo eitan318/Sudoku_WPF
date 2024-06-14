@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using static Sudoku_WPF.publico.Constants;
@@ -62,6 +63,10 @@ namespace Sudoku_WPF.GameClasses
         {
             this.Timer.Stop();
             this.inProgress = false;
+
+            var window = (MainWindow)Application.Current.MainWindow;
+            window.gamePage = null;
+            window.Settings_btn.Visibility = Visibility.Visible;
         }
 
         public bool IsInGame()

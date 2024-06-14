@@ -174,6 +174,7 @@ namespace Sudoku_WPF.GameClasses
                 }
             }
             return Code.Protect(puzzleCode.Substring(0, puzzleCode.Length-1));
+            //return puzzleCode.Substring(0, puzzleCode.Length - 1);
         }
 
 
