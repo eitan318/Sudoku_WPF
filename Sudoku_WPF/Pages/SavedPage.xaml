@@ -15,8 +15,8 @@
 
         <TextBlock x:Name="title_Txb" Grid.Row="0" Foreground="{DynamicResource Text}" VerticalAlignment="Center" FontSize="30" HorizontalAlignment="Center"/>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
-            <WrapPanel x:Name="ItemsPanel" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1" IsHitTestVisible="False">
+            <WrapPanel x:Name="ItemsPanel" HorizontalAlignment="Center" />
         </ScrollViewer>
     </Grid>
 </Page>

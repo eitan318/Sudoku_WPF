@@ -8,6 +8,7 @@ using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using static Sudoku_WPF.publico.Constants;
 
@@ -28,6 +29,7 @@ namespace Sudoku_WPF.Pages
             this.isHistory = isHistory;
             title_Txb.Text = isHistory ? "History" : "Saved Games";
         }
+
 
         public void AddItemToListAndDB(GameInfo gameInfo)
         {
