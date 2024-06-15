@@ -34,6 +34,8 @@ namespace Sudoku_WPF
         {
             InitializeComponent();
 
+            SetInitialTheme(GameSettings.dificultyLevel.ToString());
+
             NUD_boxHeight.MaxValue = 4;
             NUD_boxWidth.MaxValue = 4;
 
@@ -44,6 +46,19 @@ namespace Sudoku_WPF
             NUD_boxHeight.ValueChanged += NUD_ValueChanged;
 
             gamePage = null;
+        }
+
+        private void SetInitialTheme(string themeName)
+        {
+            // Find the ComboBoxItem with the specified theme name and set it as selected
+            var selectedItem = DificultyLevel_CMBB.Items
+                               .OfType<ComboBoxItem>()
+                               .FirstOrDefault(item => item.Content.ToString() == themeName);
+
+            if (selectedItem != null)
+            {
+                DificultyLevel_CMBB.SelectedItem = selectedItem;
+            }
         }
 
         private void NUD_ValueChanged(object sender, EventArgs e)
@@ -71,7 +86,7 @@ namespace Sudoku_WPF
 
             if (Enum.TryParse(option, out DificultyLevel difLvl))
             {
-                GameSettings.difLvl = difLvl;
+                GameSettings.dificultyLevel = difLvl;
             }
 
         }

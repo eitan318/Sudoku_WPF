@@ -51,7 +51,7 @@ namespace Sudoku_WPF.GameClasses
         {
             double fullCellsPercent;
 
-            switch (GameSettings.difLvl)
+            switch (GameSettings.dificultyLevel)
             {
                 case DificultyLevel.Eazy:
                     fullCellsPercent = GameSettingsConstants.FULL_CELLS_EASY;

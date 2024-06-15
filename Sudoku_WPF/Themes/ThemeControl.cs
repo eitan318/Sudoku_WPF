@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace Sudoku_WPF.Themes
 {
-    public enum ColorMode
+    public enum ColorThemes
     {
         Dark,
         Light,
@@ -21,7 +21,7 @@ namespace Sudoku_WPF.Themes
 
     internal class ThemeControl
     {
-        public static void SetColors(ColorMode mode)
+        public static void SetColors(ColorThemes mode)
         {
             string themeUri = "";
 

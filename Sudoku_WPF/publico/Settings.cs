@@ -11,6 +11,12 @@ namespace Sudoku_WPF.publico
 {
     public class Settings
     {
-        public static ColorMode Theme = SettingsConstants.DEFAULT_THEME;
+        public static Themes.ColorThemes Theme = SettingsConstants.DEFAULT_THEME;
+        public static bool markRelated = true;
+        public static bool markSameText = true;
+        public static bool soundOn = true;
+        public static bool musicOn = true;
+        public static bool allowNotes = true;
+
     }
 }

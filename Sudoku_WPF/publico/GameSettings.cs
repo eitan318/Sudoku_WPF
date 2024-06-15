@@ -20,7 +20,7 @@ namespace Sudoku_WPF.publico
         public static int BoxWidth = GameSettingsConstants.DEFAULT_BOX_WIDTH;
         public static int BoxHeight = GameSettingsConstants.DEFAULT_BOX_HEIGHT;
         public static int BoardSide = BoxWidth * BoxHeight;
-        public static DificultyLevel difLvl = DificultyLevel.Eazy;
+        public static DificultyLevel dificultyLevel = DificultyLevel.Eazy;
 
     }
 }

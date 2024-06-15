@@ -58,12 +58,17 @@ namespace Sudoku_WPF.publico
 
         public class SettingsConstants
         {
-            public static readonly ColorMode DEFAULT_THEME = ColorMode.Light;
+            public static readonly Themes.ColorThemes DEFAULT_THEME = Themes.ColorThemes.Light;
         }
 
         public class DBConstants
         {
             public const string AT = "@";
+
+            public const string InsertGameQuary =  @"INSERT INTO tbl_games 
+              ([Current], Solved, [Time], GameDate, BoardCode, PuzzleCode, GameName, HintsTaken, ChecksTaken, BoxHeight, BoxWidth) 
+              VALUES 
+              (@Current, @Solved, @Time, @GameDate, @BoardCode, @PuzzleCode, @GameName, @HintsTaken, @ChecksTaken, @BoxHeight, @BoxWidth)";
 
             // Define parameter names used in the SQL statement without the "@" symbol
             public class Parameters
@@ -81,7 +86,7 @@ namespace Sudoku_WPF.publico
                 public const string BoxWidth = "BoxWidth";
             }
 
-            // Define the SQL statement for inserting a game into the tbl_games table
+            /*
             public const string InsertGameQuary =
                 $@"INSERT INTO tbl_games 
                        ([{Parameters.Current}], [{Parameters.Time}], [{Parameters.Solved}], [{Parameters.GameDate}], 
@@ -91,7 +96,7 @@ namespace Sudoku_WPF.publico
                        ({AT + Parameters.Current}, {AT + Parameters.Time}, {AT + Parameters.Solved}, {AT + Parameters.GameDate}, 
                         {AT + Parameters.BoardCode}, {AT + Parameters.PuzzleCode}, {AT + Parameters.GameName}, {AT + Parameters.HintsTaken}, 
                         {AT + Parameters.ChecksTaken}, {AT + Parameters.BoxHeight}, {AT + Parameters.BoxWidth})";
-
+            */
             public const string DeletGameQuary = @"DELETE FROM tbl_games WHERE Id = @Id";
         }
 

@@ -29,18 +29,19 @@ namespace Sudoku_WPF
     public partial class MainWindow : Window
     {
         public GamePage? gamePage = null;
-        public SavedPage? historyPage = null;
-        public SavedPage? savedPage = null;
+        public SaverPage? historyPage = null;
+        public SaverPage? savedPage = null;
 
 
 
         public MainWindow()
         {
             InitializeComponent();
-            ThemeControl.SetColors(ColorMode.Light);
             MainFrame.Navigate(new OpenningPage());
             Resize.Visibility = Visibility.Visible;
-            BuildSavedGamesFromDB();
+            SetSavedGamesFromDB();
+            SetSettingsFromDB();
+
             /*GameInfo gameInfo = new GameInfo(
                                        "SHMOLIC",
                                        "board",
@@ -63,7 +64,7 @@ namespace Sudoku_WPF
 
 
             
-            /*InsertGame(gameInfo);
+        /*InsertGame(gameInfo);
             ThemeControl.SetColors(Settings.Theme);
             MainFrame.Navigate(new OpenningPage());
             Resize.Visibility = Visibility.Visible;
@@ -79,7 +80,7 @@ namespace Sudoku_WPF
 
 
 
-
+        /*
         private void InsertGame(GameInfo gameInfo)
         {
             string sqlStmt = @"INSERT INTO tbl_games 
@@ -104,17 +105,35 @@ namespace Sudoku_WPF
 
             DBHelper.ExecuteCommand(sqlStmt, parameters);
         }
+        */
 
 
-
-
-
-        private void BuildSavedGamesFromDB()
+        private void SetSettingsFromDB()
         {
-            this.historyPage = new SavedPage(true);
-            this.savedPage = new SavedPage(false);
+            string sqlstmt = "SELECT tbl_settings.* FROM   tbl_settings";
+            DataTable dt = DBHelper.GetDataTable(sqlstmt);
 
-            string sqlstmt = "SELECT tbl_games.* FROM   tbl_games";
+            DataRow dr = dt.Rows[0];
+
+            Settings.markSameText = Convert.ToBoolean(dr["SameText"]);
+            Settings.markRelated = Convert.ToBoolean(dr["MarkRelated"]);
+            Settings.soundOn = Convert.ToBoolean(dr["SoundOn"]);
+            Settings.musicOn = Convert.ToBoolean(dr["MusicOn"]);
+
+
+            if (Enum.TryParse(dr["Theme"].ToString(), out ColorThemes theme))
+            {
+                ThemeControl.SetColors(theme);
+            }
+            ThemeControl.SetColors(Settings.Theme);
+        }
+
+        private void SetSavedGamesFromDB()
+        {
+            this.historyPage = new SaverPage(true);
+            this.savedPage = new SaverPage(false);
+
+            string sqlstmt = "SELECT tbl_games.* FROM tbl_games";
             DataTable dt = DBHelper.GetDataTable(sqlstmt);
 
             foreach (DataRow dr in dt.Rows)
@@ -202,14 +221,14 @@ namespace Sudoku_WPF
                 case "History":
                     if (historyPage == null)
                     {
-                        historyPage = new SavedPage(true);
+                        historyPage = new SaverPage(true);
                     }
                     MainFrame.Navigate(historyPage);
                     break;
                 case "Saved":
                     if (savedPage == null)
                     {
-                        savedPage = new SavedPage(false);
+                        savedPage = new SaverPage(false);
                     }
                     MainFrame.Navigate(savedPage);
                     break;

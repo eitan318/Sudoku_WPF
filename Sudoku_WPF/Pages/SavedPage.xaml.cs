@@ -18,13 +18,13 @@ namespace Sudoku_WPF.Pages
     /// <summary>
     /// Interaction logic for SavedPage.xaml
     /// </summary>
-    public partial class SavedPage : Page
+    public partial class SaverPage : Page
     {
         private List<GameInfo> games = new List<GameInfo>();
         private List<Border> Items = new List<Border>();
         private bool isHistory;
 
-        public SavedPage(bool isHistory)
+        public SaverPage(bool isHistory)
         {
             InitializeComponent();
             this.isHistory = isHistory;
@@ -253,24 +253,25 @@ namespace Sudoku_WPF.Pages
             grid.Children.Add(textBlock);
         }
 
+
         private void InsertGame(GameInfo gameInfo)
         {
             string sqlStmt = DBConstants.InsertGameQuary;
 
             OleDbParameter[] parameters =
             {
-                new OleDbParameter(DBConstants.AT + DBConstants.Parameters.Current, gameInfo.Current),
-                new OleDbParameter(DBConstants.AT + DBConstants.Parameters.Time, gameInfo.Time),
-                new OleDbParameter(DBConstants.AT + DBConstants.Parameters.Solved, gameInfo.Solved),
-                new OleDbParameter(DBConstants.AT + DBConstants.Parameters.GameDate, gameInfo.Date),
-                new OleDbParameter(DBConstants.AT + DBConstants.Parameters.BoardCode, gameInfo.BoardCode),
-                new OleDbParameter(DBConstants.AT + DBConstants.Parameters.PuzzleCode, gameInfo.PuzzleCode),
-                new OleDbParameter(DBConstants.AT + DBConstants.Parameters.GameName, gameInfo.Name),
-                new OleDbParameter(DBConstants.AT + DBConstants.Parameters.HintsTaken, gameInfo.Hints),
-                new OleDbParameter(DBConstants.AT + DBConstants.Parameters.ChecksTaken, gameInfo.Checks),
-                new OleDbParameter(DBConstants.AT + DBConstants.Parameters.BoxHeight, gameInfo.BoxHeight),
-                new OleDbParameter(DBConstants.AT + DBConstants.Parameters.BoxWidth, gameInfo.BoxWidth)
-            };
+        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.Current, gameInfo.Current),
+        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.Solved, gameInfo.Solved),
+        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.Time, gameInfo.Time),
+        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.GameDate, gameInfo.Date), 
+        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.BoardCode, gameInfo.BoardCode),
+        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.PuzzleCode, gameInfo.PuzzleCode),
+        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.GameName, gameInfo.Name),
+        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.HintsTaken, gameInfo.Hints),
+        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.ChecksTaken, gameInfo.Checks),
+        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.BoxHeight, gameInfo.BoxHeight),
+        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.BoxWidth, gameInfo.BoxWidth)
+    };
 
             DBHelper.ExecuteCommand(sqlStmt, parameters);
         }
