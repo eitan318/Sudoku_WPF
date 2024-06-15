@@ -4,6 +4,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Navigation;
 using DAL;
 using Sudoku_WPF.GameClasses;
@@ -28,7 +29,6 @@ namespace Sudoku_WPF
         {
             InitializeComponent();
             Init();
-
             game = new Game(SudokuGrid, timerTxtB);
         }
 
@@ -144,8 +144,17 @@ namespace Sudoku_WPF
             MessageBoxResult msbxRes = MessageBox.Show("Do you want to save this game?", "Save Game", MessageBoxButton.YesNoCancel);
             if ( msbxRes == MessageBoxResult.Yes || msbxRes == MessageBoxResult.No)
             {
-                game.Board.ShowSolution();
-                game.End(false, msbxRes == MessageBoxResult.Yes);
+                try
+                {
+                    Mouse.OverrideCursor = Cursors.Wait; // Change cursor to Wait
+                    game.Board.ShowSolution();
+                    game.End(false, msbxRes == MessageBoxResult.Yes);
+                }
+                finally
+                {
+                    Mouse.OverrideCursor = null; // Restore cursor
+                }
+                
 
             }
 

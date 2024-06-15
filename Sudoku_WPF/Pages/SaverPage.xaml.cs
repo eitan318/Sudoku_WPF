@@ -194,7 +194,7 @@ namespace Sudoku_WPF.Pages
             {
                 // Remove the game from the list
                 GameInfo gameToRemove = games[index];
-                RemoveGame(gameToRemove);
+                DeleteGameFromDB(gameToRemove);
 
                 // Remove the game and the border
                 games.RemoveAt(index);
@@ -223,7 +223,7 @@ namespace Sudoku_WPF.Pages
             }
         }
 
-        public void RemoveGame(GameInfo gameInfo)
+        public static void DeleteGameFromDB(GameInfo gameInfo)
         {
             string sqlStmt = DBConstants.DeletGameQuary;
             OleDbParameter parameter = new OleDbParameter("@Id", gameInfo.Id);

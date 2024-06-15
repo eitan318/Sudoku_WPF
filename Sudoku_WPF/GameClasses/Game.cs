@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 using static Sudoku_WPF.publico.Constants;
 
@@ -18,13 +19,22 @@ namespace Sudoku_WPF.GameClasses
 
         public Game(Grid sodukoGrid, TextBlock timerTxtB)
         {
+            
             this.timerTxtB = timerTxtB;
             initTimer();
             //this.inProgress = true;
             timerTxtB.Text = TimerConstants.DEFAULT_TIME;
-            puzzle = new Puzzle();
-            board = new Board(sodukoGrid, puzzle);
 
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait; // Change cursor to Wait
+                puzzle = new Puzzle();
+                board = new Board(sodukoGrid, puzzle);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null; // Restore cursor
+            }
         }
 
         public Game(Grid sodukoGrid, TextBlock timerTxtB, string puzzleCode)
@@ -33,8 +43,16 @@ namespace Sudoku_WPF.GameClasses
             initTimer();
             //this.inProgress = true;
             timerTxtB.Text = TimerConstants.DEFAULT_TIME;
-            puzzle = new Puzzle(puzzleCode);
-            board = new Board(sodukoGrid, puzzle);
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait; // Change cursor to Wait
+                puzzle = new Puzzle(puzzleCode);
+                board = new Board(sodukoGrid, puzzle);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null; // Restore cursor
+            }
         }
 
         public Game(Grid sodukoGrid, TextBlock timerTxtB, GameInfo info)
@@ -42,8 +60,17 @@ namespace Sudoku_WPF.GameClasses
             this.timerTxtB = timerTxtB;
             initTimer(info.Time);
             //this.inProgress = true;
-            puzzle = new Puzzle(info.PuzzleCode);
-            board = new Board(sodukoGrid, puzzle, info.BoardCode);
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait; // Change cursor to Wait
+                puzzle = new Puzzle(info.PuzzleCode);
+                board = new Board(sodukoGrid, puzzle, info.BoardCode);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null; // Restore cursor
+            }
+            
             timerTxtB.Text = info.Time;
             Board.GameEnded += OnGameSolved;
         }
