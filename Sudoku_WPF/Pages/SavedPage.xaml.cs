@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -49,7 +50,7 @@ namespace Sudoku_WPF.Pages
 
             Items.Add(border);
 
-            border.SetResourceReference(BackgroundProperty, "HistoryItem_BG");
+            border.SetResourceReference(BackgroundProperty, ColorConstants.HistoryItem_BG);
 
             Grid grid = new Grid();
             grid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -170,19 +171,52 @@ namespace Sudoku_WPF.Pages
         private void DeleteGame_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            RemoveGame(games[Convert.ToInt32(btn.Tag)]);
-            games.RemoveAt(Convert.ToInt32(btn.Tag));
-            Items.RemoveAt(Convert.ToInt32(btn.Tag));
+            int index = Convert.ToInt32(btn.Tag);
+
+            // Show a confirmation dialog
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this game?", "Delete Game", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            // If the user confirms, delete the game
+            if (result == MessageBoxResult.Yes)
+            {
+                // Remove the game from the list
+                GameInfo gameToRemove = games[index];
+                RemoveGame(gameToRemove);
+
+                // Remove the game and the border
+                games.RemoveAt(index);
+                Border borderToRemove = Items[index];
+                Items.RemoveAt(index);
+                ItemsPanel.Children.Remove(borderToRemove);
+
+                // Update tags for remaining items
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    Items[i].Tag = i;
+                    UpdateButtonTags(Items[i], i);
+                }
+            }
+        }
+
+        private void UpdateButtonTags(Border border, int newTag)
+        {
+            Grid grid = border.Child as Grid;
+            foreach (UIElement element in grid.Children)
+            {
+                if (element is Button button)
+                {
+                    button.Tag = newTag;
+                }
+            }
         }
 
         public void RemoveGame(GameInfo gameInfo)
         {
             string sqlStmt = DBConstants.DeletGameQuary;
-
             OleDbParameter parameter = new OleDbParameter("@Id", gameInfo.Id);
-
             DBHelper.ExecuteCommand(sqlStmt, parameter);
         }
+
 
         private void AddTextBlockToGrid(Grid grid, string text, double fontSize, int columnSpan = 1, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left)
         {
@@ -193,9 +227,10 @@ namespace Sudoku_WPF.Pages
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = horizontalAlignment,
                 FontSize = fontSize,
-                Foreground = BrushResources.TextFore,
                 Margin = new Thickness(10, 0, 0, 0) // Optional, for spacing
             };
+
+            textBlock.SetResourceReference(ForegroundProperty, ColorConstants.TextFore);
 
             Grid.SetRow(textBlock, grid.RowDefinitions.Count - 1);
             Grid.SetColumn(textBlock, 0);
@@ -223,10 +258,6 @@ namespace Sudoku_WPF.Pages
             };
 
             DBHelper.ExecuteCommand(sqlStmt, parameters);
-        }
-
-        // Execute the command using DBHelper
-        DBHelper.ExecuteCommand(sqlStmt, parameters);
         }
     }
 }

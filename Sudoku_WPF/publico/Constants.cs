@@ -85,7 +85,7 @@ namespace Sudoku_WPF.publico
 
         public class ColorConstants
         {
-            public const string Text = "Text";
+            public const string TextFore = "Text";
             public const string Tbx_WrongForeground = "Tbx_WrongForeground";
             public const string Background = "Background";
             public const string Tbx_Board = "Tbx_Board";

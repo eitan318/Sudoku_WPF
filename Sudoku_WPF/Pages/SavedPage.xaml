@@ -7,8 +7,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
-
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -17,10 +15,8 @@
 
         <TextBlock x:Name="title_Txb" Grid.Row="0" Foreground="{DynamicResource Text}" VerticalAlignment="Center" FontSize="30" HorizontalAlignment="Center"/>
 
-
-
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
-            <WrapPanel x:Name="ItemsPanel"  HorizontalAlignment="Center"/>
+            <WrapPanel x:Name="ItemsPanel" HorizontalAlignment="Center" IsHitTestVisible="False"/>
         </ScrollViewer>
     </Grid>
 </Page>
