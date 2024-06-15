@@ -19,9 +19,10 @@ namespace Sudoku_WPF.GameClasses
         public string Date { get; set; }
         public bool Solved { get; set; }
         public bool Current { get; set; }
-        //public int Id { get; set; }
+        
+        public int Id { get; set; }
 
-        public GameInfo(string name, string boardCode, string puzzleCode, string time, int hintsTaken, int checksTaken, string date, bool solved, bool current, int boxHeight, int boxWidth)
+        public GameInfo(int id, string name, string boardCode, string puzzleCode, string time, int hintsTaken, int checksTaken, string date, bool solved, bool current, int boxHeight, int boxWidth)
         {
             Name = name;
             BoardCode = boardCode;
@@ -32,7 +33,7 @@ namespace Sudoku_WPF.GameClasses
             Date = date;
             Solved = solved;
             Current = current;
-            //Id = id;
+            Id = id;
             BoxHeight = boxHeight;
             BoxWidth = boxWidth;
         }

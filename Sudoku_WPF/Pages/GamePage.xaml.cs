@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Data.OleDb;
 using System.Diagnostics.Eventing.Reader;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Navigation;
+using DAL;
 using Sudoku_WPF.GameClasses;
 using Sudoku_WPF.publico;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -16,7 +18,7 @@ namespace Sudoku_WPF
     /// </summary>
     public partial class GamePage : Page
     {
-        private Game game;
+        public Game game;
         private bool isLoaded = true;
         private int hintsLeft;
         private int checksLeft;
@@ -57,6 +59,7 @@ namespace Sudoku_WPF
         public GameInfo GetGameInfo(bool solved, bool current)
         {
             GameInfo gameInfo = new GameInfo(
+                DBHelper.GetNextId("tbl_games","Id"),
                  nameTxtB.Text,
                  this.game.Board.GenerateBoardCode(),
                  this.game.GetPuzzleCode(),
@@ -72,6 +75,7 @@ namespace Sudoku_WPF
             return gameInfo;
 
         }
+        
 
 
         private void Init()

@@ -17,6 +17,7 @@
     <None Remove="Assets\Icons\instructions.png" />
     <None Remove="Assets\Icons\maximize.png" />
     <None Remove="Assets\Icons\minimize.png" />
+    <None Remove="Assets\Icons\saved.png" />
     <None Remove="Assets\Icons\settings.png" />
     <None Remove="Assets\Icons\shutdown_def.png" />
     <None Remove="Assets\Icons\shutdown_mo.png" />
@@ -58,6 +59,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\minimize.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\saved.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\settings.png">

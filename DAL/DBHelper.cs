@@ -13,7 +13,7 @@ namespace DAL
         public static OleDbConnection GetConnection()
         {
             string connString = @"Provider=Microsoft.ACE.OLEDB.12.0;
-                                Data Source=C:\Users\eitan\Desktop\NEW_WPF\Sudoku_WPF\DAL\Data\Sudoku_DB.accdb;
+                                Data Source=C:\Users\eitan\Desktop\NEW_WPF\Sudoku_WPF\DAL\Data\Sudoku_DB1.accdb;
                                 Persist Security Info=True";
 
             OleDbConnection conn = new OleDbConnection(connString);
@@ -51,9 +51,39 @@ namespace DAL
                     cmd.Parameters.AddRange(parameters); // Add parameters to the command
 
                     conn.Open();
+
                     cmd.ExecuteNonQuery(); // Execute the non-query command (insert, update, delete)
+
+
+                        
                 }
             }
         }
+
+
+        public static int GetNextId(string tableName, string idColumnName)
+        {
+            int nextId = 1; // Default starting point for IDs
+
+            using (OleDbConnection conn = GetConnection())
+            {
+                string query = $"SELECT MAX([{idColumnName}]) FROM [{tableName}]";
+
+                using (OleDbCommand cmd = new OleDbCommand(query, conn))
+                {
+                    conn.Open();
+                    var result = cmd.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        nextId = Convert.ToInt32(result) + 1;
+                    }
+                }
+            }
+
+            return nextId;
+        }
+
+
     }
 }

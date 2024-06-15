@@ -5,40 +5,22 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Sudoku_WPF.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="SavedPage">
+      d:DesignHeight="450" d:DesignWidth="800">
 
 
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition />
             <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Foreground="{DynamicResource Text}" VerticalAlignment="Bottom" Text="History" FontSize="40" HorizontalAlignment="Center"/>
-
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Row="0" Grid.Column="0" Foreground="{DynamicResource Text}" VerticalAlignment="Bottom" Text="Hints" FontSize="30" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="0" Grid.Column="1" Foreground="{DynamicResource Text}" VerticalAlignment="Bottom" Text="Checks" FontSize="30" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="0" Grid.Column="2" Foreground="{DynamicResource Text}" VerticalAlignment="Bottom" Text="Time" FontSize="30" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="0" Grid.Column="3" Foreground="{DynamicResource Text}" VerticalAlignment="Bottom" Text="Date" FontSize="30" HorizontalAlignment="Center"/>
-            <TextBlock Grid.Row="0" Grid.Column="4" Foreground="{DynamicResource Text}" VerticalAlignment="Bottom" Text="Solved" FontSize="30" HorizontalAlignment="Center"/>
-        </Grid>
+        <TextBlock x:Name="title_Txb" Grid.Row="0" Foreground="{DynamicResource Text}" VerticalAlignment="Center" FontSize="30" HorizontalAlignment="Center"/>
 
 
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="2">
-            <StackPanel x:Name="ItemsPanel"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
+            <WrapPanel x:Name="ItemsPanel"  HorizontalAlignment="Center"/>
         </ScrollViewer>
     </Grid>
 </Page>

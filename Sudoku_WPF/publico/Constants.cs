@@ -26,10 +26,10 @@ namespace Sudoku_WPF.publico
         }
         public class HistoryConstants
         {
-            public static double RELATIVE_FONT_SIZE = 0.4;
+            public static double RELATIVE_FONT_SIZE = 0.1;
             public static int MARGIN = 10;
             public static int CORNER_RADIUS = 20;
-            public static int HEIGHT = 60;
+            public static int HEIGHT = 150;
         }
 
         public class TimerConstants
@@ -47,6 +47,64 @@ namespace Sudoku_WPF.publico
             public static int HINTS = 5;
             public static int CHECKS = 5;
         }
+
+        public class DBConstants
+        {
+            public const string AT = "@";
+
+            // Define parameter names used in the SQL statement without the "@" symbol
+            public class Parameters
+            {
+                public const string Current = "Current";
+                public const string Time = "Time";
+                public const string Solved = "Solved";
+                public const string GameDate = "GameDate";
+                public const string BoardCode = "BoardCode";
+                public const string PuzzleCode = "PuzzleCode";
+                public const string GameName = "GameName";
+                public const string HintsTaken = "HintsTaken";
+                public const string ChecksTaken = "ChecksTaken";
+                public const string BoxHeight = "BoxHeight";
+                public const string BoxWidth = "BoxWidth";
+            }
+
+            // Define the SQL statement for inserting a game into the tbl_games table
+            public const string InsertGameQuary =
+                $@"INSERT INTO tbl_games 
+                       ([{Parameters.Current}], [{Parameters.Time}], [{Parameters.Solved}], [{Parameters.GameDate}], 
+                        [{Parameters.BoardCode}], [{Parameters.PuzzleCode}], [{Parameters.GameName}], [{Parameters.HintsTaken}], 
+                        [{Parameters.ChecksTaken}], [{Parameters.BoxHeight}], [{Parameters.BoxWidth}]) 
+                   VALUES 
+                       ({AT + Parameters.Current}, {AT + Parameters.Time}, {AT + Parameters.Solved}, {AT + Parameters.GameDate}, 
+                        {AT + Parameters.BoardCode}, {AT + Parameters.PuzzleCode}, {AT + Parameters.GameName}, {AT + Parameters.HintsTaken}, 
+                        {AT + Parameters.ChecksTaken}, {AT + Parameters.BoxHeight}, {AT + Parameters.BoxWidth})";
+
+            public const string DeletGameQuary = @"DELETE FROM tbl_games WHERE Id = @Id";
+        }
+
+
+        public class ColorConstants
+        {
+            public const string Text = "Text";
+            public const string Tbx_WrongForeground = "Tbx_WrongForeground";
+            public const string Background = "Background";
+            public const string Tbx_Board = "Tbx_Board";
+            public const string Border = "Border";
+            public const string Tbx_Focus = "Tbx_Focus";
+            public const string Tbx_WrongBackground = "Tbx_WrongBackground";
+            public const string Tbx_SameText = "Tbx_SameText";
+            public const string Tbx_Sign = "Tbx_Sign";
+            public const string Tbx_RightBackground = "Tbx_RightBackground";
+            public const string Menu_BG = "Menu_BG";
+            public const string Botton_BG = "Botton_BG";
+            public const string Botton_FG = "Botton_FG";
+            public const string Botton_Border = "Botton_Border";
+            public const string HistoryItem_BG = "HistoryItem_BG";
+            public const string MenuBtn_MO = "MenuBtn_MO";
+            public const string MenuBtn_Checked = "MenuBtn_Checked";
+        }
+
+
         public class UriConstants
         {
             public static Uri GAME_SETTINGS_PAGE = new Uri("/Pages/GameSettingsPage.xaml", UriKind.Relative);
