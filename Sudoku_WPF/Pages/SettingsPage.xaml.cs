@@ -74,6 +74,7 @@ namespace Sudoku_WPF
             if (Enum.TryParse(option, out ColorThemes theme))
             {
                 ThemeControl.SetColors(theme);
+                Settings.Theme = theme;
             }
         }
     }

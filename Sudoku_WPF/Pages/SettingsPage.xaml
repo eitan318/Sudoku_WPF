@@ -7,49 +7,53 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="Auto"/>
+            <!-- Title row -->
+            <RowDefinition Height="*"/>
+            <!-- Content row -->
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
 
-        <Viewbox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" MaxHeight="60" MaxWidth="220" >
-            <ComboBox Name="ColorMode_CMBB" SelectionChanged="ColorMode_CMBB_SelectionChanged" Height="30" Width="150">
-                <ComboBoxItem Content="Light" Foreground="White" Background="LightGray"/>
-                <ComboBoxItem Content="Dark" Foreground="Black" Background="LightGray"/>
-                <ComboBoxItem Content="Red" Foreground="Red" Background="LightGray"/>
-                <ComboBoxItem Content="DarkBlue" Foreground="DarkBlue" Background="LightGray"/>
-                <ComboBoxItem Content="LightBrown" Foreground="Brown" Background="LightGray"/>
-                <ComboBoxItem Content="LightBlue" Foreground="LightBlue" Background="LightGray"/>
-                <ComboBoxItem Content="Pink" Foreground="Pink" Background="LightGray"/>
-            </ComboBox>
+        <!-- Title TextBlock -->
+        <TextBlock Text="Settings" FontSize="24" FontWeight="Bold" Margin="20" HorizontalAlignment="Center" Foreground="{DynamicResource Text}" Grid.Row="0"/>
+
+        <Viewbox Stretch="Uniform" Grid.Row="1" >
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center"  Margin="50, 0,50,0">
+                <!-- Combo Box for Color Mode Selection -->
+                <ComboBox Name="ColorMode_CMBB" SelectionChanged="ColorMode_CMBB_SelectionChanged" Height="30" Width="140" FontSize="15">
+                    <ComboBoxItem Content="Light" Foreground="White" Background="LightGray"/>
+                    <ComboBoxItem Content="Dark" Foreground="Black" Background="LightGray"/>
+                    <ComboBoxItem Content="Red" Foreground="Red" Background="LightGray"/>
+                    <ComboBoxItem Content="DarkBlue" Foreground="DarkBlue" Background="LightGray"/>
+                    <ComboBoxItem Content="LightBrown" Foreground="Brown" Background="LightGray"/>
+                    <ComboBoxItem Content="LightBlue" Foreground="LightBlue" Background="LightGray"/>
+                    <ComboBoxItem Content="Pink" Foreground="Pink" Background="LightGray"/>
+                </ComboBox>
+
+                <!-- Sounds Toggle Button -->
+                <StackPanel Orientation="Horizontal" Margin="20">
+                    <TextBlock FontSize="15" Text="Sounds" Foreground="{DynamicResource Text}" Margin="0,0,20,0"/>
+                    <ToggleButton Tag="sound" Style="{StaticResource DAToggleButton}" x:Name="sound" Click="ToggleButton_Click" Content="Toggle Button"/>
+                </StackPanel>
+
+                <!-- Music Toggle Button -->
+                <StackPanel Orientation="Horizontal" Margin="20">
+                    <TextBlock Text="Music" FontSize="15" Foreground="{DynamicResource Text}" Margin="0,0,20,0"/>
+                    <ToggleButton x:Name="music" Tag="music" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
+                </StackPanel>
+
+                <!-- Mark Related Toggle Button -->
+                <StackPanel Orientation="Horizontal" Margin="20">
+                    <TextBlock Text="Mark cells in the same row, column or box" FontSize="15" Foreground="{DynamicResource Text}" Margin="0,0,20,0"/>
+                    <ToggleButton x:Name="markRelated" Tag="markRelated" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
+                </StackPanel>
+
+                <!-- Mark Same Text Toggle Button -->
+                <StackPanel Orientation="Horizontal" Margin="20">
+                    <TextBlock Text="Mark cells with similar text" FontSize="15" Foreground="{DynamicResource Text}" Margin="0,0,20,0"/>
+                    <ToggleButton x:Name="markSameText" Tag="markSameText" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
+                </StackPanel>
+
+            </StackPanel>
         </Viewbox>
-
-        <WrapPanel Margin="50" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
-
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock FontSize="15" Text="Sounds" Foreground="{DynamicResource Text}" Margin="0,0,10,0"/>
-                <ToggleButton Tag="sound" Style="{StaticResource DAToggleButton}" x:Name="sound" Click="ToggleButton_Click" Content="Toggle Button"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock Text="Music" FontSize="15" Foreground="{DynamicResource Text}" Margin="0,0,10,0"/>
-                <ToggleButton x:Name="music" Tag="music" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Vertical" Margin="10">
-                <TextBlock Text="Mark cells in the same row, column or box" FontSize="15" Foreground="{DynamicResource Text}" Margin="0,0,10,0"/>
-                <ToggleButton x:Name="markRelated" Tag="markRelated" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock Text="Mark cells with similar text" FontSize="15" Foreground="{DynamicResource Text}" Margin="0,0,10,0"/>
-                <ToggleButton x:Name="markSameText" Tag="markSameText" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
-            </StackPanel>
-
-        </WrapPanel>
-
     </Grid>
 </Page>

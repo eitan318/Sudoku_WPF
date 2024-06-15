@@ -5,20 +5,20 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Grid Width="80" Height="40">
+                    <Grid Width="60" Height="30">
                         <!-- Background Border -->
                         <Border x:Name="BackgroundBorder"
-                Width="80"
-                Height="40"
-                CornerRadius="20"
+                Width="60"
+                Height="30"
+                CornerRadius="15"
                 Background="LightGray"
                 BorderBrush="DarkGray"
                 BorderThickness="1" />
 
                         <!-- Toggle Thumb -->
                         <Ellipse x:Name="ToggleThumb"
-                 Width="36"
-                 Height="36"
+                 Width="28"
+                 Height="28"
                  Fill="White"
                  Stroke="DarkGray"
                  StrokeThickness="1"
