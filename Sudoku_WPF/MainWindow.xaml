@@ -14,7 +14,7 @@
         ResizeMode="CanResizeWithGrip"
         Background="Transparent"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        MinHeight="330" MinWidth="600"
+        MinHeight="330" MinWidth="580"
         Icon="\Assets\Icons\app_Icon.png">
 
 

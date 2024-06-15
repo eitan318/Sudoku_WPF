@@ -21,7 +21,7 @@ namespace Sudoku_WPF.GameClasses
         public Board(Grid sudokuGrid, Puzzle puzzle)
         {
             this.sudokuGrid = sudokuGrid;
-            cells = new Cell[Settings.BOARD_SIDE, Settings.BOARD_SIDE];
+            cells = new Cell[GameSettings.BoardSide, GameSettings.BoardSide];
             this.puzzle = puzzle;
 
             CreateSudokuGrid(sudokuGrid);
@@ -34,7 +34,7 @@ namespace Sudoku_WPF.GameClasses
         public Board(Grid sudokuGrid, Puzzle puzzle, string boardCode)
         {
             this.sudokuGrid = sudokuGrid;
-            cells = new Cell[Settings.BOARD_SIDE, Settings.BOARD_SIDE];
+            cells = new Cell[GameSettings.BoardSide, GameSettings.BoardSide];
             this.puzzle = puzzle;
 
             CreateSudokuGrid(sudokuGrid);
@@ -71,12 +71,12 @@ namespace Sudoku_WPF.GameClasses
 
         private void AdjustBorderSize()
         {
-            double newBorderThickness = sudokuGrid.ActualWidth / (Settings.BOARD_SIDE * 50); // Example calculation
+            double newBorderThickness = sudokuGrid.ActualWidth / (GameSettings.BoardSide * 50); // Example calculation
             foreach (UIElement element in sudokuGrid.Children)
             {
                 if (element is Border border)
                 {
-                    if (Grid.GetRowSpan(border) == Settings.BOARD_SIDE && Grid.GetColumnSpan(border) == Settings.BOARD_SIDE)
+                    if (Grid.GetRowSpan(border) == GameSettings.BoardSide && Grid.GetColumnSpan(border) == GameSettings.BoardSide)
                     {
                         border.BorderThickness = new Thickness(newBorderThickness * BoardConstants.EXTERNAL_BORDER_TO_REGULAR);
                     }
@@ -187,9 +187,9 @@ namespace Sudoku_WPF.GameClasses
 
         public void Initialize()
         {
-            for (int i = 0; i < Settings.BOARD_SIDE; i++)
+            for (int i = 0; i < GameSettings.BoardSide; i++)
             {
-                for (int j = 0; j < Settings.BOARD_SIDE; j++)
+                for (int j = 0; j < GameSettings.BoardSide; j++)
                 {
                     Cell cell = cells[i, j];
                     if (puzzle.IsCellInitial(i, j))
@@ -216,16 +216,16 @@ namespace Sudoku_WPF.GameClasses
             Initialize();
             boardCode = Code.Unprotect(boardCode);
             string[] cellsStrs = boardCode.Split('|');
-            for (int i = 0; i < Settings.BOARD_SIDE; i++)
+            for (int i = 0; i < GameSettings.BoardSide; i++)
             {
-                for (int j = 0; j < Settings.BOARD_SIDE; j++)
+                for (int j = 0; j < GameSettings.BoardSide; j++)
                 {
                     Cell cell = cells[i, j];
                     if (cell.IsReadOnly)
                     {
                         continue;
                     }
-                    string cellStr = cellsStrs[i * Settings.BOARD_SIDE + j];
+                    string cellStr = cellsStrs[i * GameSettings.BoardSide + j];
                     string[] cellParts = cellStr.Split(';');
 
                     cell.Text = cellParts[0];
@@ -252,7 +252,7 @@ namespace Sudoku_WPF.GameClasses
 
         private void CreateSeparation(Grid sudokuGrid)
         {
-            for (int i = 0; i < Settings.BOARD_SIDE; i++)
+            for (int i = 0; i < GameSettings.BoardSide; i++)
             {
                 sudokuGrid.RowDefinitions.Add(new RowDefinition());
                 sudokuGrid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -261,9 +261,9 @@ namespace Sudoku_WPF.GameClasses
 
         private void CreateCells(Grid sudokuGrid)
         {
-            for (int i = 0; i < Settings.BOARD_SIDE; i++)
+            for (int i = 0; i < GameSettings.BoardSide; i++)
             {
-                for (int j = 0; j < Settings.BOARD_SIDE; j++)
+                for (int j = 0; j < GameSettings.BoardSide; j++)
                 {
                     Cell cell = new Cell(i, j);
                     sudokuGrid.Children.Add(cell);
@@ -276,16 +276,16 @@ namespace Sudoku_WPF.GameClasses
 
         private void AddBorders(Grid sudokuGrid)
         {
-            for (int rows = 0; rows < Settings.BOX_HEIGHT; rows++)
+            for (int rows = 0; rows < GameSettings.BoxHeight; rows++)
             {
-                for (int cols = 0; cols < Settings.BOX_WIDTH; cols++)
+                for (int cols = 0; cols < GameSettings.BoxWidth; cols++)
                 {
                     Border internalBorder = new Border();
                     internalBorder.SetResourceReference(Border.BorderBrushProperty, "Border");
-                    Grid.SetRow(internalBorder, cols * Settings.BOX_HEIGHT);
-                    Grid.SetRowSpan(internalBorder, Settings.BOX_HEIGHT);
-                    Grid.SetColumn(internalBorder, rows * Settings.BOX_WIDTH);
-                    Grid.SetColumnSpan(internalBorder, Settings.BOX_WIDTH);
+                    Grid.SetRow(internalBorder, cols * GameSettings.BoxHeight);
+                    Grid.SetRowSpan(internalBorder, GameSettings.BoxHeight);
+                    Grid.SetColumn(internalBorder, rows * GameSettings.BoxWidth);
+                    Grid.SetColumnSpan(internalBorder, GameSettings.BoxWidth);
                     sudokuGrid.Children.Add(internalBorder);
                 }
             }
@@ -293,8 +293,8 @@ namespace Sudoku_WPF.GameClasses
             // Adding the main border
             Border gridBorder = new Border();
             gridBorder.SetResourceReference(Border.BorderBrushProperty, "Border");
-            Grid.SetRowSpan(gridBorder, Settings.BOARD_SIDE);
-            Grid.SetColumnSpan(gridBorder, Settings.BOARD_SIDE);
+            Grid.SetRowSpan(gridBorder, GameSettings.BoardSide);
+            Grid.SetColumnSpan(gridBorder, GameSettings.BoardSide);
             sudokuGrid.Children.Add(gridBorder);
 
             sudokuGrid.UpdateLayout(); // Ensure layout is updated immediately
@@ -306,7 +306,7 @@ namespace Sudoku_WPF.GameClasses
         {
             List<Cell> relatedCells = new List<Cell>();
 
-            for (int col = 0; col < Settings.BOARD_SIDE; col++)
+            for (int col = 0; col < GameSettings.BoardSide; col++)
             {
                 if (col != cellCol)
                 {
@@ -314,7 +314,7 @@ namespace Sudoku_WPF.GameClasses
                 }
             }
 
-            for (int row = 0; row < Settings.BOARD_SIDE; row++)
+            for (int row = 0; row < GameSettings.BoardSide; row++)
             {
                 if (row != cellRow)
                 {
@@ -322,12 +322,12 @@ namespace Sudoku_WPF.GameClasses
                 }
             }
 
-            int boxRowStart = cellRow / Settings.BOX_HEIGHT * Settings.BOX_HEIGHT;
-            int boxColStart = cellCol / Settings.BOX_WIDTH * Settings.BOX_WIDTH;
+            int boxRowStart = cellRow / GameSettings.BoxHeight * GameSettings.BoxHeight;
+            int boxColStart = cellCol / GameSettings.BoxWidth * GameSettings.BoxWidth;
 
-            for (int row = boxRowStart; row < boxRowStart + Settings.BOX_HEIGHT; row++)
+            for (int row = boxRowStart; row < boxRowStart + GameSettings.BoxHeight; row++)
             {
-                for (int col = boxColStart; col < boxColStart + Settings.BOX_WIDTH; col++)
+                for (int col = boxColStart; col < boxColStart + GameSettings.BoxWidth; col++)
                 {
                     if (row != cellRow || col != cellCol)
                     {
@@ -342,9 +342,9 @@ namespace Sudoku_WPF.GameClasses
         public string GenerateBoardCode()
         {
             string boardCode = "";
-            for (int i = 0; i < Settings.BOARD_SIDE; i++)
+            for (int i = 0; i < GameSettings.BoardSide; i++)
             {
-                for (int j = 0; j < Settings.BOARD_SIDE; j++)
+                for (int j = 0; j < GameSettings.BoardSide; j++)
                 {
                     Cell cell = cells[i, j];
                     boardCode += $"{cell.Text};";

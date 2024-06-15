@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DAL;
 using System.Data.OleDb;
+using Sudoku_WPF.publico;
 
 namespace Sudoku_WPF
 {
@@ -54,27 +55,27 @@ namespace Sudoku_WPF
                                        3
                                        );
 
-            InsertGame(gameInfo);*/
+            */
 
-            
 
         }
 
-        /*ThemeControl.SetColors(ColorMode.Light);
-        MainFrame.Navigate(new OpenningPage());
-        Resize.Visibility = Visibility.Visible;
-        //BuildSavedGamesFromDB();
-
-        GameInfo gameInfo = new GameInfo("", "", "","", 3, 5, "", true, true,3,3);
-        gameInfo.BoardCode = Code.Protect(";|;|;|1;|;|7;|;|2;|6;|;|9;|5;|1;|1;|2;|;|1;|1;|;|;|1;|8;|;|;|3;|;|;|8;|;|;|6;|3;|5;|;|;|;|;|;|7;|;|2;|8;|6;|;|3;|;|3;|;|;|;|;|;|;|2;|;|5;|;|;|;|;|;|;|;|;|;|8;|2;|4;|;|;|3;|5;|;|;|4;|;|1;|;|9;|;1,2,3,4,5,6,7,8,9,|8;");
-
-        gameInfo.PuzzleCode = Code.Protect("3,3:4,X|8,X|3,X|1,V|9,X|7,V|5,X|2,V|6,V|7,X|9,V|5,V|3,X|6,X|2,V|8,X|4,X|1,V|2,X|6,X|1,V|8,V|5,X|4,X|3,V|9,X|7,X|8,V|4,X|2,X|6,V|3,V|5,V|7,X|1,X|9,X|9,X|1,X|7,V|4,X|2,V|8,V|6,V|5,X|3,V|5,X|3,V|6,X|9,X|7,X|1,X|4,X|8,X|2,V|1,X|5,V|9,X|7,X|8,X|3,X|2,X|6,X|4,X|6,X|7,X|8,V|2,V|4,V|9,X|1,X|3,V|5,V|3,X|2,X|4,V|5,X|1,V|6,X|9,V|7,X|8,V");
-        this.historyPage = new HistoryPage();
-        this.savedPage = new SavedPage();
-        savedPage.AddItemToListAndDB(gameInfo);*/
 
 
+            
+            /*InsertGame(gameInfo);
+            ThemeControl.SetColors(Settings.Theme);
+            MainFrame.Navigate(new OpenningPage());
+            Resize.Visibility = Visibility.Visible;
+            //BuildSavedGamesFromDB();
 
+            GameInfo gameInfo = new GameInfo("", "", "", "", 3, 5, "", true, true, 3, 3);
+            gameInfo.BoardCode = Code.Protect(";|;|;|1;|;|7;|;|2;|6;|;|9;|5;|1;|1;|2;|;|1;|1;|;|;|1;|8;|;|;|3;|;|;|8;|;|;|6;|3;|5;|;|;|;|;|;|7;|;|2;|8;|6;|;|3;|;|3;|;|;|;|;|;|;|2;|;|5;|;|;|;|;|;|;|;|;|;|8;|2;|4;|;|;|3;|5;|;|;|4;|;|1;|;|9;|;1,2,3,4,5,6,7,8,9,|8;");
+
+            gameInfo.PuzzleCode = Code.Protect("3,3:4,X|8,X|3,X|1,V|9,X|7,V|5,X|2,V|6,V|7,X|9,V|5,V|3,X|6,X|2,V|8,X|4,X|1,V|2,X|6,X|1,V|8,V|5,X|4,X|3,V|9,X|7,X|8,V|4,X|2,X|6,V|3,V|5,V|7,X|1,X|9,X|9,X|1,X|7,V|4,X|2,V|8,V|6,V|5,X|3,V|5,X|3,V|6,X|9,X|7,X|1,X|4,X|8,X|2,V|1,X|5,V|9,X|7,X|8,X|3,X|2,X|6,X|4,X|6,X|7,X|8,V|2,V|4,V|9,X|1,X|3,V|5,V|3,X|2,X|4,V|5,X|1,V|6,X|9,V|7,X|8,V");
+            this.historyPage = new HistoryPage();
+            this.savedPage = new SavedPage();
+            savedPage.AddItemToListAndDB(gameInfo); */
 
 
 

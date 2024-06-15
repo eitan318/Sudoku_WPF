@@ -69,8 +69,8 @@ namespace Sudoku_WPF
                  DateTime.Now.ToString(),
                  solved,
                  current,
-                 Settings.BOX_HEIGHT,
-                 Settings.BOX_WIDTH
+                 GameSettings.BoxHeight,
+                 GameSettings.BoxWidth
                  );
             return gameInfo;
 
@@ -183,7 +183,7 @@ namespace Sudoku_WPF
 
                 if (msbxRes == MessageBoxResult.Yes || msbxRes == MessageBoxResult.No)
                 {
-                    
+                        
                     game.End(false, msbxRes == MessageBoxResult.Yes);
                     NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
                 }

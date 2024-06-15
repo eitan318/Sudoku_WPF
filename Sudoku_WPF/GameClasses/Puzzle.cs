@@ -17,8 +17,8 @@ namespace Sudoku_WPF.GameClasses
 
         public Puzzle()
         {
-            initialCells = new bool[Settings.BOARD_SIDE, Settings.BOARD_SIDE];
-            solvedPuzzle = new char[Settings.BOARD_SIDE, Settings.BOARD_SIDE];
+            initialCells = new bool[GameSettings.BoardSide, GameSettings.BoardSide];
+            solvedPuzzle = new char[GameSettings.BoardSide, GameSettings.BoardSide];
 
             CreatePuzzle();
             code = GeneratePuzzleCode();
@@ -49,8 +49,26 @@ namespace Sudoku_WPF.GameClasses
 
         private void CreatePuzzle()
         {
+            double fullCellsPercent;
+
+            switch (GameSettings.difLvl)
+            {
+                case DificultyLevel.Eazy:
+                    fullCellsPercent = GameSettingsConstants.FULL_CELLS_EASY;
+                    break;
+                case DificultyLevel.Medium:
+                    fullCellsPercent = GameSettingsConstants.FULL_CELLS_MEDIUM;
+                    break;
+                case DificultyLevel.Hard:
+                    fullCellsPercent = GameSettingsConstants.FULL_CELLS_HARD;
+                    break;
+                default:
+                    fullCellsPercent = 0;
+                    break;
+            }
             CreateSolvedPuzzle();
-            ChooseInitialCells((int)(Settings.BOARD_SIDE * Settings.BOARD_SIDE * 0.4));
+            ChooseInitialCells((int)(GameSettings.BoardSide * GameSettings.BoardSide * fullCellsPercent));
+                
         }
 
         private void CreateSolvedPuzzle()
@@ -65,9 +83,9 @@ namespace Sudoku_WPF.GameClasses
 
         private bool FillRemaining(int row, int col)
         {
-            if (row == Settings.BOARD_SIDE - 1 && col == Settings.BOARD_SIDE)
+            if (row == GameSettings.BoardSide - 1 && col == GameSettings.BoardSide)
                 return true;
-            if (col == Settings.BOARD_SIDE)
+            if (col == GameSettings.BoardSide)
             {
                 row++;
                 col = 0;
@@ -92,8 +110,8 @@ namespace Sudoku_WPF.GameClasses
 
         private char[] GetShuffledNumbers()
         {
-            char[] nums = new char[Settings.BOARD_SIDE];
-            for (int i = 0; i < Settings.BOARD_SIDE; i++)
+            char[] nums = new char[GameSettings.BoardSide];
+            for (int i = 0; i < GameSettings.BoardSide; i++)
             {
                 nums[i] = ToHexa(i + 1);
             }
@@ -116,21 +134,21 @@ namespace Sudoku_WPF.GameClasses
         private bool IsSafe(int row, int col, char num)
         {
             // Check row
-            for (int x = 0; x < Settings.BOARD_SIDE; x++)
+            for (int x = 0; x < GameSettings.BoardSide; x++)
                 if (solvedPuzzle[row, x] == num)
                     return false;
 
             // Check column
-            for (int x = 0; x < Settings.BOARD_SIDE; x++)
+            for (int x = 0; x < GameSettings.BoardSide; x++)
                 if (solvedPuzzle[x, col] == num)
                     return false;
 
             // Check box
-            int boxStartRow = row / Settings.BOX_HEIGHT * Settings.BOX_HEIGHT;
-            int boxStartCol = col / Settings.BOX_WIDTH * Settings.BOX_WIDTH;
+            int boxStartRow = row / GameSettings.BoxHeight * GameSettings.BoxHeight;
+            int boxStartCol = col / GameSettings.BoxWidth * GameSettings.BoxWidth;
 
-            for (int r = 0; r < Settings.BOX_HEIGHT; r++)
-                for (int d = 0; d < Settings.BOX_WIDTH; d++)
+            for (int r = 0; r < GameSettings.BoxHeight; r++)
+                for (int d = 0; d < GameSettings.BoxWidth; d++)
                     if (solvedPuzzle[boxStartRow + r, boxStartCol + d] == num)
                         return false;
 
@@ -150,8 +168,8 @@ namespace Sudoku_WPF.GameClasses
 
             while (amountOfInitCells != 0)
             {
-                int i = rnd.Next(Settings.BOARD_SIDE);
-                int j = rnd.Next(Settings.BOARD_SIDE);
+                int i = rnd.Next(GameSettings.BoardSide);
+                int j = rnd.Next(GameSettings.BoardSide);
 
                 if (!initialCells[i, j])
                 {
@@ -163,7 +181,7 @@ namespace Sudoku_WPF.GameClasses
 
         private string GeneratePuzzleCode()
         {
-            string puzzleCode = $"{Settings.BOX_HEIGHT},{Settings.BOX_WIDTH}:";
+            string puzzleCode = $"{GameSettings.BoxHeight},{GameSettings.BoxWidth}:";
             for (int i = 0; i < solvedPuzzle.GetLength(0); i++)
             {
                 for (int j = 0; j < solvedPuzzle.GetLength(1); j++)
@@ -184,18 +202,18 @@ namespace Sudoku_WPF.GameClasses
             puzzleCode = Code.Unprotect(puzzleCode);
             int settingEnd = puzzleCode.IndexOf(":");
             int separator = puzzleCode.IndexOf(",");
-            Settings.BOX_HEIGHT = int.Parse(puzzleCode.Substring(0, separator));
-            Settings.BOX_WIDTH = int.Parse(puzzleCode.Substring(separator + 1, settingEnd - separator - 1)) ;
-            Settings.BOARD_SIDE = Settings.BOX_WIDTH * Settings.BOX_HEIGHT;
+            GameSettings.BoxHeight = int.Parse(puzzleCode.Substring(0, separator));
+            GameSettings.BoxWidth = int.Parse(puzzleCode.Substring(separator + 1, settingEnd - separator - 1)) ;
+            GameSettings.BoardSide = GameSettings.BoxWidth * GameSettings.BoxHeight;
 
 
-            initialCells = new bool[Settings.BOARD_SIDE, Settings.BOARD_SIDE];
-            solvedPuzzle = new char[Settings.BOARD_SIDE, Settings.BOARD_SIDE];
+            initialCells = new bool[GameSettings.BoardSide, GameSettings.BoardSide];
+            solvedPuzzle = new char[GameSettings.BoardSide, GameSettings.BoardSide];
 
             int startIdx = settingEnd + 1;
-            for (int i = 0; i < Settings.BOARD_SIDE; i++)
+            for (int i = 0; i < GameSettings.BoardSide; i++)
             {
-                for (int j = 0; j < Settings.BOARD_SIDE; j++)
+                for (int j = 0; j < GameSettings.BoardSide; j++)
                 {
                     separator = puzzleCode.IndexOf(',', startIdx + 1);
                     solvedPuzzle[i, j] = puzzleCode[startIdx];

@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using static Sudoku_WPF.publico.Constants;
 
 namespace Sudoku_WPF.Pages
@@ -50,6 +51,15 @@ namespace Sudoku_WPF.Pages
                 Tag = ItemsPanel.Children.Count // Assuming ItemsPanel is a StackPanel
             };
 
+            // Add shadow effect
+            border.Effect = new DropShadowEffect
+            {
+                Color = Colors.Gray,
+                BlurRadius = 10,
+                ShadowDepth = 5,
+                Opacity = 0.5
+            };
+
             Items.Add(border);
 
             border.SetResourceReference(BackgroundProperty, ColorConstants.HistoryItem_BG);
@@ -60,28 +70,29 @@ namespace Sudoku_WPF.Pages
 
             Button deletGameBtn = new Button
             {
-                Style = FindResource("ExitApp") as Style,
-                Height = 30,
-                Width = 30,
+                Style = FindResource("RoundedButtonStyle") as Style,
+                Height = 23,
+                Width = 23,
+                Content = "X",
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Top,
+                FontSize = 15,
                 Margin = new Thickness(0, 5, 5, 0)
             };
             Grid.SetColumn(deletGameBtn, 1);
             Grid.SetRowSpan(deletGameBtn, 3);
             grid.Children.Add(deletGameBtn);
 
-            deletGameBtn.Click += DeleteGame_Click; 
-
+            deletGameBtn.Click += DeleteGame_Click;
 
             double fontSize = HistoryConstants.RELATIVE_FONT_SIZE * border.Height;
 
-            AddTextBlockToGrid(grid, gameInfo.Name.ToString(), fontSize, 2, HorizontalAlignment.Center);
+            AddTextBlockToGrid(grid, gameInfo.Name.ToString(), fontSize, 2, true);
             AddTextBlockToGrid(grid, "Hints taken: " + gameInfo.Hints.ToString(), fontSize);
             AddTextBlockToGrid(grid, "Checks taken: " + gameInfo.Checks.ToString(), fontSize);
             AddTextBlockToGrid(grid, "Time: " + gameInfo.Time, fontSize);
             AddTextBlockToGrid(grid, gameInfo.BoxHeight.ToString() + "*" + gameInfo.BoxWidth.ToString(), fontSize);
-            AddTextBlockToGrid(grid, "Date&Hour: " + gameInfo.Date.ToString(), fontSize * 1.1, 2);
+            AddTextBlockToGrid(grid, "Date&Hour: " + gameInfo.Date.ToString(), fontSize, 2);
 
             StackPanel btnPanel = CreateBtnPanel(isHistory);
             Grid.SetRowSpan(btnPanel, grid.RowDefinitions.Count - 2);
@@ -220,16 +231,18 @@ namespace Sudoku_WPF.Pages
         }
 
 
-        private void AddTextBlockToGrid(Grid grid, string text, double fontSize, int columnSpan = 1, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left)
+        private void AddTextBlockToGrid(Grid grid, string text, double fontSize, int columnSpan = 1, bool Title = false)
         {
             grid.RowDefinitions.Add(new RowDefinition());
             TextBlock textBlock = new TextBlock
             {
                 Text = text,
                 VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = horizontalAlignment,
-                FontSize = fontSize,
-                Margin = new Thickness(10, 0, 0, 0) // Optional, for spacing
+                HorizontalAlignment = Title ? HorizontalAlignment.Center : HorizontalAlignment.Left,
+                FontSize = Title ? fontSize * 1.1 : fontSize,
+                Margin = new Thickness(10, 0, 0, 0),
+                FontWeight = Title ? FontWeights.Bold : FontWeights.Normal,
+
             };
 
             textBlock.SetResourceReference(ForegroundProperty, ColorConstants.TextFore);

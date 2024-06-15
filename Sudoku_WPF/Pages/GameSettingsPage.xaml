@@ -35,11 +35,20 @@
             <StackPanel Orientation="Vertical"    Grid.Column="1">
                 <TextBlock Text="Height" Foreground="{DynamicResource Text}" FontSize="20" />
 
-                <lib:NumericUpDown x:Name="NUD_boxHeight" MinValue="2" MaxValue="5" 
-        FontSize="20"/>
+                <lib:NumericUpDown x:Name="NUD_boxHeight" MinValue="2" MaxValue="5" FontSize="20"/>
             </StackPanel>
 
         </Viewbox>
+
+        <Viewbox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" MaxHeight="80" MaxWidth="300">
+            <ComboBox  Name="DificultyLevel_CMBB"   SelectionChanged="DificultyLevel_CMBB_SelectionChanged"  Height="30" Width="200">
+                <ComboBoxItem Content="Eazy" />
+                <ComboBoxItem Content="Medium" />
+                <ComboBoxItem Content="Hard" />
+                
+            </ComboBox>
+        </Viewbox>
+
 
 
 

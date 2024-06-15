@@ -1,51 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Sudoku_WPF.Themes;
+using System;
 using System.Windows;
 
 namespace Sudoku_WPF.publico
 {
     public class Constants
     {
-        public static int NUM_DIGITS = 10;
-        public static int ERROR = -1;
-        public class BoardConstants 
+        public const int NUM_DIGITS = 10;
+        public const int ERROR = -1;
+
+        public class BoardConstants
         {
-            public static int BOARD_WIDTH = 600;
-            public static double RELATIVE_FONT_SIZE = 0.65;
-            public static string SHOW_SOLUTION = "Show a solution";
-            public static double INTERNAL_BORDER_TO_REGULAR = 2;
-            public static double EXTERNAL_BORDER_TO_REGULAR = 4;
-            public static double DEFAULT_SIDE = 9.0;
-            public static double DEFAULT_WIDTH = 500.0;
-            public static int DEFAULT_BOX_HEIGHT = 3;
-            public static int DEFAULT_BOX_WIDTH = 3;
-            
+            public const int BOARD_WIDTH = 600;
+            public const double RELATIVE_FONT_SIZE = 0.65;
+            public const string SHOW_SOLUTION = "Show a solution";
+            public const double INTERNAL_BORDER_TO_REGULAR = 2;
+            public const double EXTERNAL_BORDER_TO_REGULAR = 4;
+            public const double DEFAULT_SIDE = 9.0;
+            public const double DEFAULT_WIDTH = 500.0;
         }
+
         public class HistoryConstants
         {
-            public static double RELATIVE_FONT_SIZE = 0.1;
-            public static int MARGIN = 10;
-            public static int CORNER_RADIUS = 20;
-            public static int HEIGHT = 150;
+            public const double RELATIVE_FONT_SIZE = 0.1;
+            public const int MARGIN = 10;
+            public const int CORNER_RADIUS = 20;
+            public const int HEIGHT = 150;
         }
 
         public class TimerConstants
         {
-            public static string DEFAULT_TIME = "00:00:00";
-            public static string FORMAT = @"hh\:mm\:ss";
+            public const string DEFAULT_TIME = "00:00:00";
+            public const string FORMAT = @"hh\:mm\:ss";
         }
 
         public class GameConstants
         {
-            public static string REMEINING_STR = " Left";
-            public static string COPIED_STR = "Text copied to clipboard.";
-            public static string PAUSE_STR = "Verify to continue";
-            public static string END_GAME_CONFIRM_MSG = "Do you want to save this game before leaving it?";
-            public static int HINTS = 5;
-            public static int CHECKS = 5;
+            public const string REMEINING_STR = " Left";
+            public const string COPIED_STR = "Text copied to clipboard.";
+            public const string PAUSE_STR = "Verify to continue";
+            public const string END_GAME_CONFIRM_MSG = "Do you want to save this game before leaving it?";
+            public const int HINTS = 5;
+            public const int CHECKS = 5;
+        }
+
+        public class GameSettingsConstants 
+        {
+            public const int DEFAULT_BOX_HEIGHT = 3;
+            public const int DEFAULT_BOX_WIDTH = 3;
+            public const double DIFICULTY_LEVEL_DELTA = 0.1;
+            public const double MAX_FULL_CELLS = 0.28;
+            public const DificultyLevel DEFAULT_DIFICULTY_LEVEL = DificultyLevel.Eazy;
+            public const double FULL_CELLS_EASY = 0.45;
+            public const double FULL_CELLS_MEDIUM = 0.35;
+            public const double FULL_CELLS_HARD = 0.25;
+        }
+
+        public class SettingsConstants
+        {
+            public static readonly ColorMode DEFAULT_THEME = ColorMode.Light;
         }
 
         public class DBConstants
@@ -82,7 +95,6 @@ namespace Sudoku_WPF.publico
             public const string DeletGameQuary = @"DELETE FROM tbl_games WHERE Id = @Id";
         }
 
-
         public class ColorConstants
         {
             public const string TextFore = "Text";
@@ -105,9 +117,10 @@ namespace Sudoku_WPF.publico
         }
 
 
+
         public class UriConstants
         {
-            public static Uri GAME_SETTINGS_PAGE = new Uri("/Pages/GameSettingsPage.xaml", UriKind.Relative);
+            public static readonly Uri GAME_SETTINGS_PAGE = new Uri("/Pages/GameSettingsPage.xaml", UriKind.Relative);
         }
     }
 }

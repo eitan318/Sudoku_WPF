@@ -11,19 +11,17 @@
 
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-        <Viewbox Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="200">
-            <ComboBox  Name="ColorMode_CMBB"   SelectionChanged="ColorMode_CMBB_SelectionChanged"  Height="30" Width="200">
+        <Viewbox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" MaxHeight="60" MaxWidth="220" >
+            <ComboBox  Name="ColorMode_CMBB"   SelectionChanged="ColorMode_CMBB_SelectionChanged"  Height="30" Width="150">
                 <ComboBoxItem Content="Light" Foreground="White" Background="LightGray"/>
                 <ComboBoxItem Content="Dark" Foreground="Black" Background="LightGray"/>
                 <ComboBoxItem Content="Red" Foreground="Red" Background="LightGray"/>
@@ -33,6 +31,32 @@
                 <ComboBoxItem Content="Pink" Foreground="Pink" Background="LightGray"/>
             </ComboBox>
         </Viewbox>
+
+
+        <WrapPanel Margin="50"  Grid.Row="1"  Orientation="Vertical" HorizontalAlignment="Center">
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Sounds" Foreground="{DynamicResource Text}" Margin="0,0,10,0"/>
+                <ToggleButton Style="{StaticResource DAToggleButton}" x:Name="sound" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Sounds"  Foreground="{DynamicResource Text}" Margin="0,0,10,0"/>
+                <ToggleButton x:Name="music" Style="{StaticResource DAToggleButton}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Sounds"  Foreground="{DynamicResource Text}" Margin="0,0,10,0"/>
+                <ToggleButton  x:Name="sign" Style="{StaticResource DAToggleButton}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <TextBlock Text="Sounds"   Foreground="{DynamicResource Text}" Margin="0,0,10,0"/>
+                <ToggleButton x:Name="sameText" Style="{StaticResource DAToggleButton}" />
+            </StackPanel>
+
+        </WrapPanel>
+       
         
 
     </Grid>

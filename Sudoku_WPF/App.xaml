@@ -10,6 +10,10 @@
                 <ResourceDictionary Source="Themes/Dark.xaml"/>
 
                 <ResourceDictionary Source="Styles/Botton.xaml"/>
+                
+                <ResourceDictionary Source="Styles/ToggleButton.xaml"/>
+                
+                <ResourceDictionary Source="Styles/RadioButton.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
 

@@ -1,6 +1,7 @@
 ﻿using ControlLib;
 using Sudoku_WPF.GameClasses;
 using Sudoku_WPF.publico;
+using Sudoku_WPF.Themes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
@@ -36,8 +37,8 @@ namespace Sudoku_WPF
             NUD_boxHeight.MaxValue = 4;
             NUD_boxWidth.MaxValue = 4;
 
-            NUD_boxHeight.Value = Settings.BOX_HEIGHT;
-            NUD_boxWidth.Value = Settings.BOX_WIDTH;
+            NUD_boxHeight.Value = GameSettings.BoxHeight;
+            NUD_boxWidth.Value = GameSettings.BoxWidth;
 
             NUD_boxWidth.ValueChanged += NUD_ValueChanged;
             NUD_boxHeight.ValueChanged += NUD_ValueChanged;
@@ -62,16 +63,27 @@ namespace Sudoku_WPF
             }
         }
 
+        private void DificultyLevel_CMBB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string option = "";
+            ComboBoxItem cbi = (ComboBoxItem)DificultyLevel_CMBB.SelectedValue;
+            option = cbi.Content.ToString();
 
+            if (Enum.TryParse(option, out DificultyLevel difLvl))
+            {
+                GameSettings.difLvl = difLvl;
+            }
+
+        }
 
         private void GameStarterBtn_Click(object sender, RoutedEventArgs e)
         {
             var window = (MainWindow)Application.Current.MainWindow;
             if (CodeTXTBox.Text == "" || CodeTXTBox.Text == "Enter puzzle code")
             {
-                Settings.BOX_HEIGHT = Convert.ToInt32(NUD_boxHeight.Value);
-                Settings.BOX_WIDTH = Convert.ToInt32(NUD_boxWidth.Value);
-                Settings.BOARD_SIDE = Settings.BOX_WIDTH * Settings.BOX_HEIGHT;
+                GameSettings.BoxHeight = Convert.ToInt32(NUD_boxHeight.Value);
+                GameSettings.BoxWidth = Convert.ToInt32(NUD_boxWidth.Value);
+                GameSettings.BoardSide = GameSettings.BoxWidth * GameSettings.BoxHeight;
                 window.gamePage = new GamePage();
                 NavigationService.Navigate(window.gamePage);
                 //window.Settings_btn.Visibility = Visibility.Collapsed;

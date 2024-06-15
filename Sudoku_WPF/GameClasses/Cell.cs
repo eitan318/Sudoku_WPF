@@ -48,7 +48,7 @@ public class Cell : TextBox
         Text = "";
         VerticalContentAlignment = VerticalAlignment.Center;
         HorizontalContentAlignment = HorizontalAlignment.Center;
-        FontSize = BoardConstants.BOARD_WIDTH * BoardConstants.RELATIVE_FONT_SIZE / Settings.BOARD_SIDE;
+        FontSize = BoardConstants.BOARD_WIDTH * BoardConstants.RELATIVE_FONT_SIZE / GameSettings.BoardSide;
         SetResourceReference(BorderBrushProperty, "Border"); // Set border brush using resource reference
         SetResourceReference(BackgroundProperty, "Tbx_Board"); // Set background brush using resource reference
         SetResourceReference(ForegroundProperty, "Text"); // Set foreground brush using resource reference
@@ -148,14 +148,14 @@ public class Cell : TextBox
     {
         bool sameRow = row == anotherCell.row;
         bool sameColumn = column == anotherCell.column;
-        bool sameBox = row / Settings.BOX_HEIGHT == anotherCell.row / Settings.BOX_HEIGHT && column / Settings.BOX_WIDTH == anotherCell.column / Settings.BOX_WIDTH;
+        bool sameBox = row / GameSettings.BoxHeight == anotherCell.row / GameSettings.BoxHeight && column / GameSettings.BoxWidth == anotherCell.column / GameSettings.BoxWidth;
         return sameRow || sameColumn || sameBox;
     }
 
     // Handle text input in the cell
     public void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
     {
-        if (IsValidInput(e.Text, Settings.BOARD_SIDE))
+        if (IsValidInput(e.Text, GameSettings.BoardSide))
         {
             if (IsReadOnly)
             {
@@ -259,7 +259,7 @@ public class Cell : TextBox
                 }
                 break;
             case Key.Down:
-                if (row < Settings.BOARD_SIDE - 1)
+                if (row < GameSettings.BoardSide - 1)
                 {
                     Board.MoveFocusToTextBox(row + 1, column);
                 }
@@ -271,7 +271,7 @@ public class Cell : TextBox
                 }
                 break;
             case Key.Right:
-                if (column < Settings.BOARD_SIDE - 1)
+                if (column < GameSettings.BoardSide - 1)
                 {
                     Board.MoveFocusToTextBox(row, column + 1);
                 }
