@@ -260,17 +260,17 @@ namespace Sudoku_WPF.Pages
 
             OleDbParameter[] parameters =
             {
-        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.Current, gameInfo.Current),
-        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.Solved, gameInfo.Solved),
-        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.Time, gameInfo.Time),
-        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.GameDate, gameInfo.Date), 
-        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.BoardCode, gameInfo.BoardCode),
-        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.PuzzleCode, gameInfo.PuzzleCode),
-        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.GameName, gameInfo.Name),
-        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.HintsTaken, gameInfo.Hints),
-        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.ChecksTaken, gameInfo.Checks),
-        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.BoxHeight, gameInfo.BoxHeight),
-        new OleDbParameter(DBConstants.AT + DBConstants.Parameters.BoxWidth, gameInfo.BoxWidth)
+        new OleDbParameter(DBConstants.Games_Parameters.Current, gameInfo.Current),
+        new OleDbParameter(DBConstants.Games_Parameters.Solved, gameInfo.Solved),
+        new OleDbParameter(DBConstants.Games_Parameters.Time, gameInfo.Time),
+        new OleDbParameter(DBConstants.Games_Parameters.GameDate, gameInfo.Date), 
+        new OleDbParameter(DBConstants.Games_Parameters.BoardCode, gameInfo.BoardCode),
+        new OleDbParameter(DBConstants.Games_Parameters.PuzzleCode, gameInfo.PuzzleCode),
+        new OleDbParameter(DBConstants.Games_Parameters.GameName, gameInfo.Name),
+        new OleDbParameter(DBConstants.Games_Parameters.HintsTaken, gameInfo.Hints),
+        new OleDbParameter(DBConstants.Games_Parameters.ChecksTaken, gameInfo.Checks),
+        new OleDbParameter(DBConstants.Games_Parameters.BoxHeight, gameInfo.BoxHeight),
+        new OleDbParameter(DBConstants.Games_Parameters.BoxWidth, gameInfo.BoxWidth)
     };
 
             DBHelper.ExecuteCommand(sqlStmt, parameters);

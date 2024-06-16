@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DAL;
 using System.Data.OleDb;
+using static Sudoku_WPF.publico.Constants;
 using Sudoku_WPF.publico;
 
 namespace Sudoku_WPF
@@ -63,7 +64,7 @@ namespace Sudoku_WPF
 
 
 
-            
+
         /*InsertGame(gameInfo);
             ThemeControl.SetColors(Settings.Theme);
             MainFrame.Navigate(new OpenningPage());
@@ -123,9 +124,26 @@ namespace Sudoku_WPF
 
             if (Enum.TryParse(dr["Theme"].ToString(), out ColorThemes theme))
             {
-                ThemeControl.SetColors(theme);
+                Settings.Theme = theme;
             }
             ThemeControl.SetColors(Settings.Theme);
+        }
+
+
+        public void SaveSettingsToDB()
+        {
+            string sqlStmt = DBConstants.InsertSettingsQuary;
+
+            OleDbParameter[] parameters = new OleDbParameter[]
+    {
+        new OleDbParameter(DBConstants.Settings_Parameters.SameText, Settings.markSameText),
+        new OleDbParameter(DBConstants.Settings_Parameters.MarkRelated, Settings.markRelated),
+        new OleDbParameter(DBConstants.Settings_Parameters.SoundOn, Settings.soundOn),
+        new OleDbParameter(DBConstants.Settings_Parameters.MusicOn, Settings.musicOn),
+        new OleDbParameter(DBConstants.Settings_Parameters.Theme, Settings.Theme.ToString())
+    };
+
+            DBHelper.ExecuteCommand(sqlStmt, parameters);
         }
 
         private void SetSavedGamesFromDB()
@@ -163,7 +181,6 @@ namespace Sudoku_WPF
                         //GameInfo gameInfo = new GameInfo("", "", "", 3, 5, "", true, true);
                         //gameInfo.BoardCode = "1;|3;|1;|4;|1;|1;|2;|1;|1;|;|;|;|9;|;|5;|;|;|4;|6;|;|4;|;|2;|1;|;|7;|;|;|8;|1;|;|5;|9;|4;|2;|;|;|9;|;|;|;|;|7;|;|6;|;|;|;|;|;|;|;|9;|;|;|;|8;|1;|9;|;|6;|4;|7;|;|;|;|2;|4;|;|;|;|5;|;|;|;|;|8;|7;|;|;|;1,2,3,4,5,6,7,8,9,";
                         //.PuzzleCode = "AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAABR/DEf5PbU6E5jEabMTyBQAAAAACAAAAAAAQZgAAAAEAACAAAACTgxDsy6P1rAMpZbgLY4C9wIPfuLxTpPHt61BeL7hzTQAAAAAOgAAAAAIAACAAAAAFvg7yD09E/7b9FW/vr7ARyR9UhYNAQqWdPNebQD1BzVABAAA3iBydSM2GFaxpp7PfZV+AX6JuXQ1NAhfgu7orACn6VEJrhzjMEzDpM5RUeo1uRtX+6cMvBWb56Rtj1O54pRFnOfi4ZCBDNpwoXTghKlKHyn70SwCPqLQv5RBwj4dKgxwBa4FTFycCJbbjSK3CDvljVgjT2wQvKBV/RbNsfvnZGRI+bVew+IQAzxu8WDVql+izp4VYSWPOaHiO+jw7IyKvEW7p4UlG8fA9OD1ThnSjCB3Owo5zbb7qtBqKGJ1/bar0SXgBxFGKoI10Zrak8sjlQ/h0Dzmm355WTCB0ZuGC4k+o1HDO1/nnxChzwzu1fT1FxIkrUP4HyfTDTAnemwD8KxJO2/h17+/oR4j7Uf4BXClfUBzPkO2clFQGAyykbsENx/bSzSRRWeNfZFtGrqqtRfn5KuJX0az5zIvz7KD5iU+a28TaJ+cjDhqtLMe3dCtAAAAAQFeD4bXSaVEpKm1l9OzXued9qWM4WBf8+dGKMTGh8ruQiONcj7g0T/Ynw27c84ji+2PfLh+GoFoLLN8am2UDGA==";
-                        //remove 
                         SaverPage.DeleteGameFromDB(gameInfo);
                         gamePage = new GamePage(gameInfo);
                         return;

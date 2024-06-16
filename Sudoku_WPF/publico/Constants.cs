@@ -70,20 +70,28 @@ namespace Sudoku_WPF.publico
               VALUES 
               (@Current, @Solved, @Time, @GameDate, @BoardCode, @PuzzleCode, @GameName, @HintsTaken, @ChecksTaken, @BoxHeight, @BoxWidth)";
 
-            // Define parameter names used in the SQL statement without the "@" symbol
-            public class Parameters
+            public class Games_Parameters
             {
-                public const string Current = "Current";
-                public const string Time = "Time";
-                public const string Solved = "Solved";
-                public const string GameDate = "GameDate";
-                public const string BoardCode = "BoardCode";
-                public const string PuzzleCode = "PuzzleCode";
-                public const string GameName = "GameName";
-                public const string HintsTaken = "HintsTaken";
-                public const string ChecksTaken = "ChecksTaken";
-                public const string BoxHeight = "BoxHeight";
-                public const string BoxWidth = "BoxWidth";
+                public const string Current = AT + "Current";
+                public const string Time = AT + "Time";
+                public const string Solved = AT + "Solved";
+                public const string GameDate = AT + "GameDate";
+                public const string BoardCode = AT + "BoardCode";
+                public const string PuzzleCode = AT + "PuzzleCode";
+                public const string GameName = AT + "GameName";
+                public const string HintsTaken = AT + "HintsTaken";
+                public const string ChecksTaken = AT + "ChecksTaken";
+                public const string BoxHeight = AT + "BoxHeight";
+                public const string BoxWidth = AT + "BoxWidth";
+            }
+
+            public class Settings_Parameters
+            {
+                public const string SameText = AT + "SameText";
+                public const string MarkRelated = AT + "MarkRelated";
+                public const string SoundOn = AT + "SoundOn";
+                public const string MusicOn = AT + "MusicOn";
+                public const string Theme = AT + "Theme";
             }
 
             /*
@@ -98,6 +106,12 @@ namespace Sudoku_WPF.publico
                         {AT + Parameters.ChecksTaken}, {AT + Parameters.BoxHeight}, {AT + Parameters.BoxWidth})";
             */
             public const string DeletGameQuary = @"DELETE FROM tbl_games WHERE Id = @Id";
+            
+            public const string InsertSettingsQuary = @"
+                INSERT INTO tbl_settings (SameText, MarkRelated, SoundOn, MusicOn, Theme)
+                VALUES (@SameText, @MarkRelated, @SoundOn, @MusicOn, @Theme)";
+
+
         }
 
         public class ColorConstants
