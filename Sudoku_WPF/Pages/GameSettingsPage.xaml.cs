@@ -63,6 +63,8 @@ namespace Sudoku_WPF
 
         private void NUD_ValueChanged(object sender, EventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             if (NUD_boxWidth.Value == 5)
             {
                 NUD_boxHeight.MaxValue = 4;
@@ -93,6 +95,8 @@ namespace Sudoku_WPF
 
         private void GameStarterBtn_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             var window = (MainWindow)Application.Current.MainWindow;
             if (CodeTXTBox.Text == "" || CodeTXTBox.Text == "Enter puzzle code")
             {

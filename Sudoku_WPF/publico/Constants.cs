@@ -8,6 +8,7 @@ namespace Sudoku_WPF.publico
     {
         public const int NUM_DIGITS = 10;
         public const int ERROR = -1;
+        public const string PROJ_DIRECTORY = "\\Sudoku_WPF\\Sudoku_WPF";
 
         public class BoardConstants
         {
@@ -18,6 +19,27 @@ namespace Sudoku_WPF.publico
             public const double EXTERNAL_BORDER_TO_REGULAR = 4;
             public const double DEFAULT_SIDE = 9.0;
             public const double DEFAULT_WIDTH = 500.0;
+        }
+
+        public class SoundConstants
+        {
+            public static string BACK_MUSIC_NAME = "relaxing_background_music";
+
+            public const string WRONG = "wrong";
+            public const string MENU_CLICK = "menu_click";
+            public const string ON_OFF = "on_off";
+            public const string SOLVED = "game_solved";
+            public const string BOTTON_CLICK = "button_click";
+            public static string GetMusicPath(string musicName)
+            {
+                string relativePath = $"\\Assets\\Music\\{musicName}.wav";
+                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+                string musicPath = baseDirectory.Substring(0, baseDirectory.IndexOf(Constants.PROJ_DIRECTORY) + Constants.PROJ_DIRECTORY.Length) + relativePath;
+
+                return musicPath;
+            }
+
         }
 
         public class SaverConstants
@@ -90,11 +112,12 @@ namespace Sudoku_WPF.publico
 
             public class Settings_Parameters
             {
-                public const string SameText = "SameText";
+                public const string SameText = "MarkSameText";
                 public const string MarkRelated = "MarkRelated";
                 public const string SoundOn = "SoundOn";
                 public const string MusicOn = "MusicOn";
                 public const string Theme = "Theme";
+                public const string AllowNotes = "AllowNotes";
             }
 
             /*
@@ -109,7 +132,7 @@ namespace Sudoku_WPF.publico
                         {AT + Parameters.ChecksTaken}, {AT + Parameters.BoxHeight}, {AT + Parameters.BoxWidth})";
             */
             public const string DeletGameQuary = @"DELETE FROM tbl_games WHERE Id = @Id";
-            
+
             public const string InsertSettingsQuary = @"
                 INSERT INTO tbl_settings (SameText, MarkRelated, SoundOn, MusicOn, Theme)
                 VALUES (@SameText, @MarkRelated, @SoundOn, @MusicOn, @Theme)";

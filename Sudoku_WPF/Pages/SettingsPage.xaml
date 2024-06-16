@@ -32,31 +32,31 @@
                 <!-- Sounds Toggle Button -->
                 <StackPanel Orientation="Horizontal" Margin="20">
                     <TextBlock FontSize="15" Text="Sounds" Foreground="{DynamicResource Text}" Margin="0,0,20,0"/>
-                    <ToggleButton Tag="sound" Style="{StaticResource DAToggleButton}" x:Name="sound" Click="ToggleButton_Click" Content="Toggle Button"/>
+                    <ToggleButton Tag="SoundOn" Style="{StaticResource DAToggleButton}" x:Name="sound" Click="ToggleButton_Click" Content="Toggle Button"/>
                 </StackPanel>
 
                 <!-- Music Toggle Button -->
                 <StackPanel Orientation="Horizontal" Margin="17">
                     <TextBlock Text="Music" FontSize="15" Foreground="{DynamicResource Text}" Margin="0,0,20,0"/>
-                    <ToggleButton x:Name="music" Tag="music" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
+                    <ToggleButton x:Name="music" Tag="MusicOn" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
                 </StackPanel>
 
                 <!-- Mark Related Toggle Button -->
                 <StackPanel Orientation="Horizontal" Margin="17">
                     <TextBlock Text="Mark cells in the same row, column or box" FontSize="15" Foreground="{DynamicResource Text}" Margin="0,0,20,0"/>
-                    <ToggleButton x:Name="markRelated" Tag="markRelated" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
+                    <ToggleButton x:Name="markRelated" Tag="MarkRelated" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
                 </StackPanel>
 
                 <!-- Mark Related Toggle Button -->
                 <StackPanel Orientation="Horizontal" Margin="17">
                     <TextBlock Text="Allow notes" FontSize="15" Foreground="{DynamicResource Text}" Margin="0,0,20,0"/>
-                    <ToggleButton x:Name="allowNotes" Tag="markRelated" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
+                    <ToggleButton x:Name="allowNotes" Tag="AllowNotes" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
                 </StackPanel>
 
                 <!-- Mark Same Text Toggle Button -->
                 <StackPanel Orientation="Horizontal" Margin="17">
                     <TextBlock Text="Mark cells with similar text" FontSize="15" Foreground="{DynamicResource Text}" Margin="0,0,20,0"/>
-                    <ToggleButton x:Name="markSameText" Tag="markSameText" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
+                    <ToggleButton x:Name="markSameText" Tag="MarkSameText" Style="{StaticResource DAToggleButton}" Click="ToggleButton_Click"/>
                 </StackPanel>
 
             </StackPanel>

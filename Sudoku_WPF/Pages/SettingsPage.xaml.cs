@@ -1,4 +1,5 @@
-﻿using Sudoku_WPF.publico;
+﻿using static Sudoku_WPF.publico.Constants;
+using Sudoku_WPF.publico;
 using Sudoku_WPF.Themes;
 using System;
 using System.Linq;
@@ -20,10 +21,13 @@ namespace Sudoku_WPF
             music.IsChecked = Settings.musicOn;
             markRelated.IsChecked = Settings.markRelated;
             markSameText.IsChecked = Settings.markSameText;
+            allowNotes.IsChecked = Settings.allowNotes;
         }
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.ON_OFF);
+
             ToggleButton toggleButton = sender as ToggleButton;
             if (toggleButton != null)
             {
@@ -33,19 +37,27 @@ namespace Sudoku_WPF
                     // Handle the logic based on the button name
                     switch (buttonName)
                     {
-                        case "sound":
+                        case DBConstants.Settings_Parameters.SoundOn:
                             Settings.soundOn = toggleButton.IsChecked ?? false;
                             break;
-                        case "music":
+                        case DBConstants.Settings_Parameters.MusicOn:
                             Settings.musicOn = toggleButton.IsChecked ?? false;
+                            if (Settings.musicOn)
+                            {
+                                SoundPlayer.StartMusic(SoundConstants.GetMusicPath(SoundConstants.BACK_MUSIC_NAME));
+                            }
+                            else
+                            {
+                                SoundPlayer.StopMusic();
+                            }
                             break;
-                        case "markRelated":
+                        case DBConstants.Settings_Parameters.MarkRelated:
                             Settings.markRelated = toggleButton.IsChecked ?? false;
                             break;
-                        case "allowNotes":
+                        case DBConstants.Settings_Parameters.AllowNotes:
                             Settings.allowNotes = toggleButton.IsChecked ?? false;
                             break;
-                        case "markSameText":
+                        case DBConstants.Settings_Parameters.SameText:
                             Settings.markSameText = toggleButton.IsChecked ?? false;
                             break;
                         default:

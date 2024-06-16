@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Sudoku_WPF"
       xmlns:lib= "clr-namespace:ControlLib;assembly=NumericUpDown"
+      xmlns:behaviors="clr-namespace:Sudoku_WPF.Behaviors"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsPage">
@@ -40,17 +41,15 @@
 
         </Viewbox>
 
-        <Viewbox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" MaxHeight="80" MaxWidth="260">
-            <ComboBox  Name="DificultyLevel_CMBB"   SelectionChanged="DificultyLevel_CMBB_SelectionChanged"  Height="30" Width="170">
-                <ComboBoxItem Content="Easy" />
-                <ComboBoxItem Content="Medium" />
-                <ComboBoxItem Content="Hard" />
-                
-            </ComboBox>
-        </Viewbox>
 
 
+        <ComboBox  Name="DificultyLevel_CMBB"   SelectionChanged="DificultyLevel_CMBB_SelectionChanged"  Height="30" Width="180"
+                   Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15">
+            <ComboBoxItem Content="Easy" />
+            <ComboBoxItem Content="Medium" />
+            <ComboBoxItem Content="Hard" />
 
+        </ComboBox>
 
         <Viewbox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2">
             <Button x:Name = "btn_gameStarterBtn" Width="150" Height="25" Style="{DynamicResource RoundedButtonStyle}" Click = "GameStarterBtn_Click"  Content ="Start game"  HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10"/>
@@ -74,7 +73,7 @@
                      Background="Transparent"
                      BorderBrush="Transparent"
                      Foreground="{DynamicResource Text}"
-                     local:TextBoxBehavior.DefaultText="Enter puzzle code"/>
+                     behaviors:TextBoxBehavior.DefaultText="Enter puzzle code"/>
 
         </Border>
 

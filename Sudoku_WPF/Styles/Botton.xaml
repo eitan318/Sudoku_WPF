@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:behaviors="clr-namespace:Sudoku_WPF.Behaviors">
+
     <Style x:Key="MinimizeApp" TargetType="Button">
         <Setter Property="Template">
             <Setter.Value>
@@ -22,17 +24,17 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border"
-                        Background="{TemplateBinding Background}" 
-                        BorderBrush="{TemplateBinding BorderBrush}" 
-                        BorderThickness="1"
-                        CornerRadius="10"
-                        Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}">
+                    Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Width="{TemplateBinding Width}"
+                    Height="{TemplateBinding Height}">
                         <Border.Effect>
                             <DropShadowEffect Color="Gray"
-                                          BlurRadius="10"
-                                          ShadowDepth="5"
-                                          Opacity="0.5"/>
+                                      BlurRadius="10"
+                                      ShadowDepth="5"
+                                      Opacity="0.5"/>
                         </Border.Effect>
                         <Border.RenderTransform>
                             <ScaleTransform/>
@@ -54,10 +56,6 @@
     </Style>
 
 
-    
-
-
-
 
     <ImageBrush x:Key="close_app_def"
                 ImageSource="/Assets/Icons/shutdown_def.png"
@@ -67,9 +65,7 @@
                 ImageSource="/Assets/Icons/shutdown_mo.png"
                 Stretch="None" />
 
-    <Style x:Key="ExitApp"
-           TargetType="{x:Type Button}">
-
+    <Style x:Key="ExitApp" TargetType="{x:Type Button}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -78,11 +74,10 @@
                             Background="{StaticResource close_app_def}">
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver"
-                                 Value="True">
+                        <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background"
                                     TargetName="border"
-                                   Value="{StaticResource close_app_mo}" />
+                                    Value="{StaticResource close_app_mo}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -93,7 +88,6 @@
     <ImageBrush x:Key="full_screen"
                 ImageSource="/Assets/Icons/maximize.png"
                 Stretch="None" />
-
 
     <Style x:Key="ReSize" TargetType="ToggleButton">
         <Setter Property="Template">
@@ -122,6 +116,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 
 </ResourceDictionary>

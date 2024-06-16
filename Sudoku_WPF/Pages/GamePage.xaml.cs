@@ -9,7 +9,6 @@ using System.Windows.Navigation;
 using DAL;
 using Sudoku_WPF.GameClasses;
 using Sudoku_WPF.publico;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Sudoku_WPF.publico.Constants;
 
 
@@ -141,6 +140,8 @@ namespace Sudoku_WPF
 
         private void EndGame_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             MessageBoxResult msbxRes = MessageBox.Show("Do you want to save this game?", "Save Game", MessageBoxButton.YesNoCancel);
             if ( msbxRes == MessageBoxResult.Yes || msbxRes == MessageBoxResult.No)
             {
@@ -163,6 +164,8 @@ namespace Sudoku_WPF
 
         private void Hint_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             if (hintsLeft == 1)
             {
                 btn_hint.IsEnabled = false;
@@ -177,6 +180,8 @@ namespace Sudoku_WPF
 
         private void NewGame_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             if (this == null)
             {
                 NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
@@ -212,6 +217,8 @@ namespace Sudoku_WPF
 
         private void CopyPuzzleCode_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             //Clipboard.SetText(Puzzle.GetCurrentCode());
             Clipboard.SetText( game.GetPuzzleCode() + "&&&&&&&&&&&" /*+ Board.GenerateBoardCode()*/);
             MessageBox.Show(GameConstants.COPIED_STR);
@@ -219,6 +226,8 @@ namespace Sudoku_WPF
 
         private void CheckBoard_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             if (checksLeft == 1)
             {
                 btn_checkBoard.IsEnabled = false;
@@ -231,6 +240,8 @@ namespace Sudoku_WPF
 
         private void Pause_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             game.Timer.Stop();
             MessageBox.Show(GameConstants.PAUSE_STR);
             game.Timer.Start();

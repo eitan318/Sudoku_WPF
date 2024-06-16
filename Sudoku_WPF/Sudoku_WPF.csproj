@@ -26,6 +26,12 @@
     <None Remove="Assets\Icons\tgBtn_MouseOver.png" />
     <None Remove="Assets\Icons\unmaximize.png" />
     <None Remove="Assets\Images\sudoku_pic.png" />
+    <None Remove="Assets\Music\relaxing_background_music.wav" />
+    <None Remove="Assets\Sounds\button_click.wav" />
+    <None Remove="Assets\Sounds\game_solved.wav" />
+    <None Remove="Assets\Sounds\menu_click.wav" />
+    <None Remove="Assets\Sounds\on_off.wav" />
+    <None Remove="Assets\Sounds\wrong.wav" />
   </ItemGroup>
 
   <ItemGroup>
@@ -87,6 +93,24 @@
     <Resource Include="Assets\Images\sudoku_pic.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Assets\Music\relaxing_background_music.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Sounds\game_solved.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Sounds\button_click.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Sounds\menu_click.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Sounds\on_off.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Sounds\wrong.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

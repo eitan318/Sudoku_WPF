@@ -1,11 +1,12 @@
 ﻿using static Sudoku_WPF.publico.Constants;
-using static System.Net.Mime.MediaTypeNames;
+using Sudoku_WPF;
 using Sudoku_WPF.GameClasses;
 using Sudoku_WPF.publico;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows;
+using System.Configuration;
 
 public class Cell : TextBox
 {
@@ -127,7 +128,11 @@ public class Cell : TextBox
                     isValid = IsRelativelyValid();
                 }
                 else if (Text == focusCell.Text && Text != "")
-                {
+                { 
+                    if (focusCell.Foreground != (Brush)FindResource(ColorConstants.Tbx_WrongForeground))
+                    {
+                        SoundPlayer.PlaySound(SoundConstants.WRONG);
+                    }
                     isValid = false;
                     focusCell.SetResourceReference(ForegroundProperty, ColorConstants.Tbx_WrongForeground);
                 }
@@ -139,9 +144,10 @@ public class Cell : TextBox
         }
         else
         {
-            SetResourceReference(BackgroundProperty, Text == previewText && Text != "" && Settings.markSameText ?  ColorConstants.Tbx_SameText  : ColorConstants.Tbx_Board);
+            SetResourceReference(BackgroundProperty, Text == previewText && Text != "" && Settings.markSameText ? ColorConstants.Tbx_SameText : ColorConstants.Tbx_Board);
         }
     }
+
 
     // Check if this cell is related to another cell
     private bool IsRelatedTo(Cell anotherCell)
@@ -165,7 +171,14 @@ public class Cell : TextBox
             {
                 if (Text.Length == 1)
                 {
-                    ShowNotes(Text, e.Text);
+                    if(Settings.allowNotes)
+                    {
+                        ShowNotes(Text, e.Text);
+                    }
+                    else
+                    {
+                        Text = e.Text;
+                    }
                 }
                 else
                 {
@@ -208,6 +221,7 @@ public class Cell : TextBox
         notesGrid.Clear();
         notesGrid.ManipulateNote(firstNumber);
         notesGrid.ManipulateNote(secondNumber);
+
     }
 
     public void ShowNotes()

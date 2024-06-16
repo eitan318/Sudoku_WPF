@@ -152,6 +152,8 @@ namespace Sudoku_WPF.Pages
 
         private void ContinueSavedGame_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             Button btn = sender as Button;
             var window = Application.Current.MainWindow as MainWindow;
 
@@ -183,6 +185,8 @@ namespace Sudoku_WPF.Pages
 
         private void CopyPuzzleCode_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             Button btn = sender as Button;
             Clipboard.SetText(games[Convert.ToInt32(btn.Tag)].PuzzleCode);
             MessageBox.Show(GameConstants.COPIED_STR);
@@ -190,6 +194,8 @@ namespace Sudoku_WPF.Pages
 
         private void DeleteGame_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             Button btn = sender as Button;
             int index = Convert.ToInt32(btn.Tag);
 
@@ -283,7 +289,7 @@ namespace Sudoku_WPF.Pages
                 new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.ChecksTaken, gameInfo.Checks),
                 new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.BoxHeight, gameInfo.BoxHeight),
                 new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.BoxWidth, gameInfo.BoxWidth)
-    };
+             };
 
             DBHelper.ExecuteCommand(sqlStmt, parameters);
         }

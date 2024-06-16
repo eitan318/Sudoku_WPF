@@ -44,19 +44,43 @@ namespace DAL
 
         public static void ExecuteCommand(string sqlStmt, params OleDbParameter[] parameters)
         {
-            using (OleDbConnection conn = GetConnection())
-            {
-                using (OleDbCommand cmd = new OleDbCommand(sqlStmt, conn))
-                {
-                    cmd.Parameters.AddRange(parameters); // Add parameters to the command
+            //using (OleDbConnection conn = GetConnection())
+            //{
+            //    using (OleDbCommand cmd = new OleDbCommand(sqlStmt, conn))
+            //    {
+            //        cmd.Parameters.AddRange(parameters); // Add parameters to the command
 
-                    conn.Open();
+            //        conn.Open();
 
-                    cmd.ExecuteNonQuery(); // Execute the non-query command (insert, update, delete)
+            //        cmd.ExecuteNonQuery(); // Execute the non-query command (insert, update, delete)
 
 
                         
-                }
+            //    }
+
+                
+            //}
+
+            OleDbConnection conn = GetConnection();
+            try
+            {
+                conn = GetConnection();
+
+                conn.Open();
+
+                OleDbCommand cmd = new OleDbCommand(sqlStmt, conn);
+                cmd.Parameters.AddRange(parameters);
+
+                int ret = cmd.ExecuteNonQuery();
+
+
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                conn.Close();
             }
         }
 

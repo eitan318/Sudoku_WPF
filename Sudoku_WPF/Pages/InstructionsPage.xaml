@@ -10,11 +10,14 @@
 
         <Frame x:Name="InstructionFrame" NavigationUIVisibility="Hidden" Grid.Row="0" />
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="BackButton" Height="40" Width="60" Content="Back" Click="BackButton_Click" Margin="200, 50, 200, 50"/>
-            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="NextButton" Height="40" Width="60" Content="Next" Click="NextButton_Click" Margin="200, 50, 200, 50"/>
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-        </StackPanel>
-
+            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="BackButton" Height="40" Width="60" HorizontalAlignment="Center" Margin="0,50,0,50" Content="Back" Click="BackButton_Click" Grid.Column="0"/>
+            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="NextButton" Height="40" Width="60" HorizontalAlignment="Center" Margin="0,50,0,50" VerticalAlignment="Top" Content="Next" Click="NextButton_Click" Grid.Column="1"/>
+        </Grid>
     </Grid>
 </Page>

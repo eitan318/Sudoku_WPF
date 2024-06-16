@@ -18,6 +18,8 @@ using DAL;
 using System.Data.OleDb;
 using static Sudoku_WPF.publico.Constants;
 using Sudoku_WPF.publico;
+using System.Media;
+using System.IO;
 
 namespace Sudoku_WPF
 {
@@ -42,6 +44,13 @@ namespace Sudoku_WPF
             Resize.Visibility = Visibility.Visible;
             SetSavedGamesFromDB();
             SetSettingsFromDB();
+
+            if(Settings.musicOn)
+            {
+                SoundPlayer.StartMusic(SoundConstants.GetMusicPath(SoundConstants.BACK_MUSIC_NAME));
+            }
+
+
 
             /*GameInfo gameInfo = new GameInfo(
                                        "SHMOLIC",
@@ -127,6 +136,7 @@ namespace Sudoku_WPF
                 Settings.Theme = theme;
             }
             ThemeControl.SetColors(Settings.Theme);
+
         }
 
         private void MinimizeApp_Click(object sender, RoutedEventArgs e)
@@ -144,7 +154,8 @@ namespace Sudoku_WPF
                     new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.MarkRelated, Settings.markRelated),
                     new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.SoundOn, Settings.soundOn),
                     new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.MusicOn, Settings.musicOn),
-                    new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.Theme, Settings.Theme.ToString())
+                    new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.Theme, Settings.Theme.ToString()),
+                    new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.AllowNotes, Settings.allowNotes)
 
             };
 
@@ -218,6 +229,13 @@ namespace Sudoku_WPF
                 gamePage.Game.End(false, false);//???
             }
             Application.Current.Shutdown();
+
+            UpdateSettings();
+        }
+
+        private void UpdateSettings()
+        {
+
         }
 
         private void TglSizeBtn_Checked(object sender, RoutedEventArgs e)
@@ -234,6 +252,8 @@ namespace Sudoku_WPF
 
         private void IconButton_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.MENU_CLICK);
+
             RadioButton menuBtn = sender as RadioButton;
             string content = menuBtn.Content.ToString();
 

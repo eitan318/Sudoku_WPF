@@ -37,10 +37,10 @@
                     <!-- Example icon with trigger for hover effect -->
                     <RadioButton Style="{StaticResource MenuButton}" Tag="/Assets/Icons/home.png" Content="Home" Click="IconButton_Click"/>
                     <RadioButton Style="{StaticResource MenuButton}" Tag="/Assets/Icons/sudoku.png" Content="Game" Click="IconButton_Click"/>
-                    <RadioButton Style="{StaticResource MenuButton}" Tag="/Assets/Icons/settings.png" Content="Settings" Click="IconButton_Click" x:Name ="Settings_btn"/>
-                    <RadioButton Style="{StaticResource MenuButton}" Tag="/Assets/Icons/history.png" Content="History" Click="IconButton_Click"/>
                     <RadioButton Style="{StaticResource MenuButton}" Tag="/Assets/Icons/saved.png" Content="Saved" Click="IconButton_Click"/>
+                    <RadioButton Style="{StaticResource MenuButton}" Tag="/Assets/Icons/history.png" Content="History" Click="IconButton_Click"/>
                     <RadioButton Style="{StaticResource MenuButton}" Tag="/Assets/Icons/instructions.png" Content="Instructions" Click="IconButton_Click"/>
+                    <RadioButton Style="{StaticResource MenuButton}" Tag="/Assets/Icons/settings.png" Content="Settings" Click="IconButton_Click" x:Name ="Settings_btn"/>
                 </StackPanel>
             </Grid>
 

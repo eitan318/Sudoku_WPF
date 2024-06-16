@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Sudoku_WPF.publico.Constants;
 
 namespace Sudoku_WPF
 {
@@ -52,6 +53,8 @@ namespace Sudoku_WPF
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             if (currentPageIndex > 0)
             {
                 currentPageIndex--;
@@ -61,6 +64,8 @@ namespace Sudoku_WPF
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
+            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+
             if (currentPageIndex < instructionPages.Length - 1)
             {
                 currentPageIndex++;

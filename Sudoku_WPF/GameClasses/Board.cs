@@ -124,10 +124,10 @@ namespace Sudoku_WPF.GameClasses
             return true;
         }
 
-
-
         private static void ShowSolvedAnimation()
         {
+            SoundPlayer.PlaySound(SoundConstants.SOLVED);
+
             foreach (Cell cell in cells)
             {
                 cell.SetResourceReference(Control.BackgroundProperty, "Tbx_RightBackground");
