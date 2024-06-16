@@ -21,13 +21,13 @@ namespace Sudoku_WPF.GameClasses
             solvedPuzzle = new char[GameSettings.BoardSide, GameSettings.BoardSide];
 
             CreatePuzzle();
-            code = GeneratePuzzleCode();
+            this.code = GeneratePuzzleCode();
         }
 
         public Puzzle(string code)
         {
-            code = GeneratePuzzleCode();
             ImportPuzzleCode(code);
+            this.code = GeneratePuzzleCode();
         }
 
         public bool IsCellInitial(int row, int col)

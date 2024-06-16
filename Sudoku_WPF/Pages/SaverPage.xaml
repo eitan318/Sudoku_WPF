@@ -17,7 +17,7 @@
         <TextBlock x:Name="title_Txb" Grid.Row="0" Foreground="{DynamicResource Text}" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Margin="20" HorizontalAlignment="Center" Text="Saver Page Title"/>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
-            <WrapPanel x:Name="ItemsPanel" HorizontalAlignment="Center"/>
+            <WrapPanel x:Name="ItemsWrapPanel" HorizontalAlignment="Center"/>
         </ScrollViewer>
     </Grid>
 </Page>

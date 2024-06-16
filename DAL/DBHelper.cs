@@ -12,9 +12,7 @@ namespace DAL
     {
         public static OleDbConnection GetConnection()
         {
-            string connString = @"Provider=Microsoft.ACE.OLEDB.12.0;
-                                Data Source=C:\Users\eitan\Desktop\NEW_WPF\Sudoku_WPF\DAL\Data\Sudoku_DB1.accdb;
-                                Persist Security Info=True";
+            string connString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Cyber_User\source\repos\Sudoku_WPF\DAL\Data\Sudoku_DB1.accdb;Persist Security Info=True";
 
             OleDbConnection conn = new OleDbConnection(connString);
 
@@ -44,39 +42,13 @@ namespace DAL
 
         public static void ExecuteCommand(string sqlStmt, params OleDbParameter[] parameters)
         {
-            //using (OleDbConnection conn = GetConnection())
-            //{
-            //    using (OleDbCommand cmd = new OleDbCommand(sqlStmt, conn))
-            //    {
-            //        cmd.Parameters.AddRange(parameters); // Add parameters to the command
-
-            //        conn.Open();
-
-            //        cmd.ExecuteNonQuery(); // Execute the non-query command (insert, update, delete)
-
-
-                        
-            //    }
-
-                
-            //}
-
             OleDbConnection conn = GetConnection();
             try
             {
-                conn = GetConnection();
-
                 conn.Open();
-
                 OleDbCommand cmd = new OleDbCommand(sqlStmt, conn);
                 cmd.Parameters.AddRange(parameters);
-
                 int ret = cmd.ExecuteNonQuery();
-
-
-            }
-            catch (Exception)
-            {
             }
             finally
             {

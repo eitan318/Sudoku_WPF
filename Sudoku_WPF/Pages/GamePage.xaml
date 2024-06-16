@@ -39,7 +39,8 @@
                              Background="Transparent"
                              BorderBrush="Transparent"
                              FontSize="12"
-                             TextAlignment="Center"/>
+                             TextAlignment="Center"
+                             TextChanged="LimitedTextBox_TextChanged"/>
                 </Border>
                 <Button Style="{StaticResource RoundedButtonStyle}" x:Name="btn_pause" Click="Pause_Click" Content="PAUSE" Width="100" Margin="20" Height="35" HorizontalAlignment="Stretch"/>
                 <Button Style="{StaticResource RoundedButtonStyle}" x:Name="btn_showPuzzleCode" Click="CopyPuzzleCode_Click" Margin="20" Content="COPY CODE" Height="35" HorizontalAlignment="Stretch"/>

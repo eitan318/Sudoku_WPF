@@ -164,7 +164,6 @@ namespace Sudoku_WPF
 
         private void Hint_Click(object sender, RoutedEventArgs e)
         {
-            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
 
             if (hintsLeft == 1)
             {
@@ -173,8 +172,13 @@ namespace Sudoku_WPF
             Cell focusCell = Board.FocusedCell();
             if (focusCell != null && !focusCell.IsReadOnly)
             {
+                SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
                 Board.FocusedCell().Solve(true);
                 RemoveHint();
+            }
+            else
+            {
+                SoundPlayer.PlaySound(SoundConstants.WRONG);
             }
         }
 
@@ -220,8 +224,22 @@ namespace Sudoku_WPF
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
 
             //Clipboard.SetText(Puzzle.GetCurrentCode());
-            Clipboard.SetText( game.GetPuzzleCode() + "&&&&&&&&&&&" /*+ Board.GenerateBoardCode()*/);
+            Clipboard.SetText(game.GetPuzzleCode());
             MessageBox.Show(GameConstants.COPIED_STR);
+        }
+
+        private void LimitedTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // If the length exceeds the limit, truncate the text
+            if (textBox.Text.Length > 20)
+            {
+                textBox.Text = textBox.Text.Substring(0, 20);
+
+                // Set the caret to the end of the truncated text
+                textBox.CaretIndex = textBox.Text.Length;
+            }
         }
 
         private void CheckBoard_Click(object sender, RoutedEventArgs e)

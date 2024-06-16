@@ -48,7 +48,7 @@ namespace Sudoku_WPF.Pages
                 Height = SaverConstants.HEIGHT,
                 Width = SaverConstants.HEIGHT * 2,
                 CornerRadius = new CornerRadius(SaverConstants.CORNER_RADIUS),
-                Tag = ItemsPanel.Children.Count // Assuming ItemsPanel is a StackPanel
+                Tag = ItemsWrapPanel.Children.Count // Assuming ItemsPanel is a StackPanel
             };
 
             // Add shadow effect
@@ -93,7 +93,7 @@ namespace Sudoku_WPF.Pages
             AddTextBlockToGrid(grid, "Time: " + gameInfo.Time, fontSize);
             AddTextBlockToGrid(grid, "Dif Lvl: " + gameInfo.DifficultyLevel.ToString(), fontSize);
             AddTextBlockToGrid(grid, gameInfo.BoxHeight.ToString() + "*" + gameInfo.BoxWidth.ToString(), fontSize);
-            AddTextBlockToGrid(grid, "Date&Hour: " + gameInfo.Date.ToString(), fontSize, 2);
+            AddTextBlockToGrid(grid, "Date&Hour: " + (gameInfo.Date.ToString().Substring(0, gameInfo.Date.ToString().Length - 3)), fontSize, 2);
 
             StackPanel btnPanel = CreateBtnPanel(isHistory);
             Grid.SetRowSpan(btnPanel, grid.RowDefinitions.Count - 2);
@@ -102,8 +102,9 @@ namespace Sudoku_WPF.Pages
             grid.Children.Add(btnPanel);
 
             border.Child = grid;
-            ItemsPanel.Children.Add(border);
+            ItemsWrapPanel.Children.Insert(0, border);
         }
+
 
         private StackPanel CreateBtnPanel(bool isHistory)
         {
@@ -211,23 +212,27 @@ namespace Sudoku_WPF.Pages
 
         private void DeleteGame(GameInfo gameToRemove)
         {
+            // Remove the game from the database
             DeleteGameFromDB(gameToRemove);
 
+            // Find the index of the game to remove
             int indexToRemove = games.IndexOf(gameToRemove);
 
+            // Remove the game from the list of games
             games.RemoveAt(indexToRemove);
 
-            Border borderToRemove = (Border)Items[indexToRemove];
+            // Remove the border from the Items list and the WrapPanel
+            Border borderToRemove = Items[indexToRemove];
             Items.RemoveAt(indexToRemove);
-            ItemsPanel.Children.Remove(borderToRemove);
+            ItemsWrapPanel.Children.Remove(borderToRemove);
 
+            // Update the tags for the remaining items
             for (int i = 0; i < Items.Count; i++)
             {
                 Items[i].Tag = i;
                 UpdateButtonTags((Border)Items[i], i);
             }
         }
-
 
         private void UpdateButtonTags(Border border, int newTag)
         {
@@ -240,6 +245,7 @@ namespace Sudoku_WPF.Pages
                 }
             }
         }
+
 
         public static void DeleteGameFromDB(GameInfo gameInfo)
         {
@@ -272,7 +278,7 @@ namespace Sudoku_WPF.Pages
         }
 
 
-        private void InsertGame(GameInfo gameInfo)
+        public static void InsertGame(GameInfo gameInfo)
         {
             string sqlStmt = DBConstants.InsertGameQuary;
 
@@ -288,7 +294,8 @@ namespace Sudoku_WPF.Pages
                 new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.HintsTaken, gameInfo.Hints),
                 new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.ChecksTaken, gameInfo.Checks),
                 new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.BoxHeight, gameInfo.BoxHeight),
-                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.BoxWidth, gameInfo.BoxWidth)
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.BoxWidth, gameInfo.BoxWidth),
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.DifficultyLevel, gameInfo.DifficultyLevel.ToString())
              };
 
             DBHelper.ExecuteCommand(sqlStmt, parameters);

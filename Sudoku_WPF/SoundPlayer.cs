@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using static Sudoku_WPF.publico.Constants;
@@ -50,12 +51,10 @@ namespace Sudoku_WPF
 
             mediaPlayer = new MediaPlayer();
             mediaPlayer.Open(new Uri(path));
-            soundWorker = new BackgroundWorker();
-            soundWorker.DoWork += SoundWorker_DoWork;
-            soundWorker.RunWorkerCompleted += SoundWorker_RunWorkerCompleted;
+            mediaPlayer.MediaEnded += MediaPlayer_MediaEnded; // Add event handler for loop
+            mediaPlayer.Play();
 
             isPlaying = true;
-            soundWorker.RunWorkerAsync();
         }
 
         public static void StopMusic()
@@ -64,20 +63,13 @@ namespace Sudoku_WPF
 
             isPlaying = false;
             mediaPlayer.Stop();
+            mediaPlayer.MediaEnded -= MediaPlayer_MediaEnded; // Remove event handler
         }
 
-        private static void SoundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private static void MediaPlayer_MediaEnded(object sender, EventArgs e)
         {
-            while (isPlaying)
-            {
-                mediaPlayer.Dispatcher.Invoke(() => mediaPlayer.Play());
-                Thread.Sleep(100); // Small delay to prevent CPU spinning
-            }
-        }
-
-        private static void SoundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            mediaPlayer.Close();
+            mediaPlayer.Position = TimeSpan.Zero; // Reset the position to the start
+            mediaPlayer.Play(); // Start playing again
         }
     }
 }

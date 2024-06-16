@@ -90,9 +90,9 @@ namespace Sudoku_WPF.publico
             public const string AT = "@";
 
             public const string InsertGameQuary =  @"INSERT INTO tbl_games 
-              ([Current], Solved, [Time], GameDate, BoardCode, PuzzleCode, GameName, HintsTaken, ChecksTaken, BoxHeight, BoxWidth) 
+              ([Current], Solved, [Time], GameDate, BoardCode, PuzzleCode, GameName, HintsTaken, ChecksTaken, BoxHeight, BoxWidth, DifficultyLevel) 
               VALUES 
-              (@Current, @Solved, @Time, @GameDate, @BoardCode, @PuzzleCode, @GameName, @HintsTaken, @ChecksTaken, @BoxHeight, @BoxWidth)";
+              (@Current, @Solved, @Time, @GameDate, @BoardCode, @PuzzleCode, @GameName, @HintsTaken, @ChecksTaken, @BoxHeight, @BoxWidth, @DifficultyLevel)";
 
             public class Games_Parameters
             {
@@ -108,6 +108,7 @@ namespace Sudoku_WPF.publico
                 public const string ChecksTaken = "ChecksTaken";
                 public const string BoxHeight =  "BoxHeight";
                 public const string BoxWidth =  "BoxWidth";
+                public const string DifficultyLevel =  "DifficultyLevel";
             }
 
             public class Settings_Parameters
@@ -120,22 +121,16 @@ namespace Sudoku_WPF.publico
                 public const string AllowNotes = "AllowNotes";
             }
 
-            /*
-            public const string InsertGameQuary =
-                $@"INSERT INTO tbl_games 
-                       ([{Parameters.Current}], [{Parameters.Time}], [{Parameters.Solved}], [{Parameters.GameDate}], 
-                        [{Parameters.BoardCode}], [{Parameters.PuzzleCode}], [{Parameters.GameName}], [{Parameters.HintsTaken}], 
-                        [{Parameters.ChecksTaken}], [{Parameters.BoxHeight}], [{Parameters.BoxWidth}]) 
-                   VALUES 
-                       ({AT + Parameters.Current}, {AT + Parameters.Time}, {AT + Parameters.Solved}, {AT + Parameters.GameDate}, 
-                        {AT + Parameters.BoardCode}, {AT + Parameters.PuzzleCode}, {AT + Parameters.GameName}, {AT + Parameters.HintsTaken}, 
-                        {AT + Parameters.ChecksTaken}, {AT + Parameters.BoxHeight}, {AT + Parameters.BoxWidth})";
-            */
             public const string DeletGameQuary = @"DELETE FROM tbl_games WHERE Id = @Id";
 
-            public const string InsertSettingsQuary = @"
-                INSERT INTO tbl_settings (SameText, MarkRelated, SoundOn, MusicOn, Theme)
-                VALUES (@SameText, @MarkRelated, @SoundOn, @MusicOn, @Theme)";
+            public const string UpdateSettingsQuary = @"UPDATE tbl_settings SET 
+                        MarkSameText = @MarkSameText, 
+                        MarkRelated = @MarkRelated, 
+                        SoundOn = @SoundOn, 
+                        MusicOn = @MusicOn, 
+                        Theme = @Theme, 
+                        AllowNotes = @AllowNotes 
+                        WHERE Id = 1"; // Assuming there's a column ID to identify the row;
 
 
         }
