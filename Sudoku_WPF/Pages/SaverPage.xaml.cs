@@ -44,10 +44,10 @@ namespace Sudoku_WPF.Pages
 
             Border border = new Border
             {
-                Margin = new Thickness(HistoryConstants.MARGIN),
-                Height = HistoryConstants.HEIGHT,
-                Width = HistoryConstants.HEIGHT * 2,
-                CornerRadius = new CornerRadius(HistoryConstants.CORNER_RADIUS),
+                Margin = new Thickness(SaverConstants.MARGIN),
+                Height = SaverConstants.HEIGHT,
+                Width = SaverConstants.HEIGHT * 2,
+                CornerRadius = new CornerRadius(SaverConstants.CORNER_RADIUS),
                 Tag = ItemsPanel.Children.Count // Assuming ItemsPanel is a StackPanel
             };
 
@@ -85,12 +85,13 @@ namespace Sudoku_WPF.Pages
 
             deletGameBtn.Click += DeleteGame_Click;
 
-            double fontSize = HistoryConstants.RELATIVE_FONT_SIZE * border.Height;
+            double fontSize = SaverConstants.RELATIVE_FONT_SIZE * border.Height;
 
             AddTextBlockToGrid(grid, gameInfo.Name.ToString(), fontSize, 2, true);
             AddTextBlockToGrid(grid, "Hints taken: " + gameInfo.Hints.ToString(), fontSize);
             AddTextBlockToGrid(grid, "Checks taken: " + gameInfo.Checks.ToString(), fontSize);
             AddTextBlockToGrid(grid, "Time: " + gameInfo.Time, fontSize);
+            AddTextBlockToGrid(grid, "Dif Lvl: " + gameInfo.DifficultyLevel.ToString(), fontSize);
             AddTextBlockToGrid(grid, gameInfo.BoxHeight.ToString() + "*" + gameInfo.BoxWidth.ToString(), fontSize);
             AddTextBlockToGrid(grid, "Date&Hour: " + gameInfo.Date.ToString(), fontSize, 2);
 
@@ -119,12 +120,13 @@ namespace Sudoku_WPF.Pages
             {
                 Button continueBtn = new Button
                 {
-                    Height = 35,
-                    Width = 90, // Adjust width as needed
+                    Height = SaverConstants.BTN_HEIGHT,
+                    Width = SaverConstants.BTN_WIDTH, // Adjust width as needed
                     Content = "Continue",
                     Margin = new Thickness(5),
                     Visibility = Visibility.Visible,
                     Style = FindResource("RoundedButtonStyle") as Style,
+                    Tag = Items.Count() - 1
                 };
                 continueBtn.Click += ContinueSavedGame_Click;
 
@@ -134,8 +136,8 @@ namespace Sudoku_WPF.Pages
 
             Button copyPuzzleCodeBtn = new Button
             {
-                Height = 35,
-                Width = 90,
+                Height = SaverConstants.BTN_HEIGHT,
+                Width = SaverConstants.BTN_WIDTH,
                 Content = "Copy Code",
                 Margin = new Thickness(5),
                 Visibility = Visibility.Visible,
@@ -155,8 +157,10 @@ namespace Sudoku_WPF.Pages
 
             if (window.gamePage == null)
             {
+                GameInfo gameInfo = games[Convert.ToInt32(btn.Tag)];
                 window.gamePage = new GamePage(games[Convert.ToInt32(btn.Tag)]);
                 window?.MainFrame.Navigate(window.gamePage);
+                DeleteGame(gameInfo);
                 return;
             }
             else
@@ -165,9 +169,12 @@ namespace Sudoku_WPF.Pages
 
                 if (msbxRes == MessageBoxResult.Yes || msbxRes == MessageBoxResult.No)
                 {
+                    GameInfo gameInfo = games[Convert.ToInt32(btn.Tag)];
+                    DeleteGame(gameInfo);
+
                     window.gamePage.game.End(false, msbxRes == MessageBoxResult.Yes);
 
-                    window.gamePage = new GamePage(games[Convert.ToInt32(btn.Tag)]);
+                    window.gamePage = new GamePage(gameInfo);
                     window?.MainFrame.Navigate(window.gamePage);
                 }
             }
@@ -192,24 +199,29 @@ namespace Sudoku_WPF.Pages
             // If the user confirms, delete the game
             if (result == MessageBoxResult.Yes)
             {
-                // Remove the game from the list
-                GameInfo gameToRemove = games[index];
-                DeleteGameFromDB(gameToRemove);
-
-                // Remove the game and the border
-                games.RemoveAt(index);
-                Border borderToRemove = Items[index];
-                Items.RemoveAt(index);
-                ItemsPanel.Children.Remove(borderToRemove);
-
-                // Update tags for remaining items
-                for (int i = 0; i < Items.Count; i++)
-                {
-                    Items[i].Tag = i;
-                    UpdateButtonTags(Items[i], i);
-                }
+                DeleteGame(games[index]);
             }
         }
+
+        private void DeleteGame(GameInfo gameToRemove)
+        {
+            DeleteGameFromDB(gameToRemove);
+
+            int indexToRemove = games.IndexOf(gameToRemove);
+
+            games.RemoveAt(indexToRemove);
+
+            Border borderToRemove = (Border)Items[indexToRemove];
+            Items.RemoveAt(indexToRemove);
+            ItemsPanel.Children.Remove(borderToRemove);
+
+            for (int i = 0; i < Items.Count; i++)
+            {
+                Items[i].Tag = i;
+                UpdateButtonTags((Border)Items[i], i);
+            }
+        }
+
 
         private void UpdateButtonTags(Border border, int newTag)
         {
@@ -260,17 +272,17 @@ namespace Sudoku_WPF.Pages
 
             OleDbParameter[] parameters =
             {
-        new OleDbParameter(DBConstants.Games_Parameters.Current, gameInfo.Current),
-        new OleDbParameter(DBConstants.Games_Parameters.Solved, gameInfo.Solved),
-        new OleDbParameter(DBConstants.Games_Parameters.Time, gameInfo.Time),
-        new OleDbParameter(DBConstants.Games_Parameters.GameDate, gameInfo.Date), 
-        new OleDbParameter(DBConstants.Games_Parameters.BoardCode, gameInfo.BoardCode),
-        new OleDbParameter(DBConstants.Games_Parameters.PuzzleCode, gameInfo.PuzzleCode),
-        new OleDbParameter(DBConstants.Games_Parameters.GameName, gameInfo.Name),
-        new OleDbParameter(DBConstants.Games_Parameters.HintsTaken, gameInfo.Hints),
-        new OleDbParameter(DBConstants.Games_Parameters.ChecksTaken, gameInfo.Checks),
-        new OleDbParameter(DBConstants.Games_Parameters.BoxHeight, gameInfo.BoxHeight),
-        new OleDbParameter(DBConstants.Games_Parameters.BoxWidth, gameInfo.BoxWidth)
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.Current, gameInfo.Current),
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.Solved, gameInfo.Solved),
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.Time, gameInfo.Time),
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.GameDate, gameInfo.Date),
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.BoardCode, gameInfo.BoardCode),
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.PuzzleCode, gameInfo.PuzzleCode),
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.GameName, gameInfo.Name),
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.HintsTaken, gameInfo.Hints),
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.ChecksTaken, gameInfo.Checks),
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.BoxHeight, gameInfo.BoxHeight),
+                new OleDbParameter(DBConstants.AT + DBConstants.Games_Parameters.BoxWidth, gameInfo.BoxWidth)
     };
 
             DBHelper.ExecuteCommand(sqlStmt, parameters);

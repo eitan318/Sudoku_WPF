@@ -116,32 +116,37 @@ namespace Sudoku_WPF
 
             DataRow dr = dt.Rows[0];
 
-            Settings.markSameText = Convert.ToBoolean(dr["SameText"]);
-            Settings.markRelated = Convert.ToBoolean(dr["MarkRelated"]);
-            Settings.soundOn = Convert.ToBoolean(dr["SoundOn"]);
-            Settings.musicOn = Convert.ToBoolean(dr["MusicOn"]);
+            Settings.markSameText = Convert.ToBoolean(dr[DBConstants.Settings_Parameters.SameText]);
+            Settings.markRelated = Convert.ToBoolean(dr[DBConstants.Settings_Parameters.MarkRelated]);
+            Settings.soundOn = Convert.ToBoolean(dr[DBConstants.Settings_Parameters.SoundOn]);
+            Settings.musicOn = Convert.ToBoolean(dr[DBConstants.Settings_Parameters.MusicOn]);
 
 
-            if (Enum.TryParse(dr["Theme"].ToString(), out ColorThemes theme))
+            if (Enum.TryParse(dr[DBConstants.Settings_Parameters.Theme].ToString(), out ColorThemes theme))
             {
                 Settings.Theme = theme;
             }
             ThemeControl.SetColors(Settings.Theme);
         }
 
+        private void MinimizeApp_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
 
         public void SaveSettingsToDB()
         {
             string sqlStmt = DBConstants.InsertSettingsQuary;
 
             OleDbParameter[] parameters = new OleDbParameter[]
-    {
-        new OleDbParameter(DBConstants.Settings_Parameters.SameText, Settings.markSameText),
-        new OleDbParameter(DBConstants.Settings_Parameters.MarkRelated, Settings.markRelated),
-        new OleDbParameter(DBConstants.Settings_Parameters.SoundOn, Settings.soundOn),
-        new OleDbParameter(DBConstants.Settings_Parameters.MusicOn, Settings.musicOn),
-        new OleDbParameter(DBConstants.Settings_Parameters.Theme, Settings.Theme.ToString())
-    };
+            {
+                    new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.SameText, Settings.markSameText),
+                    new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.MarkRelated, Settings.markRelated),
+                    new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.SoundOn, Settings.soundOn),
+                    new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.MusicOn, Settings.musicOn),
+                    new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.Theme, Settings.Theme.ToString())
+
+            };
 
             DBHelper.ExecuteCommand(sqlStmt, parameters);
         }
@@ -159,16 +164,17 @@ namespace Sudoku_WPF
                 GameInfo gameInfo = new GameInfo(
                                         Convert.ToInt32(dr["Id"]),
                                         dr["GameName"].ToString(),
-                                        dr["BoardCode"].ToString(),   // Assuming 'boardCode' is the correct column name
-                                        dr["PuzzleCode"].ToString(),  // Assuming 'puzzleCode' is the correct column name
-                                        dr["Time"].ToString(),        // Assuming 'time' is the correct column name
-                                        Convert.ToInt32(dr["HintsTaken"]), // Assuming 'hints' is the correct column name
-                                        Convert.ToInt32(dr["ChecksTaken"]),// Assuming 'checks' is the correct column name
-                                        dr["GameDate"].ToString(),        // Assuming 'date' is the correct column name
-                                        Convert.ToBoolean(dr["Solved"]), // Assuming 'solved' is the correct column name
+                                        dr["BoardCode"].ToString(),   
+                                        dr["PuzzleCode"].ToString(),  
+                                        dr["Time"].ToString(),    
+                                        Convert.ToInt32(dr["HintsTaken"]), 
+                                        Convert.ToInt32(dr["ChecksTaken"]),
+                                        dr["GameDate"].ToString(),
+                                        (DificultyLevel)Enum.Parse(typeof(DificultyLevel), dr["DifficultyLevel"].ToString()),
+                                        Convert.ToBoolean(dr["Solved"]), 
                                         Convert.ToBoolean(dr["Current"]),
-                                        Convert.ToInt32(dr["BoxHeight"]),// Assuming 'current' is the correct column name
-                                        Convert.ToInt32(dr["BoxWidth"])// Assuming 'current' is the correct column name
+                                        Convert.ToInt32(dr["BoxHeight"]),
+                                        Convert.ToInt32(dr["BoxWidth"])
                                         );
                 if (gameInfo.Solved)
                 {

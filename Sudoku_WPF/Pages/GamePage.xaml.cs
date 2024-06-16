@@ -12,6 +12,7 @@ using Sudoku_WPF.publico;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Sudoku_WPF.publico.Constants;
 
+
 namespace Sudoku_WPF
 {
     /// <summary>
@@ -59,7 +60,7 @@ namespace Sudoku_WPF
         public GameInfo GetGameInfo(bool solved, bool current)
         {
             GameInfo gameInfo = new GameInfo(
-                DBHelper.GetNextId("tbl_games","Id"),
+                DBHelper.GetNextId("tbl_games",DBConstants.Games_Parameters.Id),
                  nameTxtB.Text,
                  this.game.Board.GenerateBoardCode(),
                  this.game.GetPuzzleCode(),
@@ -67,6 +68,7 @@ namespace Sudoku_WPF
                  GameConstants.HINTS - hintsLeft,
                  GameConstants.CHECKS - checksLeft,
                  DateTime.Now.ToString(),
+                 GameSettings.dificultyLevel,
                  solved,
                  current,
                  GameSettings.BoxHeight,
@@ -126,7 +128,6 @@ namespace Sudoku_WPF
             }
         }
 
-
         public void Disable()
         {
             this.game.Board.Disable();
@@ -138,7 +139,6 @@ namespace Sudoku_WPF
             this.btn_endGame.Visibility = Visibility.Collapsed;
         }
 
-
         private void EndGame_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult msbxRes = MessageBox.Show("Do you want to save this game?", "Save Game", MessageBoxButton.YesNoCancel);
@@ -146,9 +146,9 @@ namespace Sudoku_WPF
             {
                 try
                 {
-                    Mouse.OverrideCursor = Cursors.Wait; // Change cursor to Wait
-                    game.Board.ShowSolution();
+                    Mouse.OverrideCursor = Cursors.Wait; // Change cursor to 
                     game.End(false, msbxRes == MessageBoxResult.Yes);
+                    game.Board.ShowSolution();
                 }
                 finally
                 {
@@ -160,9 +160,6 @@ namespace Sudoku_WPF
 
             
         }
-
-
-
 
         private void Hint_Click(object sender, RoutedEventArgs e)
         {

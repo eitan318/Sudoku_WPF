@@ -35,22 +35,26 @@ namespace Sudoku_WPF.GameClasses
 
         public void AddNote(string noteText)
         {
-            if (!string.IsNullOrEmpty(noteText))
+            if(Settings.allowNotes)
             {
-                Viewbox noteContainer = new Viewbox();
-                noteContainer.HorizontalAlignment = HorizontalAlignment.Stretch;
-                noteContainer.VerticalAlignment = VerticalAlignment.Stretch;
+                if (!string.IsNullOrEmpty(noteText))
+                {
+                    Viewbox noteContainer = new Viewbox();
+                    noteContainer.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    noteContainer.VerticalAlignment = VerticalAlignment.Stretch;
 
-                TextBlock note = NewNote(noteText);
+                    TextBlock note = NewNote(noteText);
 
-                // Add the TextBlock to the ViewBox
-                noteContainer.Child = note;
+                    // Add the TextBlock to the ViewBox
+                    noteContainer.Child = note;
 
-                notes.Add(note);
-                Children.Add(noteContainer);
+                    notes.Add(note);
+                    Children.Add(noteContainer);
 
-                MyUpdateLayout();
+                    MyUpdateLayout();
+                }
             }
+            
         }
 
         private TextBlock NewNote(string noteText)

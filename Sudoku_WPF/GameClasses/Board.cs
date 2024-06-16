@@ -143,15 +143,15 @@ namespace Sudoku_WPF.GameClasses
                 if (cell.Text == this.puzzle.CellValue(cell.row, cell.column).ToString())
                 {
                     cell.IsReadOnly = true;
-                    cell.SetResourceReference(Control.BackgroundProperty, "Tbx_RightBackground");
+                    cell.SetResourceReference(Control.BackgroundProperty, ColorConstants.Tbx_RightBackground);
                 }
                 else if (cell.Text != "")
                 {
-                    cell.SetResourceReference(Control.BackgroundProperty, "Tbx_WrongBackground");
+                    cell.SetResourceReference(Control.BackgroundProperty, ColorConstants.Tbx_WrongBackground);
                 }
                 else
                 {
-                    cell.SetResourceReference(Control.BorderBrushProperty, "Border");
+                    cell.SetResourceReference(Control.BackgroundProperty, ColorConstants.Tbx_Board);
                 }
             }
         }
@@ -205,7 +205,7 @@ namespace Sudoku_WPF.GameClasses
                     }
 
                     // Set visual properties using SetResourceReference
-                    cell.SetResourceReference(Control.BackgroundProperty, "Tbx_Board");
+                    cell.SetResourceReference(Control.BackgroundProperty,ColorConstants.Tbx_Board);
                     cell.AttachEventHandlers();
                 }
             }

@@ -112,13 +112,13 @@ public class Cell : TextBox
     // Color cells based on the focus cell
     public void ColorBy(Cell focusCell, string previewText, bool validateForeground)
     {
-        bool isValid = Foreground == (Brush)FindResource("Text");
+        bool isValid = Foreground == (Brush)FindResource(ColorConstants.TextFore);
 
-        SetResourceReference(BorderBrushProperty, "Border");
+        SetResourceReference(BorderBrushProperty, ColorConstants.Border);
 
         if (IsRelatedTo(focusCell))
         {
-            SetResourceReference(BackgroundProperty, Text == focusCell.Text && Text != "" ? "Tbx_WrongBackground" : "Tbx_Sign");
+            SetResourceReference(BackgroundProperty, Text == focusCell.Text && Text != "" ? ColorConstants.Tbx_WrongBackground : (Settings.markRelated ? ColorConstants.Tbx_Sign : ColorConstants.Tbx_Board));
 
             if (validateForeground)
             {
@@ -129,17 +129,17 @@ public class Cell : TextBox
                 else if (Text == focusCell.Text && Text != "")
                 {
                     isValid = false;
-                    focusCell.SetResourceReference(ForegroundProperty, "Tbx_WrongForeground");
+                    focusCell.SetResourceReference(ForegroundProperty, ColorConstants.Tbx_WrongForeground);
                 }
                 if (!IsReadOnly)
                 {
-                    SetResourceReference(ForegroundProperty, isValid ? "Text" : "Tbx_WrongForeground");
+                    SetResourceReference(ForegroundProperty, isValid ? ColorConstants.TextFore : ColorConstants.Tbx_WrongForeground);
                 }
             }
         }
         else
         {
-            SetResourceReference(BackgroundProperty, Text == previewText && Text != "" ? "Tbx_SameText" : "Tbx_Board");
+            SetResourceReference(BackgroundProperty, Text == previewText && Text != "" && Settings.markSameText ?  ColorConstants.Tbx_SameText  : ColorConstants.Tbx_Board);
         }
     }
 
@@ -192,11 +192,11 @@ public class Cell : TextBox
             Text = solvedValue;
             IsReadOnly = true;
         }
-        Foreground = (Brush)FindResource("Text");
-        BorderBrush = (Brush)FindResource("Border");
+        Foreground = (Brush)FindResource(ColorConstants.TextFore);
+        BorderBrush = (Brush)FindResource(ColorConstants.Border);
         if (!hint)
         {
-            SetResourceReference(BackgroundProperty, "Tbx_Board");
+            SetResourceReference(BackgroundProperty, ColorConstants.Tbx_Board);
         }
     }
 

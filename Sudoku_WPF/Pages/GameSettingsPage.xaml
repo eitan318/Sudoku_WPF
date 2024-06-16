@@ -42,7 +42,7 @@
 
         <Viewbox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" MaxHeight="80" MaxWidth="260">
             <ComboBox  Name="DificultyLevel_CMBB"   SelectionChanged="DificultyLevel_CMBB_SelectionChanged"  Height="30" Width="170">
-                <ComboBoxItem Content="Eazy" />
+                <ComboBoxItem Content="Easy" />
                 <ComboBoxItem Content="Medium" />
                 <ComboBoxItem Content="Hard" />
                 

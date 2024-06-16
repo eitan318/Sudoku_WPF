@@ -20,12 +20,14 @@ namespace Sudoku_WPF.publico
             public const double DEFAULT_WIDTH = 500.0;
         }
 
-        public class HistoryConstants
+        public class SaverConstants
         {
             public const double RELATIVE_FONT_SIZE = 0.1;
-            public const int MARGIN = 10;
+            public const int MARGIN = 15;
             public const int CORNER_RADIUS = 20;
-            public const int HEIGHT = 150;
+            public const int HEIGHT = 155;
+            public const int BTN_HEIGHT = 37;
+            public const int BTN_WIDTH = 93;
         }
 
         public class TimerConstants
@@ -50,7 +52,7 @@ namespace Sudoku_WPF.publico
             public const int DEFAULT_BOX_WIDTH = 3;
             public const double DIFICULTY_LEVEL_DELTA = 0.1;
             public const double MAX_FULL_CELLS = 0.28;
-            public const DificultyLevel DEFAULT_DIFICULTY_LEVEL = DificultyLevel.Eazy;
+            public const DificultyLevel DEFAULT_DIFICULTY_LEVEL = DificultyLevel.Easy;
             public const double FULL_CELLS_EASY = 0.45;
             public const double FULL_CELLS_MEDIUM = 0.35;
             public const double FULL_CELLS_HARD = 0.25;
@@ -72,26 +74,27 @@ namespace Sudoku_WPF.publico
 
             public class Games_Parameters
             {
-                public const string Current = AT + "Current";
-                public const string Time = AT + "Time";
-                public const string Solved = AT + "Solved";
-                public const string GameDate = AT + "GameDate";
-                public const string BoardCode = AT + "BoardCode";
-                public const string PuzzleCode = AT + "PuzzleCode";
-                public const string GameName = AT + "GameName";
-                public const string HintsTaken = AT + "HintsTaken";
-                public const string ChecksTaken = AT + "ChecksTaken";
-                public const string BoxHeight = AT + "BoxHeight";
-                public const string BoxWidth = AT + "BoxWidth";
+                public const string Id = "Id";
+                public const string Current = "Current";
+                public const string Time = "Time";
+                public const string Solved = "Solved";
+                public const string GameDate = "GameDate";
+                public const string BoardCode = "BoardCode";
+                public const string PuzzleCode = "PuzzleCode";
+                public const string GameName = "GameName";
+                public const string HintsTaken =  "HintsTaken";
+                public const string ChecksTaken = "ChecksTaken";
+                public const string BoxHeight =  "BoxHeight";
+                public const string BoxWidth =  "BoxWidth";
             }
 
             public class Settings_Parameters
             {
-                public const string SameText = AT + "SameText";
-                public const string MarkRelated = AT + "MarkRelated";
-                public const string SoundOn = AT + "SoundOn";
-                public const string MusicOn = AT + "MusicOn";
-                public const string Theme = AT + "Theme";
+                public const string SameText = "SameText";
+                public const string MarkRelated = "MarkRelated";
+                public const string SoundOn = "SoundOn";
+                public const string MusicOn = "MusicOn";
+                public const string Theme = "Theme";
             }
 
             /*

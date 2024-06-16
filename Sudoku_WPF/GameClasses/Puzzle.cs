@@ -26,8 +26,8 @@ namespace Sudoku_WPF.GameClasses
 
         public Puzzle(string code)
         {
-            ImportPuzzleCode(code);
             code = GeneratePuzzleCode();
+            ImportPuzzleCode(code);
         }
 
         public bool IsCellInitial(int row, int col)
@@ -53,7 +53,7 @@ namespace Sudoku_WPF.GameClasses
 
             switch (GameSettings.dificultyLevel)
             {
-                case DificultyLevel.Eazy:
+                case DificultyLevel.Easy:
                     fullCellsPercent = GameSettingsConstants.FULL_CELLS_EASY;
                     break;
                 case DificultyLevel.Medium:

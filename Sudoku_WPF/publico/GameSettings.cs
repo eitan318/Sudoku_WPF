@@ -11,16 +11,17 @@ namespace Sudoku_WPF.publico
 {
     public enum DificultyLevel
     {
-        Eazy,
+        Easy,
         Medium,
         Hard
     }
+
     public class GameSettings
     {
         public static int BoxWidth = GameSettingsConstants.DEFAULT_BOX_WIDTH;
         public static int BoxHeight = GameSettingsConstants.DEFAULT_BOX_HEIGHT;
         public static int BoardSide = BoxWidth * BoxHeight;
-        public static DificultyLevel dificultyLevel = DificultyLevel.Eazy;
+        public static DificultyLevel dificultyLevel = DificultyLevel.Easy;
 
     }
 }

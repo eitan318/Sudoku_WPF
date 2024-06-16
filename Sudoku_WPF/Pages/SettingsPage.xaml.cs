@@ -42,6 +42,9 @@ namespace Sudoku_WPF
                         case "markRelated":
                             Settings.markRelated = toggleButton.IsChecked ?? false;
                             break;
+                        case "allowNotes":
+                            Settings.allowNotes = toggleButton.IsChecked ?? false;
+                            break;
                         case "markSameText":
                             Settings.markSameText = toggleButton.IsChecked ?? false;
                             break;

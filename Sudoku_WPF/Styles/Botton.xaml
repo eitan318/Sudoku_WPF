@@ -1,5 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <Style x:Key="MinimizeApp" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="Transparent">
+                        <Image Source="/Assets/Icons/minimize.png" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="RoundedButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{DynamicResource Botton_BG}"/>
@@ -103,7 +115,7 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="ButtonImage" Property="Source" Value="/Assets/Icons/minimize.png"/>
+                            <Setter TargetName="ButtonImage" Property="Source" Value="/Assets/Icons/unmaximize.png"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

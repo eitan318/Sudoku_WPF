@@ -24,6 +24,7 @@
     <None Remove="Assets\Icons\sudoku.png" />
     <None Remove="Assets\Icons\tgBtn_default.png" />
     <None Remove="Assets\Icons\tgBtn_MouseOver.png" />
+    <None Remove="Assets\Icons\unmaximize.png" />
     <None Remove="Assets\Images\sudoku_pic.png" />
   </ItemGroup>
 
@@ -58,7 +59,8 @@
     <Resource Include="Assets\Icons\maximize.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\Icons\minimize.png">
+    <Resource Include="Assets\Icons\minimize.png" />
+    <Resource Include="Assets\Icons\unmaximize.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\saved.png">

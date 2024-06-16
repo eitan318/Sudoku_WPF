@@ -2,6 +2,7 @@
 using Sudoku_WPF.GameClasses;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using Sudoku_WPF.publico;
 
 
 namespace Sudoku_WPF.GameClasses
@@ -19,10 +20,11 @@ namespace Sudoku_WPF.GameClasses
         public string Date { get; set; }
         public bool Solved { get; set; }
         public bool Current { get; set; }
+        public DificultyLevel DifficultyLevel { get; set; }
         
         public int Id { get; set; }
 
-        public GameInfo(int id, string name, string boardCode, string puzzleCode, string time, int hintsTaken, int checksTaken, string date, bool solved, bool current, int boxHeight, int boxWidth)
+        public GameInfo(int id, string name, string boardCode, string puzzleCode, string time, int hintsTaken, int checksTaken, string date, DificultyLevel difficultyLevel, bool solved, bool current, int boxHeight, int boxWidth)
         {
             Name = name;
             BoardCode = boardCode;
@@ -36,6 +38,7 @@ namespace Sudoku_WPF.GameClasses
             Id = id;
             BoxHeight = boxHeight;
             BoxWidth = boxWidth;
+            DifficultyLevel = difficultyLevel;
         }
     }
 }

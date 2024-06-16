@@ -35,6 +35,7 @@ namespace Sudoku_WPF.GameClasses
             {
                 Mouse.OverrideCursor = null; // Restore cursor
             }
+            Board.GameEnded += OnGameSolved;
         }
 
         public Game(Grid sodukoGrid, TextBlock timerTxtB, string puzzleCode)
@@ -53,6 +54,7 @@ namespace Sudoku_WPF.GameClasses
             {
                 Mouse.OverrideCursor = null; // Restore cursor
             }
+            Board.GameEnded += OnGameSolved;
         }
 
         public Game(Grid sodukoGrid, TextBlock timerTxtB, GameInfo info)

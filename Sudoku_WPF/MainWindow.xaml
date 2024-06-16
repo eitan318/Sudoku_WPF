@@ -51,6 +51,16 @@
             </Grid>
         </Grid>
 
+        <!-- Minimize Button -->
+        <Button x:Name="MinimizeApp"
+                Style="{StaticResource MinimizeApp}"
+                Height="30"
+                Width="30"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,10,95,0"
+                Click="MinimizeApp_Click" />
+
         <!-- Close Button -->
         <Button x:Name="CloseApp"
     Style="{StaticResource ExitApp}"
