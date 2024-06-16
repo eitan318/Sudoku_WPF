@@ -8,30 +8,6 @@
       d:DesignHeight="600" d:DesignWidth="1000"
       Title="InstructionPage1">
 
-    <Page.Resources>
-        <!-- Styles for different text blocks -->
-        <Style x:Key="HeaderTextBlockStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="0,20,0,20"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="DarkBlue"/>
-        </Style>
-
-        <Style x:Key="SubheaderTextBlockStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="24"/>
-            <Setter Property="Margin" Value="0,10"/>
-            <Setter Property="TextAlignment" Value="Left"/>
-            <Setter Property="Foreground" Value="DarkGreen"/>
-        </Style>
-
-        <Style x:Key="ContentTextBlockStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Margin" Value="20,10,0,10"/>
-            <Setter Property="TextAlignment" Value="Left"/>
-            <Setter Property="Foreground" Value="{DynamicResource Text}"/>
-        </Style>
-    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>

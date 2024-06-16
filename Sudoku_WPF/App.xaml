@@ -10,6 +10,8 @@
                 <ResourceDictionary Source="Themes/Dark.xaml"/>
 
                 <ResourceDictionary Source="Styles/Botton.xaml"/>
+
+                <ResourceDictionary Source="Styles/TextBlock.xaml"/>
                 
                 <ResourceDictionary Source="Styles/ToggleButton.xaml"/>
                 

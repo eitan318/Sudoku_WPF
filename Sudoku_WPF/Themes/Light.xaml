@@ -24,6 +24,5 @@
     <SolidColorBrush Color="#C0C0C0" x:Key="MenuBtn_Checked"/>
 
     <SolidColorBrush Color="DarkBlue" x:Key="Header"/>
-    <SolidColorBrush Color="DarkGreen" x:Key="Subheader"/>
 
 </ResourceDictionary>
