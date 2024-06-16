@@ -14,7 +14,7 @@ namespace Sudoku_WPF
         public SettingsPage()
         {
             InitializeComponent();
-            SetInitialTheme(Settings.Theme.ToString());
+            SetInitialTheme(Settings.theme.ToString());
 
             // Initialize toggle button states based on Settings
             sound.IsChecked = Settings.soundOn;
@@ -89,7 +89,7 @@ namespace Sudoku_WPF
             if (Enum.TryParse(option, out ColorThemes theme))
             {
                 ThemeControl.SetColors(theme);
-                Settings.Theme = theme;
+                Settings.theme = theme;
             }
         }
     }

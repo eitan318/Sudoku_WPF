@@ -90,8 +90,8 @@ namespace Sudoku_WPF
 
             if (Enum.TryParse(dr[DBConstants.Settings_Parameters.Theme].ToString(), out ColorThemes theme))
             {
-                Settings.Theme = theme;
-                ThemeControl.SetColors(Settings.Theme);
+                Settings.theme = theme;
+                ThemeControl.SetColors(Settings.theme);
             }
         }
 
@@ -190,7 +190,7 @@ namespace Sudoku_WPF
                 new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.MarkRelated, Settings.markRelated),
                 new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.SoundOn, Settings.soundOn),
                 new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.MusicOn, Settings.musicOn),
-                new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.Theme, Settings.Theme.ToString()),
+                new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.Theme, Settings.theme.ToString()),
                 new OleDbParameter(DBConstants.AT + DBConstants.Settings_Parameters.AllowNotes, Settings.allowNotes)
             };
 
