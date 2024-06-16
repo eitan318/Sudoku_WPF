@@ -189,6 +189,9 @@ namespace Sudoku_WPF.Pages
 
             Button btn = sender as Button;
 
+
+            int gameIndex = (int)btn.Tag;
+
             GameInfo gameInfo = games[gameIndex];
             var window = Application.Current.MainWindow as MainWindow;
 

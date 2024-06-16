@@ -1,14 +1,76 @@
 ﻿<Page x:Class="Sudoku_WPF.InstructionPage1"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Sudoku_WPF"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d"
+      d:DesignHeight="600" d:DesignWidth="1000"
       Title="InstructionPage1">
 
+    <Page.Resources>
+        <!-- Styles for different text blocks -->
+        <Style x:Key="HeaderTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,20,0,20"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="DarkBlue"/>
+        </Style>
+
+        <Style x:Key="SubheaderTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Margin" Value="0,10"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="DarkGreen"/>
+        </Style>
+
+        <Style x:Key="ContentTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="20,10,0,10"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="{DynamicResource Text}"/>
+        </Style>
+    </Page.Resources>
+
     <Grid>
-        <TextBlock Text="This is Instruction Page 1" Foreground="{DynamicResource Text}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="Sudoku Instruction Page" Style="{StaticResource HeaderTextBlockStyle}"/>
+
+        <!-- Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20">
+                <!-- Goal of Sudoku -->
+                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">Goal of Sudoku</TextBlock>
+                <TextBlock Style="{StaticResource ContentTextBlockStyle}" TextWrapping="Wrap">
+                    Sudoku is a logic-based number-placement puzzle. The objective is to fill a 9x9 grid with digits so that each column, each row, and each of the nine 3x3 subgrids that compose the grid (also called "boxes", "blocks", or "regions") contain all of the digits from 1 to 9.
+                </TextBlock>
+
+                <!-- Rules of Sudoku -->
+                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">Rules of Sudoku</TextBlock>
+                <TextBlock Style="{StaticResource ContentTextBlockStyle}" TextWrapping="Wrap">
+                    <Run FontWeight="Bold">1. Each row:</Run> Must contain all digits from 1 to 9, without repetition.<LineBreak/>
+                    <Run FontWeight="Bold">2. Each column:</Run> Must contain all digits from 1 to 9, without repetition.<LineBreak/>
+                    <Run FontWeight="Bold">3. Each 3x3 subgrid:</Run> Must contain all digits from 1 to 9, without repetition.
+                </TextBlock>
+
+                <!-- Common Techniques -->
+                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">Common Techniques</TextBlock>
+                <TextBlock Style="{StaticResource ContentTextBlockStyle}" TextWrapping="Wrap">
+                    There are several techniques used to solve Sudoku puzzles efficiently, including:<LineBreak/>
+                    - Naked Single<LineBreak/>
+                    - Hidden Single<LineBreak/>
+                    - Naked Pairs and Triples<LineBreak/>
+                    - X-Wing<LineBreak/>
+                    - Swordfish<LineBreak/>
+                    - Coloring and Chains
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

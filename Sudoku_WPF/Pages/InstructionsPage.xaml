@@ -4,8 +4,8 @@
       Title="InstructionPage">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8*" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <Frame x:Name="InstructionFrame" NavigationUIVisibility="Hidden" Grid.Row="0" />
@@ -16,8 +16,8 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="BackButton" Height="40" Width="60" HorizontalAlignment="Center" Margin="0,50,0,50" Content="Back" Click="BackButton_Click" Grid.Column="0"/>
-            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="NextButton" Height="40" Width="60" HorizontalAlignment="Center" Margin="0,50,0,50" VerticalAlignment="Top" Content="Next" Click="NextButton_Click" Grid.Column="1"/>
+            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="BackButton" Height="40" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Back" Click="BackButton_Click" Grid.Column="1"/>
+            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="NextButton" Height="40" Width="60" HorizontalAlignment="Center"  VerticalAlignment="Center" Content="Next" Click="NextButton_Click" Grid.Column="0"/>
         </Grid>
     </Grid>
 </Page>

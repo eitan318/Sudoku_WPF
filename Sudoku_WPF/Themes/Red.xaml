@@ -18,6 +18,7 @@
     <SolidColorBrush Color="#696969" x:Key="HistoryItem_BG"/>
     <SolidColorBrush Color="#FF6347" x:Key="MenuBtn_MO"/>
     <SolidColorBrush Color="#CD5C5C" x:Key="MenuBtn_Checked"/>
-
+    <SolidColorBrush Color="DarkBlue" x:Key="Header"/>
+    <SolidColorBrush Color="DarkGreen" x:Key="Subheader"/>
 
 </ResourceDictionary>
