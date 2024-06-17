@@ -26,7 +26,7 @@
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Width" Foreground="{DynamicResource Text}" FontSize="20" />
 
-                <lib:NumericUpDown x:Name="NUD_boxWidth" MinValue="2" MaxValue="5" 
+                <lib:NumericUpDown x:Name="NUD_boxWidth" MinValue="2" MaxValue="4" 
              FontSize="20" />
             </StackPanel>
         </Viewbox>

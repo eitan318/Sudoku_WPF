@@ -41,8 +41,7 @@ namespace Sudoku_WPF
             NUD_boxHeight.Value = GameSettings.BoxHeight;
             NUD_boxWidth.Value = GameSettings.BoxWidth;
 
-            NUD_boxWidth.ValueChanged += NUD_ValueChanged;
-            NUD_boxHeight.ValueChanged += NUD_ValueChanged;
+            
 
             gamePage = null;
         }
@@ -74,32 +73,6 @@ namespace Sudoku_WPF
             }
         }
 
-
-        /// <summary>
-        /// Event handler for value changes in the number up down controls (NUD).
-        /// Plays a sound and adjusts max values based on current NUD values.
-        /// </summary>
-        private void NUD_ValueChanged(object sender, EventArgs e)
-        {
-            NumericUpDown numericUpDown = sender as NumericUpDown;
-
-
-
-            if (NUD_boxWidth.Value * NUD_boxHeight.Value > BoardConstants.MAX_SIDE)
-            {
-                numericUpDown.ValueChanged -= NUD_ValueChanged;
-                numericUpDown.Value -= 1;
-                numericUpDown.ValueChanged += NUD_ValueChanged;
-                SoundPlayer.PlaySound(SoundConstants.WRONG);
-            }
-            else
-            {
-                SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
-            }
-
-            GameSettings.BoxHeight = (int)NUD_boxHeight.Value;
-            GameSettings.BoxWidth = (int)NUD_boxWidth.Value;
-        }
 
         /// <summary>
         /// Event handler for selection changes in the difficulty level combo box.

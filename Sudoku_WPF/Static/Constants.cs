@@ -18,7 +18,7 @@ namespace Sudoku_WPF.publico
             public const double INTERNAL_BORDER_TO_REGULAR = 2;
             public const double EXTERNAL_BORDER_TO_REGULAR = 4;
             public const double DEFAULT_SIDE = 9.0;
-            public const double MAX_SIDE = 16;
+            public const double MAX_SIDE = 25;
             public const double DEFAULT_WIDTH = 500.0;
         }
 
