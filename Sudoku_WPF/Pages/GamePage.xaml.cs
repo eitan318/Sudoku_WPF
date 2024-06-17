@@ -56,6 +56,15 @@ namespace Sudoku_WPF
             this.hintsLeft -= gameInfo.Hints;
             this.checksLeft -= gameInfo.Checks;
 
+            if(hintsLeft == 0)
+            {
+                btn_hint.IsEnabled = false;
+            }
+            if (checksLeft == 0)
+            {
+                btn_checkBoard.IsEnabled = false;
+            }
+
             hintsTxtB.Text = hintsLeft.ToString() + GameConstants.REMEINING_STR;
             checksTxtB.Text = checksLeft.ToString() + GameConstants.REMEINING_STR;
 
@@ -206,12 +215,21 @@ namespace Sudoku_WPF
             Cell focusCell = Board.FocusedCell();
             if (focusCell != null && !focusCell.IsReadOnly)
             {
-                SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
-                Board.FocusedCell().Solve(true);
-                RemoveHint();
+                if(focusCell.Text != focusCell.solvedValue)
+                {
+                    SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+                    Board.FocusedCell().Solve(true);
+                    RemoveHint();
+                }
+                else
+                {
+                    focusCell.IsReadOnly = true;
+                    SoundPlayer.PlaySound(SoundConstants.WRONG);
+                }
             }
             else
             {
+
                 SoundPlayer.PlaySound(SoundConstants.WRONG);
             }
         }
@@ -305,6 +323,7 @@ namespace Sudoku_WPF
                 btn_checkBoard.IsEnabled = false;
             }
 
+            
             this.game.Board.CheckMyBoard();
 
             RemoveCheck();
@@ -336,11 +355,8 @@ namespace Sudoku_WPF
         {
             SudokuGrid.IsEnabled = false;
             btn_showPuzzleCode.IsEnabled = false;
-            btn_newGame.IsEnabled = false;
             btn_checkBoard.IsEnabled = false;
             btn_hint.IsEnabled = false;
-            btn_endGame.IsEnabled = false;
-            nameTxtB.IsEnabled = false;
         }
 
         /// <summary>
@@ -350,11 +366,8 @@ namespace Sudoku_WPF
         {
             SudokuGrid.IsEnabled = true;
             btn_showPuzzleCode.IsEnabled = true;
-            btn_newGame.IsEnabled = true;
             btn_checkBoard.IsEnabled = true;
             btn_hint.IsEnabled = true;
-            btn_endGame.IsEnabled = true;
-            nameTxtB.IsEnabled = true;
         }
 
         /// <summary>

@@ -20,14 +20,14 @@
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center"  Margin="50, 0,50,0">
                 <!-- Combo Box for Color Mode Selection -->
                 <ComboBox Name="ColorMode_CMBB" SelectionChanged="ColorMode_CMBB_SelectionChanged" Height="30" Width="140" FontSize="15">
-                    <ComboBoxItem Content="Light" Foreground="White" Background="LightGray"/>
+                    <ComboBoxItem Content="Light" Foreground="Black" Background="White"/>
                     <ComboBoxItem Content="Dark" Foreground="Black" Background="LightGray"/>
-                    <ComboBoxItem Content="Red" Foreground="Red" Background="LightGray"/>
-                    <ComboBoxItem Content="DarkBlue" Foreground="DarkBlue" Background="LightGray"/>
-                    <ComboBoxItem Content="LightBrown" Foreground="Brown" Background="LightGray"/>
-                    <ComboBoxItem Content="LightBlue" Foreground="LightBlue" Background="LightGray"/>
-                    <ComboBoxItem Content="Pink" Foreground="Pink" Background="LightGray"/>
+                    <ComboBoxItem Content="Red" Foreground="Red" Background="White"/>
+                    <ComboBoxItem Content="LightBrown" Foreground="SaddleBrown" Background="White"/>
+                    <ComboBoxItem Content="Blue" Foreground="LightBlue" Background="White"/>
+                    <ComboBoxItem Content="Pink" Foreground="Pink" Background="White"/>
                 </ComboBox>
+
 
                 <!-- Sounds Toggle Button -->
                 <StackPanel Orientation="Horizontal" Margin="20">

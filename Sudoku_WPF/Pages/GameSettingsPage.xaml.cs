@@ -67,7 +67,7 @@ namespace Sudoku_WPF
         private void codeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
-          
+
             if (textBox == codeTxtBox)
             {
                 codePlaceholder.Visibility = string.IsNullOrWhiteSpace(codeTxtBox.Text) ? Visibility.Visible : Visibility.Hidden;
@@ -81,21 +81,22 @@ namespace Sudoku_WPF
         /// </summary>
         private void NUD_ValueChanged(object sender, EventArgs e)
         {
-            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+            NumericUpDown numericUpDown = sender as NumericUpDown;
 
-            if (NUD_boxWidth.Value == 5)
+
+
+            if (NUD_boxWidth.Value * NUD_boxHeight.Value > BoardConstants.MAX_SIDE)
             {
-                NUD_boxHeight.MaxValue = 4;
-            }
-            else if (NUD_boxHeight.Value == 5)
-            {
-                NUD_boxWidth.MaxValue = 4;
+                numericUpDown.ValueChanged -= NUD_ValueChanged;
+                numericUpDown.Value -= 1;
+                numericUpDown.ValueChanged += NUD_ValueChanged;
+                SoundPlayer.PlaySound(SoundConstants.WRONG);
             }
             else
             {
-                NUD_boxWidth.MaxValue = 5;
-                NUD_boxHeight.MaxValue = 5;
+                SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
             }
+
             GameSettings.BoxHeight = (int)NUD_boxHeight.Value;
             GameSettings.BoxWidth = (int)NUD_boxWidth.Value;
         }

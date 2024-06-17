@@ -164,12 +164,6 @@ namespace Sudoku_WPF.Pages
 
                     var window = Application.Current.MainWindow as MainWindow;
 
-                    if (window == null)
-                    {
-                        MessageBox.Show("Main window is not available.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
-
                     // Check if gamePage is already instantiated
                     if (window.gamePage == null)
                     {
@@ -207,7 +201,8 @@ namespace Sudoku_WPF.Pages
                 Content = "Copy Code",
                 Margin = new Thickness(5),
                 Visibility = Visibility.Visible,
-                Style = FindResource("RoundedButtonStyle") as Style
+                Style = FindResource("RoundedButtonStyle") as Style,
+                Tag = Items.Count - 1
             };
             copyPuzzleCodeBtn.Click += CopyPuzzleCode_Click;
             btnPanel.Children.Add(copyPuzzleCodeBtn);
