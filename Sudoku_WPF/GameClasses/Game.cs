@@ -132,7 +132,7 @@ namespace Sudoku_WPF.GameClasses
                     }
                 }
 
-                window.gamePage.Disable();
+                window.gamePage.DisableGameControls();
                 window.gamePage = null;
             }
 

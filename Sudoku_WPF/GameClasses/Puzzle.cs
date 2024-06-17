@@ -22,7 +22,7 @@ namespace Sudoku_WPF.GameClasses
             initialCells = new bool[GameSettings.BoardSide, GameSettings.BoardSide];
             solvedPuzzle = new char[GameSettings.BoardSide, GameSettings.BoardSide];
 
-            GeneratePuzzle();
+            SetFullCells();
             this.code = CreatePuzzleCode();
         }
 
@@ -78,7 +78,7 @@ namespace Sudoku_WPF.GameClasses
         /// <summary>
         /// Generates a new Sudoku puzzle based on the current game settings and difficulty level.
         /// </summary>
-        private void GeneratePuzzle()
+        private void SetFullCells()
         {
             double fullCellsPercent;
 
@@ -159,27 +159,28 @@ namespace Sudoku_WPF.GameClasses
             char[] nums = new char[GameSettings.BoardSide];
             for (int i = 0; i < GameSettings.BoardSide; i++)
             {
-                nums[i] = ConvertToHex(i + 1);
+                nums[i] = ConvertToHexa(i + 1);
             }
             ShuffleArray(nums);
             return nums;
         }
 
         /// <summary>
-        /// Shuffles an array of characters in place using the Fisher-Yates algorithm.
+        /// Shuffles an array of characters in place using a simple random swap technique.
         /// </summary>
         /// <param name="array">The array of characters to be shuffled.</param>
         private void ShuffleArray(char[] array)
         {
-            int n = array.Length;
-            for (int i = 0; i < n; i++)
+            int arrayLength = array.Length;
+            for (int currentIndex = 0; currentIndex < arrayLength; currentIndex++)
             {
-                int r = i + rnd.Next(n - i);
-                char temp = array[i];
-                array[i] = array[r];
-                array[r] = temp;
+                int randomIndex = rnd.Next(arrayLength);
+                char temporary = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporary;
             }
         }
+
 
         /// <summary>
         /// Checks if it's safe to place a number in the specified cell based on Sudoku rules.
@@ -191,22 +192,22 @@ namespace Sudoku_WPF.GameClasses
         private bool IsSafeToPlace(int row, int col, char num)
         {
             // Check row
-            for (int x = 0; x < GameSettings.BoardSide; x++)
-                if (solvedPuzzle[row, x] == num)
+            for (int colC = 0; colC < GameSettings.BoardSide; colC++)
+                if (solvedPuzzle[row, colC] == num)
                     return false;
 
             // Check column
-            for (int x = 0; x < GameSettings.BoardSide; x++)
-                if (solvedPuzzle[x, col] == num)
+            for (int rowC = 0; rowC < GameSettings.BoardSide; rowC++)
+                if (solvedPuzzle[rowC, col] == num)
                     return false;
 
             // Check box
-            int boxStartRow = row / GameSettings.BoxHeight * GameSettings.BoxHeight;
-            int boxStartCol = col / GameSettings.BoxWidth * GameSettings.BoxWidth;
+            int boxStartRow = (row / GameSettings.BoxHeight) * GameSettings.BoxHeight;
+            int boxStartCol = (col / GameSettings.BoxWidth) * GameSettings.BoxWidth;
 
-            for (int r = 0; r < GameSettings.BoxHeight; r++)
-                for (int d = 0; d < GameSettings.BoxWidth; d++)
-                    if (solvedPuzzle[boxStartRow + r, boxStartCol + d] == num)
+            for (int rowC = 0; rowC < GameSettings.BoxHeight; rowC++)
+                for (int colC = 0; colC < GameSettings.BoxWidth; colC++)
+                    if (solvedPuzzle[boxStartRow + rowC, boxStartCol + colC] == num)
                         return false;
 
             return true;
@@ -217,7 +218,7 @@ namespace Sudoku_WPF.GameClasses
         /// </summary>
         /// <param name="num">The number to be converted.</param>
         /// <returns>The corresponding hexadecimal character.</returns>
-        private char ConvertToHex(int num)
+        private char ConvertToHexa(int num)
         {
             if (num < Constants.NUM_DIGITS)
                 return (char)('0' + num);

@@ -70,8 +70,11 @@ namespace Sudoku_WPF
         /// <returns>The GameInfo object representing the current game state.</returns>
         public GameInfo GetGameInfo(bool solved, bool current)
         {
+            int Id = DBHelper.GetNextId("tbl_games", DBConstants.Games_Parameters.Id);
+            nameTxtB.Text = string.IsNullOrEmpty(nameTxtB.Text) ? "Board" + Id.ToString() : nameTxtB.Text;
+
             GameInfo gameInfo = new GameInfo(
-                DBHelper.GetNextId("tbl_games", DBConstants.Games_Parameters.Id),
+                 Id,
                  nameTxtB.Text,
                  this.game.Board.GenerateBoardCode(),
                  this.game.GetPuzzleCode(),
@@ -155,7 +158,7 @@ namespace Sudoku_WPF
         /// <summary>
         /// Disables the game controls and stops certain functionalities.
         /// </summary>
-        public void Disable()
+        public void DisableGameControls()
         {
             this.game.Board.Disable();
             this.btn_pause.Visibility = Visibility.Collapsed;
@@ -282,7 +285,7 @@ namespace Sudoku_WPF
                 // Set the caret to the end of the truncated text
                 textBox.CaretIndex = textBox.Text.Length;
             }
-            
+
             if (textBox == nameTxtB)
             {
                 nameTextPlaceholder.Visibility = string.IsNullOrWhiteSpace(nameTxtB.Text) ? Visibility.Visible : Visibility.Hidden;
@@ -307,17 +310,51 @@ namespace Sudoku_WPF
             RemoveCheck();
         }
 
+
         /// <summary>
-        /// Event handler for pausing the game.
-        /// Pauses the game timer and displays a pause message.
+        /// Handles the toggled state of the pause button, pausing and resuming the game.
         /// </summary>
-        private void Pause_Click(object sender, RoutedEventArgs e)
+        private void Pause_Checked(object sender, RoutedEventArgs e)
         {
-            SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
+            SoundPlayer.PlaySound(SoundConstants.ON_OFF);
 
             game.Timer.Stop();
-            MessageBox.Show(GameConstants.PAUSE_STR);
+            DisablePauseControls();
+        }
+
+        private void Pause_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SoundPlayer.PlaySound(SoundConstants.ON_OFF);
             game.Timer.Start();
+            EnablePauseControls();
+        }
+
+        /// <summary>
+        /// Disables all game controls when the game is paused.
+        /// </summary>
+        private void DisablePauseControls()
+        {
+            SudokuGrid.IsEnabled = false;
+            btn_showPuzzleCode.IsEnabled = false;
+            btn_newGame.IsEnabled = false;
+            btn_checkBoard.IsEnabled = false;
+            btn_hint.IsEnabled = false;
+            btn_endGame.IsEnabled = false;
+            nameTxtB.IsEnabled = false;
+        }
+
+        /// <summary>
+        /// Enables all game controls when the game is resumed.
+        /// </summary>
+        private void EnablePauseControls()
+        {
+            SudokuGrid.IsEnabled = true;
+            btn_showPuzzleCode.IsEnabled = true;
+            btn_newGame.IsEnabled = true;
+            btn_checkBoard.IsEnabled = true;
+            btn_hint.IsEnabled = true;
+            btn_endGame.IsEnabled = true;
+            nameTxtB.IsEnabled = true;
         }
 
         /// <summary>

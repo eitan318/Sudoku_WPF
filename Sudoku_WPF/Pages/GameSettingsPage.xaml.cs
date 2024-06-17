@@ -38,9 +38,6 @@ namespace Sudoku_WPF
 
             SetInitialTheme(GameSettings.dificultyLevel.ToString());
 
-            NUD_boxHeight.MaxValue = 4;
-            NUD_boxWidth.MaxValue = 4;
-
             NUD_boxHeight.Value = GameSettings.BoxHeight;
             NUD_boxWidth.Value = GameSettings.BoxWidth;
 

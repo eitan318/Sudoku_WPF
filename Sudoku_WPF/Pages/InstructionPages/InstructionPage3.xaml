@@ -1,14 +1,49 @@
 ﻿<Page x:Class="Sudoku_WPF.Pages.InstructionPages.InstructionPage3"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Sudoku_WPF.Pages.InstructionPages"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="InstructionPage3">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="Usage of Menu Pages" Style="{StaticResource HeaderTextBlockStyle}"/>
+
+        <!-- Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20">
+                <!-- Game Page -->
+                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">Game Page</TextBlock>
+                <TextBlock Style="{StaticResource ContentTextBlockStyle}" TextWrapping="Wrap">
+                    The Game page is where you play Sudoku. You can start a new game with customizable grid dimensions and difficulty levels. Use your keyboard to fill in the cells. Features like hint, undo, and note-taking are available to assist you.
+                </TextBlock>
+
+                <!-- Saved Page -->
+                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">Saved Page</TextBlock>
+                <TextBlock Style="{StaticResource ContentTextBlockStyle}" TextWrapping="Wrap">
+                    The Saved page lists all your saved games. From here, you can resume any game you have previously saved, allowing you to continue playing from where you left off.
+                </TextBlock>
+
+                <!-- History Page -->
+                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">History Page</TextBlock>
+                <TextBlock Style="{StaticResource ContentTextBlockStyle}" TextWrapping="Wrap">
+                    The History page displays a log of your completed games. You can see details like your scores, completion times, and the difficulty levels of the puzzles you have solved.
+                </TextBlock>
+
+                <!-- Settings Page -->
+                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">Settings Page</TextBlock>
+                <TextBlock Style="{StaticResource ContentTextBlockStyle}" TextWrapping="Wrap">
+                    The Settings page allows you to customize the application's appearance and behavior. You can toggle sound and music, change themes and more to tailor the game to your preferences.
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
