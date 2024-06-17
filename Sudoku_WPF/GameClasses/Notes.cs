@@ -132,7 +132,12 @@ namespace Sudoku_WPF.GameClasses
         /// <returns>True if the note exists, otherwise false.</returns>
         public bool NoteExist(string noteText)
         {
-            return notes.Any(note => note.Text == noteText);
+            foreach (TextBlock note in notes)
+            {
+                if(note.Text == noteText) 
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>

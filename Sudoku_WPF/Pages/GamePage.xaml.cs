@@ -270,7 +270,7 @@ namespace Sudoku_WPF
         /// <summary>
         /// Limits the text length in a TextBox to 20 characters.
         /// </summary>
-        private void LimitedTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void nameTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
 
@@ -281,6 +281,11 @@ namespace Sudoku_WPF
 
                 // Set the caret to the end of the truncated text
                 textBox.CaretIndex = textBox.Text.Length;
+            }
+            
+            if (textBox == nameTxtB)
+            {
+                nameTextPlaceholder.Visibility = string.IsNullOrWhiteSpace(nameTxtB.Text) ? Visibility.Visible : Visibility.Hidden;
             }
         }
 

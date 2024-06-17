@@ -206,7 +206,7 @@ namespace Sudoku_WPF.GameClasses
                     {
                         if (Settings.allowNotes)
                         {
-                            ShowNotes(e.Text, e.Text);
+                            ShowNotes(Text, e.Text);
                         }
                         else
                         {

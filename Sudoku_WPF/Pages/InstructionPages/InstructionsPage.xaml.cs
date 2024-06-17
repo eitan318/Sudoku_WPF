@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Sudoku_WPF.Pages.InstructionPages;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,7 +36,9 @@ namespace Sudoku_WPF
             instructionPages = new Page[]
             {
                 new InstructionPage1(),
-                new InstructionPage2()
+                new InstructionPage2(),
+                new InstructionPage3()
+
             };
 
             // Load the first page
@@ -58,7 +61,9 @@ namespace Sudoku_WPF
         private void UpdateButtonStates()
         {
             BackButton.IsEnabled = currentPageIndex > 0;
+            BackButton.Visibility = currentPageIndex > 0 ? Visibility.Visible : Visibility.Collapsed;
             NextButton.IsEnabled = currentPageIndex < instructionPages.Length - 1;
+            NextButton.Visibility = currentPageIndex < instructionPages.Length - 1 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>

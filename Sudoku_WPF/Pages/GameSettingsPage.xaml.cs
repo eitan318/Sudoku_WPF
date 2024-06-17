@@ -67,6 +67,17 @@ namespace Sudoku_WPF
             }
         }
 
+        private void codeTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+          
+            if (textBox == codeTxtBox)
+            {
+                codePlaceholder.Visibility = string.IsNullOrWhiteSpace(codeTxtBox.Text) ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
+
         /// <summary>
         /// Event handler for value changes in the number up down controls (NUD).
         /// Plays a sound and adjusts max values based on current NUD values.
@@ -88,6 +99,8 @@ namespace Sudoku_WPF
                 NUD_boxWidth.MaxValue = 5;
                 NUD_boxHeight.MaxValue = 5;
             }
+            GameSettings.BoxHeight = (int)NUD_boxHeight.Value;
+            GameSettings.BoxWidth = (int)NUD_boxWidth.Value;
         }
 
         /// <summary>
@@ -115,7 +128,7 @@ namespace Sudoku_WPF
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
 
             var window = (MainWindow)Application.Current.MainWindow;
-            if (CodeTXTBox.Text == "" || CodeTXTBox.Text == "Enter puzzle code")
+            if (codeTxtBox.Text == "" || codeTxtBox.Text == "Enter puzzle code")
             {
                 GameSettings.BoxHeight = Convert.ToInt32(NUD_boxHeight.Value);
                 GameSettings.BoxWidth = Convert.ToInt32(NUD_boxWidth.Value);
@@ -124,15 +137,15 @@ namespace Sudoku_WPF
                 NavigationService.Navigate(window.gamePage);
                 //window.Settings_btn.Visibility = Visibility.Collapsed;
             }
-            else if (IsValidCode(Code.Unprotect(CodeTXTBox.Text)))
+            else if (IsValidCode(Code.Unprotect(codeTxtBox.Text)))
             {
-                window.gamePage = new GamePage(CodeTXTBox.Text);
+                window.gamePage = new GamePage(codeTxtBox.Text);
                 NavigationService.Navigate(window.gamePage);
             }
             else
             {
                 MessageBox.Show("Puzzle code invalid! Enter it again");
-                this.CodeTXTBox.Text = "";
+                this.codeTxtBox.Text = "";
             }
         }
 

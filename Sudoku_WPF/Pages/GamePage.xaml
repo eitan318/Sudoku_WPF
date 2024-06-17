@@ -4,7 +4,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Sudoku_WPF"
-      xmlns:behaviors="clr-namespace:Sudoku_WPF.Behaviors"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GamePage"
@@ -33,14 +32,25 @@
                         BorderThickness="2"
                         Height="30"
                         Width="110">
-                    <TextBox x:Name="nameTxtB"
-                             Foreground="{DynamicResource Text}"
-                             behaviors:TextBoxBehavior.DefaultText="*board name*"
-                             Background="Transparent"
-                             BorderBrush="Transparent"
-                             FontSize="12"
-                             TextAlignment="Center"
-                             TextChanged="LimitedTextBox_TextChanged"/>
+
+                    <Grid >
+                        <TextBox x:Name="nameTxtB" 
+                                 Foreground="{DynamicResource Text}" 
+                                 TextChanged="nameTextBox_TextChanged" 
+                                 Background="Transparent"
+                                 BorderBrush="Transparent"
+                                 FontSize="12"
+                                 TextAlignment="Center"/>
+                        <TextBlock x:Name="nameTextPlaceholder" 
+                                   Text="*board name*" 
+                                   Foreground="{DynamicResource Text}" 
+                                   IsHitTestVisible="False"
+                                   Background="Transparent"
+                                   FontSize="12"
+                                   TextAlignment="Center"/>
+                        
+                    </Grid>
+
                 </Border>
                 <Button Style="{StaticResource RoundedButtonStyle}" x:Name="btn_pause" Click="Pause_Click" Content="PAUSE" Width="100" Margin="20" Height="35" HorizontalAlignment="Stretch"/>
                 <Button Style="{StaticResource RoundedButtonStyle}" x:Name="btn_showPuzzleCode" Click="CopyPuzzleCode_Click" Margin="20" Content="COPY CODE" Height="35" HorizontalAlignment="Stretch"/>

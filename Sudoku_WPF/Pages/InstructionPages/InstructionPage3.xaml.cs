@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Sudoku_WPF.Pages.InstructionPages
 {
     /// <summary>
-    /// Interaction logic for InstructionPage1.xaml
+    /// Interaction logic for InstructionsPage3.xaml
     /// </summary>
-    public partial class InstructionPage1 : Page
+    public partial class InstructionPage3 : Page
     {
-        public InstructionPage1()
+        public InstructionPage3()
         {
             InitializeComponent();
         }

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sudoku_WPF
+namespace Sudoku_WPF.Pages.InstructionPages
 {
     /// <summary>
     /// Interaction logic for InstructionPage2.xaml
