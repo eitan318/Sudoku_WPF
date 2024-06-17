@@ -28,8 +28,10 @@ namespace Sudoku_WPF
     {
         public Page gamePage;
 
-
-
+        /// <summary>
+        /// Constructor for initializing the GameSettingsPage.
+        /// Sets initial theme, max values for number up down controls, and event handlers.
+        /// </summary>
         public GameSettingsPage()
         {
             InitializeComponent();
@@ -48,6 +50,10 @@ namespace Sudoku_WPF
             gamePage = null;
         }
 
+        /// <summary>
+        /// Sets the initial theme based on the provided theme name.
+        /// </summary>
+        /// <param name="themeName">The name of the theme to set.</param>
         private void SetInitialTheme(string themeName)
         {
             // Find the ComboBoxItem with the specified theme name and set it as selected
@@ -61,6 +67,10 @@ namespace Sudoku_WPF
             }
         }
 
+        /// <summary>
+        /// Event handler for value changes in the number up down controls (NUD).
+        /// Plays a sound and adjusts max values based on current NUD values.
+        /// </summary>
         private void NUD_ValueChanged(object sender, EventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
@@ -80,6 +90,10 @@ namespace Sudoku_WPF
             }
         }
 
+        /// <summary>
+        /// Event handler for selection changes in the difficulty level combo box.
+        /// Updates the game settings with the selected difficulty level.
+        /// </summary>
         private void DificultyLevel_CMBB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string option = "";
@@ -90,9 +104,12 @@ namespace Sudoku_WPF
             {
                 GameSettings.dificultyLevel = difLvl;
             }
-
         }
 
+        /// <summary>
+        /// Event handler for clicking the game starter button.
+        /// Plays a sound and initiates the game based on user input or puzzle code.
+        /// </summary>
         private void GameStarterBtn_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
@@ -111,18 +128,19 @@ namespace Sudoku_WPF
             {
                 window.gamePage = new GamePage(CodeTXTBox.Text);
                 NavigationService.Navigate(window.gamePage);
-
             }
             else
             {
                 MessageBox.Show("Puzzle code invalid! Enter it again");
                 this.CodeTXTBox.Text = "";
             }
-
-
         }
 
-
+        /// <summary>
+        /// Checks if the provided puzzle code is valid.
+        /// </summary>
+        /// <param name="code">The puzzle code to validate.</param>
+        /// <returns>True if the puzzle code is valid; otherwise, false.</returns>
         private bool IsValidCode(string code)
         {
             if (code == null)
@@ -179,7 +197,5 @@ namespace Sudoku_WPF
 
             return true;
         }
-
-
     }
 }

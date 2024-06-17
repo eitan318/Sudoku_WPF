@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sudoku_WPF.publico;
+using System;
 using System.Data.OleDb;
 using System.Diagnostics.Eventing.Reader;
 using System.Windows;
@@ -8,9 +9,7 @@ using System.Windows.Input;
 using System.Windows.Navigation;
 using DAL;
 using Sudoku_WPF.GameClasses;
-using Sudoku_WPF.publico;
 using static Sudoku_WPF.publico.Constants;
-
 
 namespace Sudoku_WPF
 {
@@ -32,14 +31,21 @@ namespace Sudoku_WPF
             game = new Game(SudokuGrid, timerTxtB);
         }
 
+        /// <summary>
+        /// Constructor for initializing GamePage with a specific puzzle code.
+        /// </summary>
+        /// <param name="puzzleCode">The puzzle code to initialize the game with.</param>
         public GamePage(string puzzleCode)
         {
             InitializeComponent();
             Init();
-
             game = new Game(SudokuGrid, timerTxtB, puzzleCode);
         }
 
+        /// <summary>
+        /// Constructor for initializing GamePage with game information.
+        /// </summary>
+        /// <param name="gameInfo">The game information to initialize the game with.</param>
         public GamePage(GameInfo gameInfo)
         {
             InitializeComponent();
@@ -56,10 +62,16 @@ namespace Sudoku_WPF
             game = new Game(SudokuGrid, timerTxtB, gameInfo);
         }
 
+        /// <summary>
+        /// Retrieves the current game information.
+        /// </summary>
+        /// <param name="solved">Whether the game is solved or not.</param>
+        /// <param name="current">Whether the game is the current game or not.</param>
+        /// <returns>The GameInfo object representing the current game state.</returns>
         public GameInfo GetGameInfo(bool solved, bool current)
         {
             GameInfo gameInfo = new GameInfo(
-                DBHelper.GetNextId("tbl_games",DBConstants.Games_Parameters.Id),
+                DBHelper.GetNextId("tbl_games", DBConstants.Games_Parameters.Id),
                  nameTxtB.Text,
                  this.game.Board.GenerateBoardCode(),
                  this.game.GetPuzzleCode(),
@@ -74,14 +86,13 @@ namespace Sudoku_WPF
                  GameSettings.BoxWidth
                  );
             return gameInfo;
-
         }
-        
 
-
+        /// <summary>
+        /// Initializes the GamePage by setting up initial values and event handlers.
+        /// </summary>
         private void Init()
         {
-
             this.hintsLeft = GameConstants.HINTS;
             this.checksLeft = GameConstants.CHECKS;
 
@@ -92,6 +103,10 @@ namespace Sudoku_WPF
             this.Unloaded += MyPage_Unloaded;
         }
 
+        /// <summary>
+        /// Event handler when the GamePage is loaded into the visual tree.
+        /// Starts the game timer and subscribes to navigation events.
+        /// </summary>
         private void MyPage_Loaded(object sender, RoutedEventArgs e)
         {
             // Subscribe to the Navigating event
@@ -102,6 +117,10 @@ namespace Sudoku_WPF
             }
         }
 
+        /// <summary>
+        /// Event handler when the GamePage is unloaded from the visual tree.
+        /// Stops the game timer and unsubscribes from navigation events.
+        /// </summary>
         private void MyPage_Unloaded(object sender, RoutedEventArgs e)
         {
             // Unsubscribe from the Navigating event
@@ -112,6 +131,12 @@ namespace Sudoku_WPF
             }
         }
 
+        /// <summary>
+        /// Event handler for navigating away from the GamePage.
+        /// Stops the game timer based on navigation actions.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event arguments.</param>
         private void OnNavigatingFrom(object sender, NavigatingCancelEventArgs e)
         {
             // Check if the current content is GamePage and we're navigating away
@@ -127,6 +152,9 @@ namespace Sudoku_WPF
             }
         }
 
+        /// <summary>
+        /// Disables the game controls and stops certain functionalities.
+        /// </summary>
         public void Disable()
         {
             this.game.Board.Disable();
@@ -138,12 +166,16 @@ namespace Sudoku_WPF
             this.btn_endGame.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Event handler for ending the game.
+        /// Asks user to save the game and shows the solution if chosen.
+        /// </summary>
         private void EndGame_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
 
             MessageBoxResult msbxRes = MessageBox.Show("Do you want to save this game?", "Save Game", MessageBoxButton.YesNoCancel);
-            if ( msbxRes == MessageBoxResult.Yes || msbxRes == MessageBoxResult.No)
+            if (msbxRes == MessageBoxResult.Yes || msbxRes == MessageBoxResult.No)
             {
                 try
                 {
@@ -155,16 +187,15 @@ namespace Sudoku_WPF
                 {
                     Mouse.OverrideCursor = null; // Restore cursor
                 }
-                
-
             }
-
-            
         }
 
+        /// <summary>
+        /// Event handler for using a hint during the game.
+        /// Plays a sound and applies a hint to the focused cell.
+        /// </summary>
         private void Hint_Click(object sender, RoutedEventArgs e)
         {
-
             if (hintsLeft == 1)
             {
                 btn_hint.IsEnabled = false;
@@ -182,52 +213,63 @@ namespace Sudoku_WPF
             }
         }
 
+        /// <summary>
+        /// Event handler for starting a new game.
+        /// Asks to save the current game and navigates to game settings.
+        /// </summary>
         private void NewGame_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
 
-            if (this == null)
-            {
-                NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
-                return;
-            }
-
-            if (this != null)
+            if (this.game.IsInGame())
             {
                 MessageBoxResult msbxRes = MessageBox.Show("Do you want to save this game?", "Save Game", MessageBoxButton.YesNoCancel);
 
                 if (msbxRes == MessageBoxResult.Yes || msbxRes == MessageBoxResult.No)
                 {
-                        
                     game.End(false, msbxRes == MessageBoxResult.Yes);
                     NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
                 }
             }
-
-
+            else
+            {
+                NavigationService.Navigate(UriConstants.GAME_SETTINGS_PAGE);
+                return;
+            }
         }
 
+        /// <summary>
+        /// Removes a hint and updates the remaining hints count.
+        /// </summary>
         private void RemoveHint()
         {
             this.hintsLeft--;
             hintsTxtB.Text = hintsLeft.ToString() + GameConstants.REMEINING_STR;
         }
 
+        /// <summary>
+        /// Removes a check and updates the remaining checks count.
+        /// </summary>
         private void RemoveCheck()
         {
             this.checksLeft--;
             checksTxtB.Text = checksLeft.ToString() + GameConstants.REMEINING_STR;
         }
 
+        /// <summary>
+        /// Copies the current puzzle code to the clipboard.
+        /// </summary>
         private void CopyPuzzleCode_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
 
-            //Clipboard.SetText(Puzzle.GetCurrentCode());
             Clipboard.SetText(game.GetPuzzleCode());
             MessageBox.Show(GameConstants.COPIED_STR);
         }
 
+        /// <summary>
+        /// Limits the text length in a TextBox to 20 characters.
+        /// </summary>
         private void LimitedTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
@@ -242,6 +284,10 @@ namespace Sudoku_WPF
             }
         }
 
+        /// <summary>
+        /// Event handler for checking the current board configuration.
+        /// Plays a sound and checks the board with the remaining checks count.
+        /// </summary>
         private void CheckBoard_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
@@ -256,6 +302,10 @@ namespace Sudoku_WPF
             RemoveCheck();
         }
 
+        /// <summary>
+        /// Event handler for pausing the game.
+        /// Pauses the game timer and displays a pause message.
+        /// </summary>
         private void Pause_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
@@ -265,8 +315,9 @@ namespace Sudoku_WPF
             game.Timer.Start();
         }
 
+        /// <summary>
+        /// Property to access the Game instance associated with this GamePage.
+        /// </summary>
         public Game Game => this.game;
-
-
     }
 }

@@ -9,8 +9,15 @@ using System.Windows.Controls.Primitives;
 
 namespace Sudoku_WPF
 {
+    /// <summary>
+    /// Interaction logic for SettingsPage.xaml
+    /// </summary>
     public partial class SettingsPage : Page
     {
+        /// <summary>
+        /// Constructor for initializing the SettingsPage.
+        /// Sets up initial UI state based on current settings.
+        /// </summary>
         public SettingsPage()
         {
             InitializeComponent();
@@ -24,6 +31,12 @@ namespace Sudoku_WPF
             allowNotes.IsChecked = Settings.allowNotes;
         }
 
+        /// <summary>
+        /// Event handler for toggle button clicks.
+        /// Updates corresponding setting values based on button state.
+        /// </summary>
+        /// <param name="sender">The toggle button that was clicked.</param>
+        /// <param name="e">Event arguments.</param>
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.ON_OFF);
@@ -67,6 +80,10 @@ namespace Sudoku_WPF
             }
         }
 
+        /// <summary>
+        /// Sets the initial theme selection in the ColorMode_CMBB ComboBox.
+        /// </summary>
+        /// <param name="themeName">The name of the theme to select initially.</param>
         private void SetInitialTheme(string themeName)
         {
             // Find the ComboBoxItem with the specified theme name and set it as selected
@@ -80,6 +97,12 @@ namespace Sudoku_WPF
             }
         }
 
+        /// <summary>
+        /// Event handler for the ColorMode_CMBB ComboBox selection change.
+        /// Applies the selected theme and updates the Settings.
+        /// </summary>
+        /// <param name="sender">The ComboBox that triggered the event.</param>
+        /// <param name="e">Event arguments.</param>
         private void ColorMode_CMBB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string option = "";

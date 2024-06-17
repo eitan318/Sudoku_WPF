@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using static Sudoku_WPF.publico.Constants;
 
 namespace Sudoku_WPF
@@ -24,6 +23,10 @@ namespace Sudoku_WPF
         private int currentPageIndex = 0;
         private readonly Page[] instructionPages;
 
+        /// <summary>
+        /// Constructor for initializing the InstructionsPage.
+        /// Initializes the instruction pages array and loads the first page.
+        /// </summary>
         public InstructionsPage()
         {
             InitializeComponent();
@@ -39,18 +42,29 @@ namespace Sudoku_WPF
             LoadCurrentPage();
         }
 
+        /// <summary>
+        /// Loads the current instruction page into the InstructionFrame.
+        /// Updates the state of the navigation buttons.
+        /// </summary>
         private void LoadCurrentPage()
         {
             InstructionFrame.Navigate(instructionPages[currentPageIndex]);
             UpdateButtonStates();
         }
 
+        /// <summary>
+        /// Updates the enabled state of the navigation buttons based on the current page index.
+        /// </summary>
         private void UpdateButtonStates()
         {
             BackButton.IsEnabled = currentPageIndex > 0;
             NextButton.IsEnabled = currentPageIndex < instructionPages.Length - 1;
         }
 
+        /// <summary>
+        /// Event handler for the Back button click.
+        /// Plays a button click sound and navigates to the previous instruction page if available.
+        /// </summary>
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
@@ -62,6 +76,10 @@ namespace Sudoku_WPF
             }
         }
 
+        /// <summary>
+        /// Event handler for the Next button click.
+        /// Plays a button click sound and navigates to the next instruction page if available.
+        /// </summary>
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);

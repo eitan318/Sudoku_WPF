@@ -1,366 +1,439 @@
-﻿using static Sudoku_WPF.publico.Constants;
-using Sudoku_WPF;
-using Sudoku_WPF.GameClasses;
-using Sudoku_WPF.publico;
+﻿using Sudoku_WPF.publico;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows;
-using System.Configuration;
+using static Sudoku_WPF.publico.Constants;
 
-public class Cell : TextBox
+namespace Sudoku_WPF.GameClasses
 {
-    public int row, column;
-    public string solvedValue;
-    public Notes notesGrid;
-
-    private List<Cell> relatedCells;
-    private string previousText;
-    private bool notesVisible = false;
-
-    // Constructor to initialize cell properties
-    public Cell(int row, int column)
+    /// <summary>
+    /// Represents a single cell in the Sudoku board, derived from TextBox.
+    /// </summary>
+    public class Cell : TextBox
     {
-        this.row = row;
-        this.column = column;
+        public int row, column; // Row and column indices of the cell
+        public string solvedValue; // The solved value of the cell
+        public Notes notesGrid; // Notes grid associated with the cell
 
-        notesGrid = new Notes { Visibility = Visibility.Collapsed };
+        private List<Cell> relatedCells; // List of cells related to this cell
+        private string previousText; // Previous text content of the cell
+        private bool notesVisible = false; // Flag indicating if notes are currently visible
 
-        Grid.SetRow(this, row);
-        Grid.SetColumn(this, column);
-
-        Grid.SetRow(notesGrid, row);
-        Grid.SetColumn(notesGrid, column);
-
-        solvedValue = Puzzle.CellValueS(row, column).ToString();
-
-        InitializeProperties();
-    }
-
-    public void ClearAll()
-    {
-        this.notesGrid.Clear();
-        this.Clear();
-    }
-
-    // Initialize cell properties
-    public void InitializeProperties()
-    {
-        Text = "";
-        VerticalContentAlignment = VerticalAlignment.Center;
-        HorizontalContentAlignment = HorizontalAlignment.Center;
-        FontSize = BoardConstants.BOARD_WIDTH * BoardConstants.RELATIVE_FONT_SIZE / GameSettings.BoardSide;
-        SetResourceReference(BorderBrushProperty, "Border"); // Set border brush using resource reference
-        SetResourceReference(BackgroundProperty, "Tbx_Board"); // Set background brush using resource reference
-        SetResourceReference(ForegroundProperty, "Text"); // Set foreground brush using resource reference
-        CaretBrush = Brushes.Transparent;
-    }
-
-    // Attach event handlers to the cell
-    public void AttachEventHandlers()
-    {
-        TextChanged += TextBox_TextChanged;
-        PreviewTextInput += TextBox_PreviewTextInput;
-        PreviewKeyDown += TextBox_PreviewKeyDown;
-        GotFocus += TextBox_GotFocus;
-        SizeChanged += OnSizeChanged; // Attach SizeChanged event for font size adjustment
-    }
-
-    // Detach event handlers from the cell
-    public void DettachEventHandlers()
-    {
-        TextChanged -= TextBox_TextChanged;
-        PreviewTextInput -= TextBox_PreviewTextInput;
-        PreviewKeyDown -= TextBox_PreviewKeyDown;
-        GotFocus -= TextBox_GotFocus;
-        SizeChanged -= OnSizeChanged; // Detach SizeChanged event
-    }
-
-    // Adjust font size based on cell size
-    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        AdjustFontSize();
-    }
-
-    // Adjust the font size dynamically
-    private void AdjustFontSize()
-    {
-        double fontSize = FontSize;
-        double minFontSize = 6; // Minimum font size to avoid being too small
-        double maxFontSize = 200; // Maximum font size to avoid being too large
-
-        double width = ActualWidth - Padding.Left - Padding.Right;
-        double height = ActualHeight - Padding.Top - Padding.Bottom;
-
-        if (width <= 0 || height <= 0)
-            return;
-
-        FormattedText formattedText = new FormattedText(
-            Text,
-            System.Globalization.CultureInfo.CurrentCulture,
-            FlowDirection.LeftToRight,
-            new Typeface(FontFamily, FontStyle, FontWeight, FontStretch),
-            fontSize,
-            Brushes.Black,
-            VisualTreeHelper.GetDpi(this).PixelsPerDip);
-
-        double scaleFactor = Math.Min(width / formattedText.Width, height / formattedText.Height);
-        double newFontSize = Math.Clamp(fontSize * scaleFactor, minFontSize, maxFontSize);
-
-        FontSize = newFontSize;
-    }
-
-    // Color cells based on the focus cell
-    public void ColorBy(Cell focusCell, string previewText, bool validateForeground)
-    {
-        bool isValid = Foreground == (Brush)FindResource(ColorConstants.TextFore);
-
-        SetResourceReference(BorderBrushProperty, ColorConstants.Border);
-
-        if (IsRelatedTo(focusCell))
+        /// <summary>
+        /// Constructor to initialize a cell.
+        /// </summary>
+        /// <param name="row">Row index of the cell.</param>
+        /// <param name="column">Column index of the cell.</param>
+        public Cell(int row, int column)
         {
-            SetResourceReference(BackgroundProperty, Text == focusCell.Text && Text != "" ? ColorConstants.Tbx_WrongBackground : (Settings.markRelated ? ColorConstants.Tbx_Sign : ColorConstants.Tbx_Board));
+            this.row = row;
+            this.column = column;
 
-            if (validateForeground)
+            notesGrid = new Notes { Visibility = System.Windows.Visibility.Collapsed };
+
+            Grid.SetRow(this, row);
+            Grid.SetColumn(this, column);
+
+            Grid.SetRow(notesGrid, row);
+            Grid.SetColumn(notesGrid, column);
+
+            solvedValue = Puzzle.CellValueS(row, column).ToString();
+
+            InitializeProperties();
+        }
+
+        /// <summary>
+        /// Clears all content in the cell and notes grid.
+        /// </summary>
+        public void ClearAll()
+        {
+            this.notesGrid.Clear();
+            this.Clear();
+        }
+
+        /// <summary>
+        /// Initializes visual properties of the cell.
+        /// </summary>
+        public void InitializeProperties()
+        {
+            Text = "";
+            VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
+            HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+            FontSize = BoardConstants.BOARD_WIDTH * BoardConstants.RELATIVE_FONT_SIZE / GameSettings.BoardSide;
+            SetResourceReference(BorderBrushProperty, "Border"); // Set border brush using resource reference
+            SetResourceReference(BackgroundProperty, "Tbx_Board"); // Set background brush using resource reference
+            SetResourceReference(ForegroundProperty, "Text"); // Set foreground brush using resource reference
+            CaretBrush = Brushes.Transparent;
+        }
+
+        /// <summary>
+        /// Attaches event handlers to the cell.
+        /// </summary>
+        public void AttachEventHandlers()
+        {
+            TextChanged += TextBox_TextChanged;
+            PreviewTextInput += TextBox_PreviewTextInput;
+            PreviewKeyDown += TextBox_PreviewKeyDown;
+            GotFocus += TextBox_GotFocus;
+            SizeChanged += OnSizeChanged; // Attach SizeChanged event for font size adjustment
+        }
+
+        /// <summary>
+        /// Detaches event handlers from the cell.
+        /// </summary>
+        public void DetachEventHandlers()
+        {
+            TextChanged -= TextBox_TextChanged;
+            PreviewTextInput -= TextBox_PreviewTextInput;
+            PreviewKeyDown -= TextBox_PreviewKeyDown;
+            GotFocus -= TextBox_GotFocus;
+            SizeChanged -= OnSizeChanged; // Detach SizeChanged event
+        }
+
+        /// <summary>
+        /// Adjusts font size dynamically based on cell size.
+        /// </summary>
+        /// <param name="sender">Event sender.</param>
+        /// <param name="e">Size changed event arguments.</param>
+        private void OnSizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+            AdjustFontSize();
+        }
+
+        /// <summary>
+        /// Adjusts the font size of the cell based on its dimensions.
+        /// </summary>
+        private void AdjustFontSize()
+        {
+            double fontSize = FontSize;
+            double minFontSize = 6; // Minimum font size to avoid being too small
+            double maxFontSize = 200; // Maximum font size to avoid being too large
+
+            double width = ActualWidth - Padding.Left - Padding.Right;
+            double height = ActualHeight - Padding.Top - Padding.Bottom;
+
+            if (width <= 0 || height <= 0)
+                return;
+
+            System.Windows.Media.FormattedText formattedText = new System.Windows.Media.FormattedText(
+                Text,
+                System.Globalization.CultureInfo.CurrentCulture,
+                System.Windows.FlowDirection.LeftToRight,
+                new Typeface(FontFamily, FontStyle, FontWeight, FontStretch),
+                fontSize,
+                Brushes.Black,
+                VisualTreeHelper.GetDpi(this).PixelsPerDip);
+
+            double scaleFactor = System.Math.Min(width / formattedText.Width, height / formattedText.Height);
+            double newFontSize = System.Math.Clamp(fontSize * scaleFactor, minFontSize, maxFontSize);
+
+            FontSize = newFontSize;
+        }
+
+        /// <summary>
+        /// Colors the cell based on the focus cell and validates the content.
+        /// </summary>
+        /// <param name="focusCell">The currently focused cell.</param>
+        /// <param name="previewText">Text to preview in the cell.</param>
+        /// <param name="validateForeground">Flag indicating if foreground validation is required.</param>
+        public void ColorBy(Cell focusCell, string previewText, bool validateForeground)
+        {
+            bool isValid = Foreground == (Brush)FindResource(ColorConstants.TextFore);
+
+            SetResourceReference(BorderBrushProperty, ColorConstants.Border);
+
+            if (IsRelatedTo(focusCell))
             {
-                if (Text == focusCell.previousText && Text != focusCell.Text && Text != "")
+                SetResourceReference(BackgroundProperty, Text == focusCell.Text && Text != "" && !focusCell.IsReadOnly ? ColorConstants.Tbx_WrongBackground : (Settings.markRelated ? ColorConstants.Tbx_Sign : ColorConstants.Tbx_Board));
+
+                if (validateForeground)
                 {
-                    isValid = IsRelativelyValid();
-                }
-                else if (Text == focusCell.Text && Text != "")
-                { 
-                    if (focusCell.Foreground != (Brush)FindResource(ColorConstants.Tbx_WrongForeground))
+                    if (Text == focusCell.previousText && Text != focusCell.Text && Text != "")
                     {
-                        SoundPlayer.PlaySound(SoundConstants.WRONG);
+                        isValid = IsRelativelyValid();
                     }
-                    isValid = false;
-                    focusCell.SetResourceReference(ForegroundProperty, ColorConstants.Tbx_WrongForeground);
+                    else if (Text == focusCell.Text && Text != "")
+                    {
+                        if (focusCell.Foreground != (Brush)FindResource(ColorConstants.Tbx_WrongForeground))
+                        {
+                            SoundPlayer.PlaySound(SoundConstants.WRONG);
+                        }
+                        isValid = false;
+                        focusCell.SetResourceReference(ForegroundProperty, ColorConstants.Tbx_WrongForeground);
+                    }
+                    if (!IsReadOnly)
+                    {
+                        SetResourceReference(ForegroundProperty, isValid ? ColorConstants.TextFore : ColorConstants.Tbx_WrongForeground);
+                    }
                 }
-                if (!IsReadOnly)
-                {
-                    SetResourceReference(ForegroundProperty, isValid ? ColorConstants.TextFore : ColorConstants.Tbx_WrongForeground);
-                }
-            }
-        }
-        else
-        {
-            SetResourceReference(BackgroundProperty, Text == previewText && Text != "" && Settings.markSameText ? ColorConstants.Tbx_SameText : ColorConstants.Tbx_Board);
-        }
-    }
-
-
-    // Check if this cell is related to another cell
-    private bool IsRelatedTo(Cell anotherCell)
-    {
-        bool sameRow = row == anotherCell.row;
-        bool sameColumn = column == anotherCell.column;
-        bool sameBox = row / GameSettings.BoxHeight == anotherCell.row / GameSettings.BoxHeight && column / GameSettings.BoxWidth == anotherCell.column / GameSettings.BoxWidth;
-        return sameRow || sameColumn || sameBox;
-    }
-
-    // Handle text input in the cell
-    public void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-    {
-        if (IsValidInput(e.Text, GameSettings.BoardSide))
-        {
-            if (IsReadOnly)
-            {
-                Board.VisualizeState(this, false, e.Text);
             }
             else
             {
-                if (Text.Length == 1)
+                SetResourceReference(BackgroundProperty, Text == previewText && Text != "" && Settings.markSameText ? ColorConstants.Tbx_SameText : ColorConstants.Tbx_Board);
+            }
+        }
+
+        /// <summary>
+        /// Checks if this cell is related to another cell.
+        /// </summary>
+        /// <param name="anotherCell">Another cell to compare relation.</param>
+        /// <returns>True if related, otherwise false.</returns>
+        private bool IsRelatedTo(Cell anotherCell)
+        {
+            bool sameRow = row == anotherCell.row;
+            bool sameColumn = column == anotherCell.column;
+            bool sameBox = row / GameSettings.BoxHeight == anotherCell.row / GameSettings.BoxHeight && column / GameSettings.BoxWidth == anotherCell.column / GameSettings.BoxWidth;
+            return sameRow || sameColumn || sameBox;
+        }
+
+        /// <summary>
+        /// Handles text input in the cell.
+        /// </summary>
+        /// <param name="sender">Event sender.</param>
+        /// <param name="e">Text composition event arguments.</param>
+        public void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (IsValidInput(e.Text, GameSettings.BoardSide))
+            {
+                if (IsReadOnly)
                 {
-                    if(Settings.allowNotes)
-                    {
-                        ShowNotes(Text, e.Text);
-                    }
-                    else
-                    {
-                        Text = e.Text;
-                    }
+                    Board.VisualizeState(this, false, e.Text);
                 }
                 else
                 {
-                    if (notesVisible)
+                    if (Text.Length == 1)
                     {
-                        SwitchNote(e.Text);
+                        if (Settings.allowNotes)
+                        {
+                            ShowNotes(e.Text, e.Text);
+                        }
+                        else
+                        {
+                            Text = e.Text;
+                        }
                     }
                     else
                     {
-                        Text = e.Text.ToUpper();
-                        CaretIndex = Text.Length;
+                        if (notesVisible)
+                        {
+                            SwitchNote(e.Text);
+                        }
+                        else
+                        {
+                            Text = e.Text.ToUpper();
+                            CaretIndex = Text.Length;
+                        }
                     }
                 }
             }
+            e.Handled = true;
         }
-        e.Handled = true;
-    }
 
-    // Validate the cell content
-    public void Solve(bool hint = false)
-    {
-        if (!IsReadOnly)
+        /// <summary>
+        /// Solves the cell, displaying its solved value and making it read-only.
+        /// </summary>
+        /// <param name="hint">Optional parameter indicating if the solve is a hint.</param>
+        public void Solve(bool hint = false)
         {
-            Text = solvedValue;
-            IsReadOnly = true;
-        }
-        Foreground = (Brush)FindResource(ColorConstants.TextFore);
-        BorderBrush = (Brush)FindResource(ColorConstants.Border);
-        if (!hint)
-        {
-            SetResourceReference(BackgroundProperty, ColorConstants.Tbx_Board);
-        }
-    }
-
-    // Show notes in the cell
-    private void ShowNotes(string firstNumber, string secondNumber)
-    {
-        ShowNotes();
-
-        notesGrid.Clear();
-        notesGrid.ManipulateNote(firstNumber);
-        notesGrid.ManipulateNote(secondNumber);
-
-    }
-
-    public void ShowNotes()
-    {
-        if (notesVisible)
-            return;
-
-        notesVisible = true;
-        notesGrid.Visibility = Visibility.Visible;
-        Text = "";
-    }
-
-    // Switch notes in the cell
-    private void SwitchNote(string number)
-    {
-        if (notesGrid != null)
-        {
-            notesGrid.ManipulateNote(number);
-            if (notesGrid.IsLastOne())
+            if (!IsReadOnly)
             {
-                Text = notesGrid.LastOne();
-                notesGrid.Visibility = Visibility.Collapsed;
-                notesVisible = false;
+                Text = solvedValue;
+                IsReadOnly = true;
+            }
+            Foreground = (Brush)FindResource(ColorConstants.TextFore);
+            BorderBrush = (Brush)FindResource(ColorConstants.Border);
+            if (!hint)
+            {
+                SetResourceReference(BackgroundProperty, ColorConstants.Tbx_Board);
             }
         }
-    }
 
-    // Check if the input is valid
-    public static bool IsValidInput(string input, int maxValue)
-    {
-        if (string.IsNullOrEmpty(input))
+        /// <summary>
+        /// Shows notes in the cell for two numbers.
+        /// </summary>
+        /// <param name="firstNumber">First number to show as a note.</param>
+        /// <param name="secondNumber">Second number to show as a note.</param>
+        private void ShowNotes(string firstNumber, string secondNumber)
         {
-            return false;
-        }
+            ShowNotes();
 
-        int value = HexaToInt(input[0]);
-        return value >= 1 && value <= maxValue;
-    }
-
-    // Handle key down events in the cell
-    private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-    {
-        switch (e.Key)
-        {
-            case Key.Up:
-                if (row > 0)
-                {
-                    Board.MoveFocusToTextBox(row - 1, column);
-                }
-                break;
-            case Key.Down:
-                if (row < GameSettings.BoardSide - 1)
-                {
-                    Board.MoveFocusToTextBox(row + 1, column);
-                }
-                break;
-            case Key.Left:
-                if (column > 0)
-                {
-                    Board.MoveFocusToTextBox(row, column - 1);
-                }
-                break;
-            case Key.Right:
-                if (column < GameSettings.BoardSide - 1)
-                {
-                    Board.MoveFocusToTextBox(row, column + 1);
-                }
-                break;
-        }
-
-        if ((e.Key == Key.Delete || e.Key == Key.Space) && !IsReadOnly)
-        {
-            Text = "";
             notesGrid.Clear();
-            e.Handled = true;
+            notesGrid.ManipulateNote(firstNumber);
+            notesGrid.ManipulateNote(secondNumber);
         }
-        else if (e.Key == Key.Back && !IsReadOnly)
+
+        /// <summary>
+        /// Shows the notes grid in the cell.
+        /// </summary>
+        public void ShowNotes()
         {
+            if (notesVisible)
+                return;
+
+            notesVisible = true;
+            notesGrid.Visibility = System.Windows.Visibility.Visible;
             Text = "";
-            notesGrid.RemoveNoteByIdx(notesGrid.notes.Count - 1); ;
-            e.Handled = true;
         }
-    }
 
-    // Check if the cell content is relatively valid
-    public bool IsRelativelyValid()
-    {
-        if (relatedCells == null)
-            relatedCells = Board.GetRelatedCells(row, column);
-
-        foreach (Cell cell in relatedCells)
+        /// <summary>
+        /// Switches the note in the cell.
+        /// </summary>
+        /// <param name="number">Number to manipulate as a note.</param>
+        private void SwitchNote(string number)
         {
-            if (this != cell && cell.Text != "" && Text == cell.Text)
+            if (notesGrid != null)
+            {
+                notesGrid.ManipulateNote(number);
+                if (notesGrid.IsLastOne())
+                {
+                    Text = notesGrid.LastOne();
+                    notesGrid.Visibility = System.Windows.Visibility.Collapsed;
+                    notesVisible = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validates if the input text is valid for the cell.
+        /// </summary>
+        /// <param name="input">Input text to validate.</param>
+        /// <param name="maxValue">Maximum value allowed.</param>
+        /// <returns>True if valid, otherwise false.</returns>
+        public static bool IsValidInput(string input, int maxValue)
+        {
+            if (string.IsNullOrEmpty(input))
             {
                 return false;
             }
+
+            int value = HexaToInt(input[0]);
+            return value >= 1 && value <= maxValue;
         }
-        return true;
-    }
 
-    // Check if the cell content is totally valid
-    public bool IsTotallyValid()
-    {
-        return Text == Puzzle.CellValueS(row, column).ToString();
-    }
-
-    // Handle text changed event in the cell
-    private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (this != null && !IsReadOnly)
+        /// <summary>
+        /// Handles key down events in the cell.
+        /// </summary>
+        /// <param name="sender">Event sender.</param>
+        /// <param name="e">Key event arguments.</param>
+        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            AdjustFontSize(); // Adjust font size when text changes
-            Board.VisualizeState(this, true, Text);
-            Board.ForSolvedAnimation();
+            switch (e.Key)
+            {
+                case Key.Up:
+                    if (row > 0)
+                    {
+                        Board.MoveFocusToTextBox(row - 1, column);
+                    }
+                    break;
+                case Key.Down:
+                    if (row < GameSettings.BoardSide - 1)
+                    {
+                        Board.MoveFocusToTextBox(row + 1, column);
+                    }
+                    break;
+                case Key.Left:
+                    if (column > 0)
+                    {
+                        Board.MoveFocusToTextBox(row, column - 1);
+                    }
+                    break;
+                case Key.Right:
+                    if (column < GameSettings.BoardSide - 1)
+                    {
+                        Board.MoveFocusToTextBox(row, column + 1);
+                    }
+                    break;
+            }
 
-            previousText = Text;
+            if ((e.Key == Key.Delete || e.Key == Key.Space) && !IsReadOnly)
+            {
+                Text = "";
+                notesGrid.Clear();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Back && !IsReadOnly)
+            {
+                Text = "";
+                notesGrid.RemoveNoteByIdx(notesGrid.notes.Count - 1);
+                e.Handled = true;
+            }
         }
-    }
 
-    // Handle focus event in the cell
-    private void TextBox_GotFocus(object sender, RoutedEventArgs e)
-    {
-        CaretIndex = Text.Length;
-        Board.VisualizeState(this, false, Text);
-        //Background = Foreground;
-    }
-
-    // Convert hex character to integer
-    private static int HexaToInt(char character)
-    {
-        if (char.IsDigit(character))
+        /// <summary>
+        /// Checks if the cell content is relatively valid.
+        /// </summary>
+        /// <returns>True if relatively valid, otherwise false.</returns>
+        public bool IsRelativelyValid()
         {
-            return character - '0';
-        }
-        else if (char.IsLetter(character))
-        {
-            return char.ToUpper(character) - 'A' + Constants.NUM_DIGITS;
+            if (relatedCells == null)
+                relatedCells = Board.GetRelatedCells(row, column);
+
+            foreach (Cell cell in relatedCells)
+            {
+                if (this != cell && cell.Text != "" && Text == cell.Text)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
-        return Constants.ERROR;
+        /// <summary>
+        /// Checks if the cell content is totally valid.
+        /// </summary>
+        /// <returns>True if totally valid, otherwise false.</returns>
+        public bool IsTotallyValid()
+        {
+            return Text == Puzzle.CellValueS(row, column).ToString();
+        }
+
+        /// <summary>
+        /// Handles text changed event in the cell.
+        /// </summary>
+        /// <param name="sender">Event sender.</param>
+        /// <param name="e">Text changed event arguments.</param>
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (this != null && !IsReadOnly)
+            {
+                AdjustFontSize(); // Adjust font size when text changes
+                Board.VisualizeState(this, true, Text);
+                Board.ForSolvedAnimation();
+
+                previousText = Text;
+            }
+        }
+
+        /// <summary>
+        /// Handles focus event in the cell.
+        /// </summary>
+        /// <param name="sender">Event sender.</param>
+        /// <param name="e">Routed event arguments.</param>
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            CaretIndex = Text.Length;
+            Board.VisualizeState(this, false, Text);
+            //Background = Foreground;
+        }
+
+        /// <summary>
+        /// Converts a hexadecimal character to an integer value.
+        /// </summary>
+        /// <param name="character">Hexadecimal character to convert.</param>
+        /// <returns>Integer value corresponding to the hexadecimal character.</returns>
+        private static int HexaToInt(char character)
+        {
+            if (char.IsDigit(character))
+            {
+                return character - '0';
+            }
+            else if (char.IsLetter(character))
+            {
+                return char.ToUpper(character) - 'A' + Constants.NUM_DIGITS;
+            }
+
+            return Constants.ERROR;
+        }
     }
 }

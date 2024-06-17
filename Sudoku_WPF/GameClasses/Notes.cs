@@ -11,16 +11,30 @@ using Sudoku_WPF.publico;
 
 namespace Sudoku_WPF.GameClasses
 {
+    /// <summary>
+    /// Represents a grid of notes for a Sudoku game.
+    /// This class provides methods to manipulate the notes, including adding, removing, and clearing notes.
+    /// </summary>
     public class Notes : UniformGrid
     {
+        /// <summary>
+        /// List of TextBlock elements representing the notes.
+        /// </summary>
         public List<TextBlock> notes;
 
+        /// <summary>
+        /// Initializes a new instance of the Notes class and clears any existing notes.
+        /// </summary>
         public Notes()
         {
             notes = new List<TextBlock>();
             Clear();
         }
 
+        /// <summary>
+        /// Adds or removes a note based on its existence.
+        /// </summary>
+        /// <param name="noteText">The text of the note to manipulate.</param>
         public void ManipulateNote(string noteText)
         {
             if (NoteExist(noteText))
@@ -33,9 +47,13 @@ namespace Sudoku_WPF.GameClasses
             }
         }
 
+        /// <summary>
+        /// Adds a note with the specified text if notes are allowed.
+        /// </summary>
+        /// <param name="noteText">The text of the note to add.</param>
         public void AddNote(string noteText)
         {
-            if(Settings.allowNotes)
+            if (Settings.allowNotes)
             {
                 if (!string.IsNullOrEmpty(noteText))
                 {
@@ -54,9 +72,13 @@ namespace Sudoku_WPF.GameClasses
                     MyUpdateLayout();
                 }
             }
-            
         }
 
+        /// <summary>
+        /// Creates a new TextBlock for a note with the specified text.
+        /// </summary>
+        /// <param name="noteText">The text of the note.</param>
+        /// <returns>A TextBlock element with the specified note text.</returns>
         private TextBlock NewNote(string noteText)
         {
             TextBlock note = new TextBlock()
@@ -74,8 +96,9 @@ namespace Sudoku_WPF.GameClasses
             return note;
         }
 
-
-
+        /// <summary>
+        /// Clears all notes from the grid.
+        /// </summary>
         public void Clear()
         {
             notes.Clear();
@@ -84,21 +107,38 @@ namespace Sudoku_WPF.GameClasses
             MyUpdateLayout();
         }
 
+        /// <summary>
+        /// Determines if there is only one note remaining.
+        /// </summary>
+        /// <returns>True if there is only one note, otherwise false.</returns>
         public bool IsLastOne()
         {
             return notes.Count == 1;
         }
 
+        /// <summary>
+        /// Gets the text of the last remaining note.
+        /// </summary>
+        /// <returns>The text of the last remaining note.</returns>
         public string LastOne()
         {
             return notes[0].Text;
         }
 
+        /// <summary>
+        /// Checks if a note with the specified text exists.
+        /// </summary>
+        /// <param name="noteText">The text of the note to check.</param>
+        /// <returns>True if the note exists, otherwise false.</returns>
         public bool NoteExist(string noteText)
         {
             return notes.Any(note => note.Text == noteText);
         }
 
+        /// <summary>
+        /// Removes a note with the specified text.
+        /// </summary>
+        /// <param name="noteText">The text of the note to remove.</param>
         private void RemoveNote(string noteText)
         {
             for (int i = 0; i < notes.Count; i++)
@@ -111,6 +151,10 @@ namespace Sudoku_WPF.GameClasses
             }
         }
 
+        /// <summary>
+        /// Removes a note at the specified index.
+        /// </summary>
+        /// <param name="idx">The index of the note to remove.</param>
         public void RemoveNoteByIdx(int idx)
         {
             if (idx < notes.Count && idx >= 0)
@@ -121,6 +165,9 @@ namespace Sudoku_WPF.GameClasses
             }
         }
 
+        /// <summary>
+        /// Updates the layout of the grid based on the number of notes.
+        /// </summary>
         private void MyUpdateLayout()
         {
             int noteCount = notes.Count;

@@ -17,23 +17,49 @@ namespace Sudoku_WPF.Pages
     /// </summary>
     public partial class SaverPage : Page
     {
-        private List<GameInfo> games = new List<GameInfo>();
-        private List<Border> Items = new List<Border>();
-        private bool isHistory;
+        private List<GameInfo> games = new List<GameInfo>(); // List to store game information
+        private List<Border> Items = new List<Border>(); // List to store UI border elements
+        private bool isHistory; // Flag indicating if the page is showing history or saved games
 
+        /**
+         * Constructor for SaverPage class.
+         * Initializes a new instance of the SaverPage.
+         *
+         * input: isHistory - Flag indicating if the page displays history or saved games.
+         * output: None
+         */
         public SaverPage(bool isHistory)
         {
             InitializeComponent();
             this.isHistory = isHistory;
             title_Txb.Text = isHistory ? "History" : "Saved Games";
+
+            for (int i = 0; i < Items.Count; i++)
+            {
+                Border item = Items[i];
+                item.Tag = i;
+                UpdateButtonTags(item, i); // Update button tags in the UI
+            }
         }
 
+        /**
+         * Adds a game item to the list and database.
+         *
+         * input: gameInfo - GameInfo object containing game information to add.
+         * output: None
+         */
         public void AddItemToListAndDB(GameInfo gameInfo)
         {
             AddItemToList(gameInfo);
             InsertGame(gameInfo);
         }
 
+        /**
+         * Adds a game item to the list.
+         *
+         * input: gameInfo - GameInfo object containing game information to add.
+         * output: None
+         */
         public void AddItemToList(GameInfo gameInfo)
         {
             games.Add(gameInfo);
@@ -102,6 +128,13 @@ namespace Sudoku_WPF.Pages
             Items.Add(border); // Add border to Items list
         }
 
+        /**
+         * Creates a button panel with specific buttons based on game history status.
+         *
+         * input: isHistory - Flag indicating if the page displays history or saved games.
+         *        gameInfo - GameInfo object containing game information.
+         * output: StackPanel containing buttons for the UI.
+         */
         private StackPanel CreateBtnPanel(bool isHistory, GameInfo gameInfo)
         {
             StackPanel btnPanel = new StackPanel
@@ -182,13 +215,18 @@ namespace Sudoku_WPF.Pages
             return btnPanel;
         }
 
-
+        /**
+         * Event handler for continuing a saved game.
+         *
+         * input: sender - The object that raised the event.
+         *        e - The event arguments.
+         * output: None
+         */
         private void ContinueSavedGame_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
 
             Button btn = sender as Button;
-
 
             int gameIndex = (int)btn.Tag;
 
@@ -222,7 +260,13 @@ namespace Sudoku_WPF.Pages
             window.MainFrame.Navigate(window.gamePage);
         }
 
-
+        /**
+         * Event handler for copying the puzzle code to the clipboard.
+         *
+         * input: sender - The object that raised the event.
+         *        e - The event arguments.
+         * output: None
+         */
         private void CopyPuzzleCode_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
@@ -232,6 +276,13 @@ namespace Sudoku_WPF.Pages
             MessageBox.Show(GameConstants.COPIED_STR);
         }
 
+        /**
+         * Event handler for deleting a game.
+         *
+         * input: sender - The object that raised the event.
+         *        e - The event arguments.
+         * output: None
+         */
         private void DeleteGame_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
@@ -247,6 +298,12 @@ namespace Sudoku_WPF.Pages
             }
         }
 
+        /**
+         * Deletes a game from the list and database.
+         *
+         * input: gameToRemove - GameInfo object containing the game information to remove.
+         * output: None
+         */
         private void DeleteGame(GameInfo gameToRemove)
         {
             DeleteGameFromDB(gameToRemove);
@@ -268,6 +325,13 @@ namespace Sudoku_WPF.Pages
             }
         }
 
+        /**
+         * Updates the tags of buttons inside a border element.
+         *
+         * input: border - Border element containing buttons to update.
+         *        newTag - New tag value to assign to the buttons.
+         * output: None
+         */
         private void UpdateButtonTags(Border border, int newTag)
         {
             Grid grid = border.Child as Grid;
@@ -280,6 +344,12 @@ namespace Sudoku_WPF.Pages
             }
         }
 
+        /**
+         * Deletes a game from the database.
+         *
+         * input: gameInfo - GameInfo object containing the game information to delete.
+         * output: None
+         */
         public static void DeleteGameFromDB(GameInfo gameInfo)
         {
             string sqlStmt = DBConstants.DeletGameQuary;
@@ -287,27 +357,12 @@ namespace Sudoku_WPF.Pages
             DBHelper.ExecuteCommand(sqlStmt, parameter);
         }
 
-        private void AddTextBlockToGrid(Grid grid, string text, double fontSize, int columnSpan = 1, bool title = false)
-        {
-            grid.RowDefinitions.Add(new RowDefinition());
-            TextBlock textBlock = new TextBlock
-            {
-                Text = text,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = title ? HorizontalAlignment.Center : HorizontalAlignment.Left,
-                FontSize = title ? fontSize * 1.1 : fontSize,
-                Margin = new Thickness(10, 0, 0, 0),
-                FontWeight = title ? FontWeights.Bold : FontWeights.Normal,
-            };
-
-            textBlock.SetResourceReference(ForegroundProperty, ColorConstants.TextFore);
-
-            Grid.SetRow(textBlock, grid.RowDefinitions.Count - 1);
-            Grid.SetColumn(textBlock, 0);
-            Grid.SetColumnSpan(textBlock, columnSpan);
-            grid.Children.Add(textBlock);
-        }
-
+        /**
+         * Inserts a new game into the database.
+         *
+         * input: gameInfo - GameInfo object containing the game information to insert.
+         * output: None
+         */
         public static void InsertGame(GameInfo gameInfo)
         {
             string sqlStmt = DBConstants.InsertGameQuary;
@@ -329,6 +384,37 @@ namespace Sudoku_WPF.Pages
              };
 
             DBHelper.ExecuteCommand(sqlStmt, parameters);
+        }
+
+        /**
+         * Adds a text block to a grid.
+         *
+         * input: grid - Grid to add the text block.
+         *        text - Text content of the text block.
+         *        fontSize - Font size of the text block.
+         *        columnSpan - Number of columns the text block spans.
+         *        title - Flag indicating if the text block is a title.
+         * output: None
+         */
+        private void AddTextBlockToGrid(Grid grid, string text, double fontSize, int columnSpan = 1, bool title = false)
+        {
+            grid.RowDefinitions.Add(new RowDefinition());
+            TextBlock textBlock = new TextBlock
+            {
+                Text = text,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = title ? HorizontalAlignment.Center : HorizontalAlignment.Left,
+                FontSize = title ? fontSize * 1.1 : fontSize,
+                Margin = new Thickness(10, 0, 0, 0),
+                FontWeight = title ? FontWeights.Bold : FontWeights.Normal,
+            };
+
+            textBlock.SetResourceReference(ForegroundProperty, ColorConstants.TextFore);
+
+            Grid.SetRow(textBlock, grid.RowDefinitions.Count - 1);
+            Grid.SetColumn(textBlock, 0);
+            Grid.SetColumnSpan(textBlock, columnSpan);
+            grid.Children.Add(textBlock);
         }
     }
 }

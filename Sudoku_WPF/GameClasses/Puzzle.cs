@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Sudoku_WPF.publico;
 using static Sudoku_WPF.publico.Constants;
 
 namespace Sudoku_WPF.GameClasses
 {
+    /// <summary>
+    /// Represents a Sudoku puzzle and provides methods for puzzle generation, management, and access.
+    /// </summary>
     public class Puzzle
     {
         public static bool[,] initialCells; // Array to track which cells are initial (pre-filled)
@@ -15,46 +14,71 @@ namespace Sudoku_WPF.GameClasses
         public string code = "NO CODE YET"; // Code representing the puzzle state
         private static Random rnd = new Random(); // Random number generator for shuffling and selecting initial cells
 
-        // Constructor to create a new puzzle
+        /// <summary>
+        /// Constructor to create a new Sudoku puzzle instance with a random arrangement of initial cells.
+        /// </summary>
         public Puzzle()
         {
             initialCells = new bool[GameSettings.BoardSide, GameSettings.BoardSide];
             solvedPuzzle = new char[GameSettings.BoardSide, GameSettings.BoardSide];
 
-            CreatePuzzle();
-            this.code = GeneratePuzzleCode();
+            GeneratePuzzle();
+            this.code = CreatePuzzleCode();
         }
 
-        // Constructor to import a puzzle from a given code
+        /// <summary>
+        /// Constructor to import a Sudoku puzzle from a given code representation.
+        /// </summary>
+        /// <param name="code">The code representing the puzzle state.</param>
         public Puzzle(string code)
         {
             ImportPuzzleCode(code);
-            this.code = GeneratePuzzleCode();
+            this.code = CreatePuzzleCode();
         }
 
-        // Check if a cell is an initial cell
+        /// <summary>
+        /// Checks if a specified cell is initially filled (pre-filled) in the puzzle.
+        /// </summary>
+        /// <param name="row">The row index of the cell.</param>
+        /// <param name="col">The column index of the cell.</param>
+        /// <returns>True if the cell is an initial cell; otherwise, false.</returns>
         public bool IsCellInitial(int row, int col)
         {
             return initialCells[row, col];
         }
 
-        // Static method to get the value of a cell in the solved puzzle
+        /// <summary>
+        /// Retrieves the value of a specified cell in the solved puzzle.
+        /// </summary>
+        /// <param name="row">The row index of the cell.</param>
+        /// <param name="col">The column index of the cell.</param>
+        /// <returns>The character value at the specified cell position in the solved puzzle.</returns>
         public static char CellValueS(int row, int col)
         {
             return solvedPuzzle[row, col];
         }
 
-        // Instance method to get the value of a cell in the solved puzzle
+        /// <summary>
+        /// Retrieves the value of a specified cell in the solved puzzle.
+        /// </summary>
+        /// <param name="row">The row index of the cell.</param>
+        /// <param name="col">The column index of the cell.</param>
+        /// <returns>The character value at the specified cell position in the solved puzzle.</returns>
         public char CellValue(int row, int col)
         {
             return solvedPuzzle[row, col];
         }
 
-        // Get the code representing the puzzle
+        /// <summary>
+        /// Retrieves the code representing the current state of the puzzle.
+        /// </summary>
+        /// <returns>The code representing the puzzle state as a string.</returns>
         public string GetCode() => code;
 
-        // Create a new puzzle
-        private void CreatePuzzle()
+        /// <summary>
+        /// Generates a new Sudoku puzzle based on the current game settings and difficulty level.
+        /// </summary>
+        private void GeneratePuzzle()
         {
             double fullCellsPercent;
 
@@ -73,24 +97,33 @@ namespace Sudoku_WPF.GameClasses
                     fullCellsPercent = 0;
                     break;
             }
-            CreateSolvedPuzzle();
-            ChooseInitialCells((int)(GameSettings.BoardSide * GameSettings.BoardSide * fullCellsPercent));
+            GenerateSolvedPuzzle();
+            SelectInitialCells((int)(GameSettings.BoardSide * GameSettings.BoardSide * fullCellsPercent));
         }
 
-        // Create a solved puzzle
-        private void CreateSolvedPuzzle()
+        /// <summary>
+        /// Generates a solved Sudoku puzzle based on the current state of the board.
+        /// </summary>
+        private void GenerateSolvedPuzzle()
         {
-            FillBoard();
+            GenerateBoard();
         }
 
-        // Fill the board with a valid Sudoku solution
-        private void FillBoard()
+        /// <summary>
+        /// Fills the board with a valid Sudoku solution recursively.
+        /// </summary>
+        private void GenerateBoard()
         {
-            FillRemaining(0, 0);
+            FillCells(0, 0);
         }
 
-        // Recursively fill the remaining cells in the board
-        private bool FillRemaining(int row, int col)
+        /// <summary>
+        /// Recursively fills the remaining cells in the board to complete the Sudoku puzzle.
+        /// </summary>
+        /// <param name="row">The current row index for filling cells.</param>
+        /// <param name="col">The current column index for filling cells.</param>
+        /// <returns>True if the board is successfully filled, otherwise false.</returns>
+        private bool FillCells(int row, int col)
         {
             if (row == GameSettings.BoardSide - 1 && col == GameSettings.BoardSide)
                 return true;
@@ -100,16 +133,16 @@ namespace Sudoku_WPF.GameClasses
                 col = 0;
             }
             if (solvedPuzzle[row, col] != '\0')
-                return FillRemaining(row, col + 1);
+                return FillCells(row, col + 1);
 
-            char[] nums = GetShuffledNumbers();
+            char[] nums = GenerateShuffledNumbers();
 
             foreach (char num in nums)
             {
-                if (IsSafe(row, col, num))
+                if (IsSafeToPlace(row, col, num))
                 {
                     solvedPuzzle[row, col] = num;
-                    if (FillRemaining(row, col + 1))
+                    if (FillCells(row, col + 1))
                         return true;
                     solvedPuzzle[row, col] = '\0';
                 }
@@ -117,20 +150,26 @@ namespace Sudoku_WPF.GameClasses
             return false;
         }
 
-        // Get an array of numbers (or letters) shuffled randomly
-        private char[] GetShuffledNumbers()
+        /// <summary>
+        /// Generates an array of characters (numbers or letters) shuffled randomly.
+        /// </summary>
+        /// <returns>An array of characters representing shuffled numbers or letters.</returns>
+        private char[] GenerateShuffledNumbers()
         {
             char[] nums = new char[GameSettings.BoardSide];
             for (int i = 0; i < GameSettings.BoardSide; i++)
             {
-                nums[i] = ToHexa(i + 1);
+                nums[i] = ConvertToHex(i + 1);
             }
-            Shuffle(nums);
+            ShuffleArray(nums);
             return nums;
         }
 
-        // Shuffle an array of characters
-        private void Shuffle(char[] array)
+        /// <summary>
+        /// Shuffles an array of characters in place using the Fisher-Yates algorithm.
+        /// </summary>
+        /// <param name="array">The array of characters to be shuffled.</param>
+        private void ShuffleArray(char[] array)
         {
             int n = array.Length;
             for (int i = 0; i < n; i++)
@@ -142,8 +181,14 @@ namespace Sudoku_WPF.GameClasses
             }
         }
 
-        // Check if it's safe to place a number in the specified cell
-        private bool IsSafe(int row, int col, char num)
+        /// <summary>
+        /// Checks if it's safe to place a number in the specified cell based on Sudoku rules.
+        /// </summary>
+        /// <param name="row">The row index of the cell.</param>
+        /// <param name="col">The column index of the cell.</param>
+        /// <param name="num">The number (character) to be placed in the cell.</param>
+        /// <returns>True if placing the number is safe, otherwise false.</returns>
+        private bool IsSafeToPlace(int row, int col, char num)
         {
             // Check row
             for (int x = 0; x < GameSettings.BoardSide; x++)
@@ -167,16 +212,23 @@ namespace Sudoku_WPF.GameClasses
             return true;
         }
 
-        // Convert a number to its corresponding character in hexadecimal format
-        private char ToHexa(int num)
+        /// <summary>
+        /// Converts a number (1-15) to its corresponding hexadecimal character ('0'-'F').
+        /// </summary>
+        /// <param name="num">The number to be converted.</param>
+        /// <returns>The corresponding hexadecimal character.</returns>
+        private char ConvertToHex(int num)
         {
             if (num < Constants.NUM_DIGITS)
                 return (char)('0' + num);
             return (char)('A' + num - Constants.NUM_DIGITS);
         }
 
-        // Choose a specified number of initial cells to be pre-filled
-        private void ChooseInitialCells(int amountOfInitCells)
+        /// <summary>
+        /// Randomly selects a specified number of initial cells to be pre-filled in the puzzle.
+        /// </summary>
+        /// <param name="amountOfInitCells">The number of initial cells to select.</param>
+        private void SelectInitialCells(int amountOfInitCells)
         {
             Random rnd = new Random();
 
@@ -193,8 +245,11 @@ namespace Sudoku_WPF.GameClasses
             }
         }
 
-        // Generate a code representing the current state of the puzzle
-        private string GeneratePuzzleCode()
+        /// <summary>
+        /// Generates a code representing the current state of the puzzle.
+        /// </summary>
+        /// <returns>A string representing the puzzle state code.</returns>
+        private string CreatePuzzleCode()
         {
             string puzzleCode = $"{GameSettings.BoxHeight},{GameSettings.BoxWidth}:";
             for (int i = 0; i < solvedPuzzle.GetLength(0); i++)
@@ -209,19 +264,29 @@ namespace Sudoku_WPF.GameClasses
             return Code.Protect(puzzleCode.Substring(0, puzzleCode.Length - 1));
         }
 
-        // Import a puzzle from a given code
+        /// <summary>
+        /// Imports a puzzle code and initializes game settings, initial cells, and solved puzzle matrix.
+        /// </summary>
+        /// <param name="puzzleCode">The puzzle code to import.</param>
         private void ImportPuzzleCode(string puzzleCode)
         {
+            // Unprotect puzzle code if necessary
             puzzleCode = Code.Unprotect(puzzleCode);
+
+            // Determine indices for parsing settings
             int settingEnd = puzzleCode.IndexOf(":");
             int separator = puzzleCode.IndexOf(",");
+
+            // Parse game settings
             GameSettings.BoxHeight = int.Parse(puzzleCode.Substring(0, separator));
             GameSettings.BoxWidth = int.Parse(puzzleCode.Substring(separator + 1, settingEnd - separator - 1));
             GameSettings.BoardSide = GameSettings.BoxWidth * GameSettings.BoxHeight;
 
+            // Initialize arrays for initial cells and solved puzzle
             initialCells = new bool[GameSettings.BoardSide, GameSettings.BoardSide];
             solvedPuzzle = new char[GameSettings.BoardSide, GameSettings.BoardSide];
 
+            // Parse initial cells and solved puzzle from puzzle code
             int startIdx = settingEnd + 1;
             for (int i = 0; i < GameSettings.BoardSide; i++)
             {

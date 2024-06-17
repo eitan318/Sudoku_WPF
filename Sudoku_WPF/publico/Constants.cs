@@ -75,9 +75,9 @@ namespace Sudoku_WPF.publico
             public const double DIFICULTY_LEVEL_DELTA = 0.1;
             public const double MAX_FULL_CELLS = 0.28;
             public const DificultyLevel DEFAULT_DIFICULTY_LEVEL = DificultyLevel.Easy;
-            public const double FULL_CELLS_EASY = 0.45;
-            public const double FULL_CELLS_MEDIUM = 0.35;
-            public const double FULL_CELLS_HARD = 0.25;
+            public const double FULL_CELLS_EASY = 0.50;
+            public const double FULL_CELLS_MEDIUM = 0.40;
+            public const double FULL_CELLS_HARD = 0.30;
         }
 
         public class SettingsConstants
