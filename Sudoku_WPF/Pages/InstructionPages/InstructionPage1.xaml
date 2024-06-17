@@ -24,27 +24,19 @@
                 <!-- Goal of Sudoku -->
                 <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">Goal of Sudoku</TextBlock>
                 <TextBlock Style="{StaticResource ContentTextBlockStyle}" TextWrapping="Wrap">
-                    Sudoku is a logic-based number-placement puzzle. The objective is to fill a 9x9 grid with digits so that each column, each row, and each of the nine 3x3 subgrids that compose the grid (also called "boxes", "blocks", or "regions") contain all of the digits from 1 to 9.
+                    The objective of sudoku is to fill a grid with digits (or letters) so that each column, each row, and each of the subgrids that compose the grid (also called "boxes", "blocks", or "regions") contain all of the digits from 1 to 9 (or the appropriate set of digits/letters for non-standard grids).
                 </TextBlock>
 
                 <!-- Rules of Sudoku -->
                 <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">Rules of Sudoku</TextBlock>
                 <TextBlock Style="{StaticResource ContentTextBlockStyle}" TextWrapping="Wrap">
-                    <Run FontWeight="Bold">1. Each row:</Run> Must contain all digits from 1 to 9, without repetition.<LineBreak/>
-                    <Run FontWeight="Bold">2. Each column:</Run> Must contain all digits from 1 to 9, without repetition.<LineBreak/>
-                    <Run FontWeight="Bold">3. Each 3x3 subgrid:</Run> Must contain all digits from 1 to 9, without repetition.
-                </TextBlock>
-
-                <!-- Common Techniques -->
-                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}">Common Techniques</TextBlock>
-                <TextBlock Style="{StaticResource ContentTextBlockStyle}" TextWrapping="Wrap">
-                    There are several techniques used to solve Sudoku puzzles efficiently, including:<LineBreak/>
-                    - Naked Single<LineBreak/>
-                    - Hidden Single<LineBreak/>
-                    - Naked Pairs and Triples<LineBreak/>
-                    - X-Wing<LineBreak/>
-                    - Swordfish<LineBreak/>
-                    - Coloring and Chains
+                    Sudoku can be played on different grid sizes and box dimensions. The standard Sudoku grid is a 9x9 grid composed of nine 3x3 subgrids, but you can customize the width and height of a box in the Sudoku grid. Regardless of the grid size, the basic rules are:
+                    <LineBreak/>
+                    <Run FontWeight="Bold">1. Each row:</Run> Must contain all digits (or letters) from the specified range, without repetition.
+                    <LineBreak/>
+                    <Run FontWeight="Bold">2. Each column:</Run> Must contain all digits (or letters) from the specified range, without repetition.
+                    <LineBreak/>
+                    <Run FontWeight="Bold">3. Each subgrid:</Run> Must contain all digits (or letters) from the specified range, without repetition.
                 </TextBlock>
             </StackPanel>
         </ScrollViewer>
