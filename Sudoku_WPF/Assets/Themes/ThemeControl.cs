@@ -25,7 +25,7 @@ namespace Sudoku_WPF.Themes
         {
             string themeUri = "";
 
-            themeUri = "Themes/" + mode.ToString() + ".xaml";
+            themeUri = "Assets/Themes/" + mode.ToString() + ".xaml";
 
             Uri uri = new Uri(themeUri, UriKind.Relative);
 

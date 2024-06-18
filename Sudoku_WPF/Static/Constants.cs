@@ -4,13 +4,13 @@ using System.Windows;
 
 namespace Sudoku_WPF.publico
 {
-    public class Constants
+    public static class Constants
     {
         public const int NUM_DIGITS = 10;
         public const int ERROR = -1;
         public const string PROJ_DIRECTORY = "\\Sudoku_WPF\\Sudoku_WPF";
 
-        public class BoardConstants
+        public static class BoardConstants
         {
             public const int BOARD_WIDTH = 600;
             public const double RELATIVE_FONT_SIZE = 0.65;
@@ -22,7 +22,7 @@ namespace Sudoku_WPF.publico
             public const double DEFAULT_WIDTH = 500.0;
         }
 
-        public class SoundConstants
+        public static class SoundConstants
         {
             public static string BACK_MUSIC_NAME = "relaxing_background_music";
 
@@ -43,7 +43,7 @@ namespace Sudoku_WPF.publico
 
         }
 
-        public class SaverConstants
+        public static class SaverConstants
         {
             public const double RELATIVE_FONT_SIZE = 0.1;
             public const int MARGIN = 15;
@@ -53,13 +53,13 @@ namespace Sudoku_WPF.publico
             public const int BTN_WIDTH = 93;
         }
 
-        public class TimerConstants
+        public static class TimerConstants
         {
             public const string DEFAULT_TIME = "00:00:00";
             public const string FORMAT = @"hh\:mm\:ss";
         }
 
-        public class GameConstants
+        public static class GameConstants
         {
             public const string REMEINING_STR = " Left";
             public const string COPIED_STR = "Text copied to clipboard.";
@@ -69,7 +69,7 @@ namespace Sudoku_WPF.publico
             public const int CHECKS = 5;
         }
 
-        public class GameSettingsConstants 
+        public static class GameSettingsConstants 
         {
             public const int DEFAULT_BOX_HEIGHT = 3;
             public const int DEFAULT_BOX_WIDTH = 3;
@@ -81,12 +81,12 @@ namespace Sudoku_WPF.publico
             public const double FULL_CELLS_HARD = 0.30;
         }
 
-        public class SettingsConstants
+        public static class SettingsConstants
         {
             public static readonly Themes.ColorThemes DEFAULT_THEME = Themes.ColorThemes.Light;
         }
 
-        public class DBConstants
+        public static class DBConstants
         {
             public const string AT = "@";
 
@@ -95,7 +95,7 @@ namespace Sudoku_WPF.publico
               VALUES 
               (@Current, @Solved, @Time, @GameDate, @BoardCode, @PuzzleCode, @GameName, @HintsTaken, @ChecksTaken, @BoxHeight, @BoxWidth, @DifficultyLevel)";
 
-            public class Games_Parameters
+            public static class Games_Parameters
             {
                 public const string Id = "Id";
                 public const string Current = "Current";
@@ -112,7 +112,7 @@ namespace Sudoku_WPF.publico
                 public const string DifficultyLevel =  "DifficultyLevel";
             }
 
-            public class Settings_Parameters
+            public static class Settings_Parameters
             {
                 public const string SameText = "MarkSameText";
                 public const string MarkRelated = "MarkRelated";
@@ -136,7 +136,7 @@ namespace Sudoku_WPF.publico
 
         }
 
-        public class ColorConstants
+        public static class ColorConstants
         {
             public const string TextFore = "Text";
             public const string Tbx_WrongForeground = "Tbx_WrongForeground";
@@ -159,7 +159,7 @@ namespace Sudoku_WPF.publico
 
 
 
-        public class UriConstants
+        public static class UriConstants
         {
             public static readonly Uri GAME_SETTINGS_PAGE = new Uri("/Pages/GameSettingsPage.xaml", UriKind.Relative);
         }

@@ -9,7 +9,7 @@ using static Sudoku_WPF.publico.Constants;
 
 namespace Sudoku_WPF.publico
 {
-    public class Settings
+    public static class Settings
     {
         public static Themes.ColorThemes theme = SettingsConstants.DEFAULT_THEME;
         public static bool markRelated = true;

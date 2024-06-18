@@ -16,7 +16,7 @@ namespace Sudoku_WPF.publico
         Hard
     }
 
-    public class GameSettings
+    public static class GameSettings
     {
         public static int BoxWidth = GameSettingsConstants.DEFAULT_BOX_WIDTH;
         public static int BoxHeight = GameSettingsConstants.DEFAULT_BOX_HEIGHT;

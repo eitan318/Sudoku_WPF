@@ -24,7 +24,7 @@
                     <ComboBoxItem Content="Dark" Foreground="Black" Background="LightGray"/>
                     <ComboBoxItem Content="Red" Foreground="Red" Background="White"/>
                     <ComboBoxItem Content="LightBrown" Foreground="SaddleBrown" Background="White"/>
-                    <ComboBoxItem Content="Blue" Foreground="LightBlue" Background="White"/>
+                    <ComboBoxItem Content="LightBlue" Foreground="LightBlue" Background="White"/>
                     <ComboBoxItem Content="Pink" Foreground="Pink" Background="White"/>
                 </ComboBox>
 

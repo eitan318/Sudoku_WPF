@@ -7,15 +7,15 @@
         <ResourceDictionary>
             <!-- Merged Resource Dictionaries -->
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Dark.xaml"/>
+                <ResourceDictionary Source="Assets/Themes/Dark.xaml"/>
 
-                <ResourceDictionary Source="Styles/Botton.xaml"/>
+                <ResourceDictionary Source="Assets/Styles/Botton.xaml"/>
 
-                <ResourceDictionary Source="Styles/TextBlock.xaml"/>
-                
-                <ResourceDictionary Source="Styles/ToggleButton.xaml"/>
-                
-                <ResourceDictionary Source="Styles/RadioButton.xaml"/>
+                <ResourceDictionary Source="Assets/Styles/TextBlock.xaml"/>
+
+                <ResourceDictionary Source="Assets/Styles/ToggleButton.xaml"/>
+
+                <ResourceDictionary Source="Assets/Styles/RadioButton.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
 

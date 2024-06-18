@@ -12,7 +12,7 @@ namespace Sudoku_WPF
     /// <summary>
     /// Class responsible for playing sounds and background music in the Sudoku application.
     /// </summary>
-    internal class SoundPlayer
+    internal static class SoundPlayer
     {
         private static MediaPlayer mediaPlayer; // Media player instance for background music
         private static BackgroundWorker soundWorker; // Background worker for sound operations

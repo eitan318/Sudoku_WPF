@@ -111,20 +111,21 @@ namespace Sudoku_WPF
             hintsTxtB.Text = hintsLeft.ToString() + GameConstants.REMEINING_STR;
             checksTxtB.Text = checksLeft.ToString() + GameConstants.REMEINING_STR;
 
-            this.Loaded += MyPage_Loaded;
-            this.Unloaded += MyPage_Unloaded;
+            this.Loaded += Page_Loaded;
+            this.Unloaded += Page_Unloaded;
         }
 
         /// <summary>
         /// Event handler when the GamePage is loaded into the visual tree.
         /// Starts the game timer and subscribes to navigation events.
         /// </summary>
-        private void MyPage_Loaded(object sender, RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             // Subscribe to the Navigating event
             if (NavigationService != null)
             {
                 NavigationService.Navigating += OnNavigatingFrom;
+                Board.FocusedCell().Focus();
                 game.Timer.Start();
             }
         }
@@ -133,12 +134,13 @@ namespace Sudoku_WPF
         /// Event handler when the GamePage is unloaded from the visual tree.
         /// Stops the game timer and unsubscribes from navigation events.
         /// </summary>
-        private void MyPage_Unloaded(object sender, RoutedEventArgs e)
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             // Unsubscribe from the Navigating event
             if (NavigationService != null)
             {
                 NavigationService.Navigating -= OnNavigatingFrom;
+                Board.FocusedCell().Focus();
                 game.Timer.Stop();
             }
         }

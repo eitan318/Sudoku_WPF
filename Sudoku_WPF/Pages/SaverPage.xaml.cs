@@ -202,7 +202,7 @@ namespace Sudoku_WPF.Pages
                 Margin = new Thickness(5),
                 Visibility = Visibility.Visible,
                 Style = FindResource("RoundedButtonStyle") as Style,
-                Tag = Items.Count - 1
+                Tag = Items.Count
             };
             copyPuzzleCodeBtn.Click += CopyPuzzleCode_Click;
             btnPanel.Children.Add(copyPuzzleCodeBtn);

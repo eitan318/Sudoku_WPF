@@ -96,7 +96,7 @@ namespace Sudoku_WPF
         /// </summary>
         private void SetSettingsFromDB()
         {
-            DataTable dt = DBHelper.GetDataTable("SELECT * FROM tbl_settings"); // Retrieve settings data from database
+            DataTable dt = DBHelper.GetDataTable("SELECT * FROM tbl_settings");
             DataRow dr = dt.Rows[0]; // Get the first row (assuming single settings row)
 
             // Load settings values from database
@@ -106,7 +106,8 @@ namespace Sudoku_WPF
             Settings.musicOn = Convert.ToBoolean(dr[DBConstants.Settings_Parameters.MusicOn]);
 
             // Set theme if valid theme found in database
-            if (Enum.TryParse(dr[DBConstants.Settings_Parameters.Theme].ToString(), out ColorThemes theme))
+            if (Enum.TryParse(dr[DBConstants.Settings_Parameters.Theme].ToString(), 
+                out ColorThemes theme))
             {
                 Settings.theme = theme;
                 ThemeControl.SetColors(Settings.theme); // Apply theme colors
