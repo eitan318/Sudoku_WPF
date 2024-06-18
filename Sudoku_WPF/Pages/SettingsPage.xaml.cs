@@ -57,7 +57,7 @@ namespace Sudoku_WPF
                             Settings.musicOn = toggleButton.IsChecked ?? false;
                             if (Settings.musicOn)
                             {
-                                SoundPlayer.StartMusic(SoundConstants.GetMusicPath(SoundConstants.BACK_MUSIC_NAME));
+                                SoundPlayer.StartMusic(SoundConstants.BACK_MUSIC_NAME);
                             }
                             else
                             {

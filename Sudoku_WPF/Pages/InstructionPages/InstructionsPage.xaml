@@ -15,9 +15,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-
-            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="BackButton" Height="40" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Back" Click="BackButton_Click" Grid.Column="0"/>
-            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="NextButton" Height="40" Width="60" HorizontalAlignment="Center"  VerticalAlignment="Center" Content="Next" Click="NextButton_Click" Grid.Column="1"/>
+            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="BackButton" Height="33" Width="55" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Back" Click="BackButton_Click" Grid.Column="0"/>
+            <Button Style="{StaticResource RoundedButtonStyle}" x:Name="NextButton" Height="33" Width="55" HorizontalAlignment="Center"  VerticalAlignment="Center" Content="Next" Click="NextButton_Click" Grid.Column="1"/>
         </Grid>
     </Grid>
 </Page>

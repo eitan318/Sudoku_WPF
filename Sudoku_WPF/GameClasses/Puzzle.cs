@@ -106,16 +106,9 @@ namespace Sudoku_WPF.GameClasses
         /// </summary>
         private void GenerateSolvedPuzzle()
         {
-            GenerateBoard();
-        }
-
-        /// <summary>
-        /// Fills the board with a valid Sudoku solution recursively.
-        /// </summary>
-        private void GenerateBoard()
-        {
             FillCells(0, 0);
         }
+
 
         /// <summary>
         /// Recursively fills the remaining cells in the board to complete the Sudoku puzzle.

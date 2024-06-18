@@ -37,7 +37,8 @@ namespace Sudoku_WPF
             {
                 new InstructionPage1(),
                 new InstructionPage2(),
-                new InstructionPage3()
+                new InstructionPage3(),
+                new InstructionPage4()
 
             };
 

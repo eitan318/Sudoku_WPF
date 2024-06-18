@@ -186,19 +186,19 @@ namespace Sudoku_WPF
 
         /// <summary>
         /// Event handler for ending the game.
-        /// Asks user to save the game and shows the solution if chosen.
+        /// Shows solution if to end
         /// </summary>
         private void EndGame_Click(object sender, RoutedEventArgs e)
         {
             SoundPlayer.PlaySound(SoundConstants.BOTTON_CLICK);
 
-            MessageBoxResult msbxRes = MessageBox.Show("Do you want to save this game?", "Save Game", MessageBoxButton.YesNoCancel);
-            if (msbxRes == MessageBoxResult.Yes || msbxRes == MessageBoxResult.No)
+            MessageBoxResult msbxRes = MessageBox.Show("Are you sure you want to end this game? It won't be saved", "End Game", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (msbxRes == MessageBoxResult.Yes)
             {
                 try
                 {
                     Mouse.OverrideCursor = Cursors.Wait; // Change cursor to 
-                    game.End(false, msbxRes == MessageBoxResult.Yes);
+                    game.End(false, false);
                     game.Board.ShowSolution();
                 }
                 finally

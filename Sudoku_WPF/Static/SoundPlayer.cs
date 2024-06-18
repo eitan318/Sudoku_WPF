@@ -26,24 +26,20 @@ namespace Sudoku_WPF
         {
             if (Settings.soundOn)
             {
-                string relativePath = $"\\Assets\\Sounds\\{soundName}.wav"; // Relative path of the sound file
-
+                
                 try
                 {
-                    // Combine the base directory and the relative path
-                    string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                    string absolutePath = baseDirectory.Substring(0, baseDirectory.IndexOf(Constants.PROJ_DIRECTORY) + Constants.PROJ_DIRECTORY.Length) + relativePath;
+                    string soundPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Sounds", $"{soundName}.wav");
 
-                    // Ensure the file exists before playing
-                    if (File.Exists(absolutePath))
+                    if (File.Exists(soundPath))
                     {
                         MediaPlayer player = new MediaPlayer();
-                        player.Open(new Uri(absolutePath));
+                        player.Open(new Uri(soundPath));
                         player.Play();
                     }
                     else
                     {
-                        MessageBox.Show("Sound file not found: " + absolutePath);
+                        MessageBox.Show("Sound file not found: " + soundPath);
                     }
                 }
                 catch (Exception ex)
@@ -57,12 +53,14 @@ namespace Sudoku_WPF
         /// Starts playing background music from the specified path.
         /// </summary>
         /// <param name="path">The path of the music file to play.</param>
-        public static void StartMusic(string path)
+        public static void StartMusic(string musicName)
         {
             if (isPlaying) return; // If music is already playing, return
 
+            string soundPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "Music", $"{musicName}.wav");
+
             mediaPlayer = new MediaPlayer();
-            mediaPlayer.Open(new Uri(path));
+            mediaPlayer.Open(new Uri(soundPath));
             mediaPlayer.MediaEnded += MediaPlayer_MediaEnded; // Add event handler for loop
             mediaPlayer.Play();
 

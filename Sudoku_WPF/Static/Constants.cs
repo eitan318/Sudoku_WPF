@@ -31,15 +31,22 @@ namespace Sudoku_WPF.publico
             public const string ON_OFF = "on_off";
             public const string SOLVED = "game_solved";
             public const string BOTTON_CLICK = "button_click";
-            public static string GetMusicPath(string musicName)
+            /*public static string GetMusicPath(string musicName)
             {
-                string relativePath = $"\\Assets\\Music\\{musicName}.wav";
+                string relativePath = $"pack://application:,,,\\Assets\\Music\\{musicName}.wav";
                 string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
                 string musicPath = baseDirectory.Substring(0, baseDirectory.IndexOf(Constants.PROJ_DIRECTORY) + Constants.PROJ_DIRECTORY.Length) + relativePath;
 
-                return musicPath;
+                return relativePath;
+            }*/
+            public static string GetMusicPath(string musicName)
+            {
+                // Construct the resource URI directly
+                string resourceUri = $"pack://application:,,,/Assets/Music/{musicName}.wav";
+                return resourceUri;
             }
+
 
         }
 

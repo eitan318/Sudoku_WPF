@@ -33,11 +33,12 @@ namespace Sudoku_WPF
             Resize.Visibility = Visibility.Visible; // Set resize button visibility
             SetSavedGamesFromDB(); // Load saved games from database
             SetSettingsFromDB(); // Load settings from database
+            Closing += MainWindow_Closing;
 
             // Start background music if enabled in settings
             if (Settings.musicOn)
             {
-                SoundPlayer.StartMusic(SoundConstants.GetMusicPath(SoundConstants.BACK_MUSIC_NAME));
+                SoundPlayer.StartMusic(SoundConstants.BACK_MUSIC_NAME);
             }
         }
 
@@ -114,18 +115,7 @@ namespace Sudoku_WPF
             }
         }
 
-        /// <summary>
-        /// Minimizes the application window.
-        /// </summary>
-        private void MinimizeApp_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized; // Minimize the application window
-        }
-
-        /// <summary>
-        /// Closes the application window and performs necessary cleanup.
-        /// </summary>
-        private void CloseApp_Click(object sender, RoutedEventArgs e)
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // Stop music if playing
             if (Settings.musicOn)
@@ -141,6 +131,22 @@ namespace Sudoku_WPF
 
             UpdateSettingsInDB(); // Update settings in database
             Application.Current.Shutdown(); // Shutdown the application
+        }
+
+        /// <summary>
+        /// Minimizes the application window.
+        /// </summary>
+        private void MinimizeApp_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized; // Minimize the application window
+        }
+
+        /// <summary>
+        /// Closes the application window and performs necessary cleanup.
+        /// </summary>
+        private void CloseApp_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         /// <summary>
