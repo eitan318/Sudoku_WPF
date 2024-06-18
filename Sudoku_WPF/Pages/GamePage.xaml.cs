@@ -125,7 +125,11 @@ namespace Sudoku_WPF
             if (NavigationService != null)
             {
                 NavigationService.Navigating += OnNavigatingFrom;
-                Board.FocusedCell().Focus();
+                if(Board.FocusedCell() != null)
+                {
+                    Board.FocusedCell().Focus();
+                }
+                
                 game.Timer.Start();
             }
         }

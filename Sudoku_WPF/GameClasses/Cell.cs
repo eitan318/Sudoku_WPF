@@ -77,6 +77,7 @@ namespace Sudoku_WPF.GameClasses
             PreviewKeyDown += TextBox_PreviewKeyDown;
             GotFocus += TextBox_GotFocus;
             SizeChanged += OnSizeChanged; // Attach SizeChanged event for font size adjustment
+            CommandManager.AddPreviewExecutedHandler(this, CommandManager_PreviewExecuted); // Add PreviewExecuted handler
         }
 
         /// <summary>
@@ -89,6 +90,8 @@ namespace Sudoku_WPF.GameClasses
             PreviewKeyDown -= TextBox_PreviewKeyDown;
             GotFocus -= TextBox_GotFocus;
             SizeChanged -= OnSizeChanged; // Detach SizeChanged event
+
+            CommandManager.RemovePreviewExecutedHandler(this, CommandManager_PreviewExecuted); // Remove PreviewExecuted handler
         }
 
         /// <summary>
@@ -194,36 +197,39 @@ namespace Sudoku_WPF.GameClasses
         /// <param name="e">Text composition event arguments.</param>
         public void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (IsValidInput(e.Text, GameSettings.BoardSide))
+            if(e.Text == "0" || e.Text.Length < 1)
             {
-                if (IsReadOnly)
+                e.Handled = true;
+                return;
+            }
+            
+            if (IsReadOnly)
+            {
+                Board.VisualizeState(this, false, e.Text);
+            }
+            else
+            {
+                if (Text.Length == 1)
                 {
-                    Board.VisualizeState(this, false, e.Text);
-                }
-                else
-                {
-                    if (Text.Length == 1)
+                    if (Settings.allowNotes)
                     {
-                        if (Settings.allowNotes)
-                        {
-                            ShowNotes(Text, e.Text);
-                        }
-                        else
-                        {
-                            Text = e.Text;
-                        }
+                        ShowNotes(Text, e.Text);
                     }
                     else
                     {
-                        if (notesVisible)
-                        {
-                            SwitchNote(e.Text);
-                        }
-                        else
-                        {
-                            Text = e.Text.ToUpper();
-                            CaretIndex = Text.Length;
-                        }
+                        Text = e.Text;
+                    }
+                }
+                else
+                {
+                    if (notesVisible)
+                    {
+                        SwitchNote(e.Text);
+                    }
+                    else
+                    {
+                        Text = e.Text.ToUpper();
+                        CaretIndex = Text.Length;
                     }
                 }
             }
@@ -300,16 +306,25 @@ namespace Sudoku_WPF.GameClasses
         /// <param name="input">Input text to validate.</param>
         /// <param name="maxValue">Maximum value allowed.</param>
         /// <returns>True if valid, otherwise false.</returns>
-        public static bool IsValidInput(string input, int maxValue)
+        public static bool IsValidInput(char input)
         {
-            if (string.IsNullOrEmpty(input))
-            {
-                return false;
-            }
-
-            int value = HexaToInt(input[0]);
-            return value >= 1 && value <= maxValue;
+            int value = HexaToInt(input);
+            return value >= 1 && value <= GameSettings.BoardSide;
         }
+
+        /// <summary>
+        /// Handles the PreviewExecuted event for command interception.
+        /// </summary>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">Event arguments containing information about the executed command.</param>
+        private void CommandManager_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Command == ApplicationCommands.Paste)
+            {
+                e.Handled = true; // Cancel paste command
+            }
+        }
+
 
         /// <summary>
         /// Handles key down events in the cell.
@@ -318,6 +333,7 @@ namespace Sudoku_WPF.GameClasses
         /// <param name="e">Key event arguments.</param>
         private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            
             switch (e.Key)
             {
                 case Key.Up:
@@ -358,6 +374,14 @@ namespace Sudoku_WPF.GameClasses
                 notesGrid.RemoveNoteByIdx(notesGrid.notes.Count - 1);
                 e.Handled = true;
             }
+
+            if (!IsValidKey(e.Key))
+            {
+                e.Handled = true;
+                return;
+            }
+
+
         }
 
         /// <summary>
@@ -378,6 +402,18 @@ namespace Sudoku_WPF.GameClasses
             }
             return true;
         }
+
+        /// <summary>
+        /// Checks if the provided key is a valid input for the cell.
+        /// </summary>
+        /// <param name="key">The key to validate.</param>
+        /// <returns>True if the key represents a valid input, otherwise false.</returns>
+        public bool IsValidKey(Key key)
+        {
+            string strKey = key.ToString();
+            return IsValidInput(strKey[0]) || (strKey[0] == 'D' && strKey.Length == 2 && IsValidInput(strKey[1]));
+        }
+
 
         /// <summary>
         /// Checks if the cell content is totally valid.
@@ -416,6 +452,7 @@ namespace Sudoku_WPF.GameClasses
             Board.VisualizeState(this, false, Text);
             //Background = Foreground;
         }
+
 
         /// <summary>
         /// Converts a hexadecimal character to an integer value.

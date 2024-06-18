@@ -173,7 +173,7 @@ namespace Sudoku_WPF
                 }
 
                 char puzzleChar = part[0];
-                if (!Cell.IsValidInput(puzzleChar.ToString(), boardSide) && puzzleChar != '.')
+                if (!Cell.IsValidInput(puzzleChar) && puzzleChar != '.')
                 {
                     return false;
                 }
