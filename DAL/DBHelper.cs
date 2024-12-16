@@ -14,7 +14,7 @@ namespace DAL
         public static OleDbConnection GetConnection()
         {
             string connString = @"Provider=Microsoft.ACE.OLEDB.12.0;
-                                Data Source=C:\Users\Cyber_User\source\repos\Sudoku_WPF\DAL\Data\Sudoku_DB1.accdb;
+                                Data Source=C:\Users\Cyber_User\Desktop\Programming\Sudoku_WPF\DAL\Data\Sudoku_DB1.accdb;
                                 Persist Security Info=True";
             OleDbConnection conn = new OleDbConnection(connString);
             return conn;

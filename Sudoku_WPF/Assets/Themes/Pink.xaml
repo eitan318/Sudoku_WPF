@@ -19,4 +19,6 @@
     <SolidColorBrush Color="#FFB6C1" x:Key="MenuBtn_MO"/>
     <SolidColorBrush Color="#CD5C5C" x:Key="MenuBtn_Checked"/>
     <SolidColorBrush Color="DarkBlue" x:Key="Header"/>
+    <SolidColorBrush Color="#A9A9A9" x:Key="TB_Off"/>
+    <SolidColorBrush Color="#32CD32" x:Key="TB_On"/>
 </ResourceDictionary>

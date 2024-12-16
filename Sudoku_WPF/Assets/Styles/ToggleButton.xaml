@@ -40,12 +40,12 @@
                     <!-- Triggers for Visual States -->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="BackgroundBorder" Property="Background" Value="LightGreen" />
+                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource TB_On}"/>
                             <Setter TargetName="ToggleThumb" Property="HorizontalAlignment" Value="Right" />
                             <Setter TargetName="ToggleThumb" Property="Margin" Value="1,1,1,1" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="BackgroundBorder" Property="Background" Value="DarkGray" />
+                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource TB_Off}"/>
                         </Trigger>
                         <EventTrigger RoutedEvent="ToggleButton.Checked">
                             <BeginStoryboard>
